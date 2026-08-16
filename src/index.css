@@ -1,0 +1,379 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+  }
+}
+
+/* Custom dark scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 4px;
+  border: 2px solid #0f172a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Glassmorphism utility classes */
+.glass-panel {
+  background: rgba(30, 41, 59, 0.45);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.glass-card {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Glowing card borders */
+.glow-indigo:hover {
+  box-shadow: 0 0 25px -5px rgba(99, 102, 241, 0.15);
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.glow-purple:hover {
+  box-shadow: 0 0 25px -5px rgba(168, 85, 247, 0.15);
+  border-color: rgba(168, 85, 247, 0.3);
+}
+
+/* Custom layout scrollbars for panels */
+.custom-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #334155 #0f172a;
+}
+
+/* Premium heading styling */
+.premium-gradient-text {
+  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 50%, #f472b6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* FSD HTML styling definitions */
+.fsd-document {
+  color: #cbd5e1;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  line-height: 1.6;
+}
+
+.fsd-document h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #60a5fa, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.fsd-document h2 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #a78bfa;
+}
+
+.fsd-document h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: #f472b6;
+}
+
+.fsd-document p {
+  margin-bottom: 1rem;
+}
+
+.fsd-document table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.9rem;
+}
+
+.fsd-document th, .fsd-document td {
+  padding: 0.75rem 1rem;
+  border: 1px solid #334155;
+  text-align: left;
+}
+
+.fsd-document th {
+  background-color: #1e1b4b;
+  color: #e2e8f0;
+  font-weight: 600;
+}
+
+.fsd-document tr:nth-child(even) {
+  background-color: rgba(30, 41, 59, 0.4);
+}
+
+.fsd-document ul, .fsd-document ol {
+  margin-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.fsd-document li {
+  margin-bottom: 0.25rem;
+}
+
+/* ========================================== */
+/* LIGHT THEME STYLES OVERRIDES               */
+/* ========================================== */
+
+.light {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+/* Sidebar and Panel overrides for Light Theme */
+.light aside, 
+.light .bg-\[\#0b0f19\], 
+.light header, 
+.light .bg-slate-950\/20,
+.light .bg-slate-900\/40,
+.light .bg-\[\#0b0f19\]\/80 {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+.light main,
+.light .bg-\[\#070a13\] {
+  background-color: #f1f5f9 !important;
+}
+
+.light .text-slate-400,
+.light .text-slate-500 {
+  color: #475569 !important;
+}
+
+.light .text-slate-300 {
+  color: #334155 !important;
+}
+
+.light .text-slate-200 {
+  color: #1e293b !important;
+}
+
+.light .text-white {
+  color: #0f172a;
+}
+
+.light .border-slate-800,
+.light .border-slate-800\/80,
+.light .border-slate-800\/60,
+.light .border-slate-900\/80,
+.light .border-slate-900 {
+  border-color: #cbd5e1 !important;
+}
+
+/* Forms and panels in light theme */
+.light textarea,
+.light input,
+.light select,
+.light .bg-slate-950,
+.light .bg-slate-900 {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+}
+
+.light textarea::placeholder,
+.light input::placeholder {
+  color: #94a3b8 !important;
+}
+
+.light [class*="bg-slate-900/20"],
+.light [class*="bg-slate-900/30"],
+.light [class*="bg-slate-900/50"],
+.light [class*="bg-slate-900/60"],
+.light [class*="bg-slate-950"] {
+  background-color: #ffffff !important;
+  border-color: #cbd5e1 !important;
+}
+
+.light [class*="bg-slate-900/30"] {
+  background-color: #f8fafc !important;
+}
+
+.light [class*="bg-slate-900/20"] {
+  background-color: #f1f5f9 !important;
+}
+
+/* Custom checkbox elements */
+.light [class*="bg-slate-850"] {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+.light [class*="bg-indigo-950"] {
+  background-color: #e0e7ff !important;
+  color: #4338ca !important;
+  border-color: #c7d2fe !important;
+}
+
+.light [class*="bg-indigo-950"]:hover {
+  background-color: #c7d2fe !important;
+  color: #3730a3 !important;
+}
+
+.light .text-indigo-400,
+.light .text-indigo-500 {
+  color: #4f46e5 !important;
+}
+
+.light [class*="hover:bg-slate-900/40"]:hover {
+  background-color: #f1f5f9 !important;
+}
+
+.light [class*="bg-slate-800"],
+.light [class*="bg-slate-900"],
+.light [class*="bg-slate-750"] {
+  background-color: #f1f5f9 !important;
+  border-color: #cbd5e1 !important;
+}
+
+.light [class*="bg-slate-800"]:hover,
+.light [class*="bg-slate-900"]:hover,
+.light [class*="bg-slate-750"]:hover {
+  background-color: #e2e8f0 !important;
+}
+
+/* Disabled button states in light mode */
+.light button:disabled,
+.light button[disabled] {
+  background-color: #e2e8f0 !important;
+  background-image: none !important;
+  color: #94a3b8 !important;
+  border-color: #cbd5e1 !important;
+  cursor: not-allowed !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+/* High-contrast status colors in light mode */
+.light .text-green-400 {
+  color: #16a34a !important;
+}
+.light .text-red-400 {
+  color: #dc2626 !important;
+}
+.light .text-emerald-400 {
+  color: #059669 !important;
+}
+.light .text-amber-400 {
+  color: #d97706 !important;
+}
+.light .text-purple-400 {
+  color: #7c3aed !important;
+}
+
+.light .glass-card,
+.light .glass-panel {
+  background: #ffffff !important;
+  border-color: #cbd5e1 !important;
+  color: #0f172a !important;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05) !important;
+}
+
+.light .glass-card h2,
+.light .glass-panel h2 {
+  color: #0f172a !important;
+}
+
+/* Tab button colors: force text-white when active */
+.light .bg-indigo-600 {
+  background-color: #4f46e5 !important;
+  color: #ffffff !important;
+}
+
+.light .hover\:text-white:hover {
+  color: #0f172a !important;
+}
+
+.light .text-slate-350 {
+  color: #334155 !important;
+}
+
+.light .custom-scroll {
+  scrollbar-color: #cbd5e1 #ffffff;
+}
+
+.light .text-\[\#f3f4f6\],
+.light .text-slate-100 {
+  color: #0f172a !important;
+}
+
+/* Rendered specification document markdown style sheets in light mode */
+.light .fsd-document {
+  color: #334155 !important;
+}
+
+.light .fsd-document h1,
+.light .fsd-document h2,
+.light .fsd-document h3 {
+  color: #0f172a !important;
+}
+
+.light .fsd-document th {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+.light .fsd-document td {
+  border-color: #cbd5e1 !important;
+}
+
+.light .fsd-document tr:nth-child(even) {
+  background-color: #f8fafc !important;
+}
+
+/* React Flow Dark Theme Overrides */
+.react-flow__controls {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.5) !important;
+  border: 1px solid #1e293b !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+}
+
+.react-flow__controls-button {
+  background-color: #0c1222 !important;
+  border-bottom: 1px solid #1e293b !important;
+  color: #94a3b8 !important;
+  fill: #94a3b8 !important;
+  transition: all 0.2s ease !important;
+}
+
+.react-flow__controls-button:last-child {
+  border-bottom: none !important;
+}
+
+.react-flow__controls-button:hover {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  fill: #f8fafc !important;
+}
+
+.react-flow__controls-button svg {
+  fill: currentColor !important;
+}
