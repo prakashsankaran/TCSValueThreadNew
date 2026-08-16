@@ -1,0 +1,470 @@
+[
+  {
+    "id": "token_1786158591749_qr1o",
+    "agentName": "user-stories Agent",
+    "model": "gemini-2.5-pro",
+    "promptTokens": 1354,
+    "completionTokens": 1957,
+    "totalTokens": 3311,
+    "timestamp": "2026-08-08T03:09:51.749Z"
+  },
+  {
+    "id": "token_1786158474704_li2o",
+    "agentName": "functional-spec Agent",
+    "model": "gemini-2.5-pro",
+    "promptTokens": 1354,
+    "completionTokens": 3071,
+    "totalTokens": 4425,
+    "timestamp": "2026-08-08T03:07:54.704Z"
+  },
+  {
+    "id": "token_1786158331427_4t7h",
+    "agentName": "spec-to-story Agent",
+    "model": "gemini-2.5-pro",
+    "promptTokens": 1354,
+    "completionTokens": 2200,
+    "totalTokens": 3554,
+    "timestamp": "2026-08-08T03:05:31.427Z"
+  },
+  {
+    "id": "token_1786158065092_fn2l",
+    "agentName": "requirement-to-spec Agent",
+    "model": "gemini-2.5-pro",
+    "promptTokens": 3956,
+    "completionTokens": 5522,
+    "totalTokens": 9478,
+    "timestamp": "2026-08-08T03:01:05.092Z"
+  },
+  {
+    "id": "token_1786157774199_9uoc",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 1597,
+    "completionTokens": 3173,
+    "totalTokens": 4770,
+    "timestamp": "2026-08-08T02:56:14.199Z"
+  },
+  {
+    "id": "token_1786157755285_fjqu",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 641,
+    "completionTokens": 1045,
+    "totalTokens": 1686,
+    "timestamp": "2026-08-08T02:55:55.285Z"
+  },
+  {
+    "id": "token_1786157748769_8mim",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 534,
+    "completionTokens": 764,
+    "totalTokens": 1298,
+    "timestamp": "2026-08-08T02:55:48.769Z"
+  },
+  {
+    "id": "token_1786157743649_64nq",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 433,
+    "completionTokens": 633,
+    "totalTokens": 1066,
+    "timestamp": "2026-08-08T02:55:43.649Z"
+  },
+  {
+    "id": "token_1786157738594_u79s",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 644,
+    "completionTokens": 504,
+    "totalTokens": 1148,
+    "timestamp": "2026-08-08T02:55:38.594Z"
+  },
+  {
+    "id": "token_1786157734592_kmn6",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 528,
+    "completionTokens": 873,
+    "totalTokens": 1401,
+    "timestamp": "2026-08-08T02:55:34.592Z"
+  },
+  {
+    "id": "token_1786157727886_7md3",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 430,
+    "completionTokens": 672,
+    "totalTokens": 1102,
+    "timestamp": "2026-08-08T02:55:27.886Z"
+  },
+  {
+    "id": "token_1786157722555_hrs3",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 697,
+    "completionTokens": 899,
+    "totalTokens": 1596,
+    "timestamp": "2026-08-08T02:55:22.555Z"
+  },
+  {
+    "id": "token_1786157715680_ycb8",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 578,
+    "completionTokens": 885,
+    "totalTokens": 1463,
+    "timestamp": "2026-08-08T02:55:15.680Z"
+  },
+  {
+    "id": "token_1786157709812_rqln",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 483,
+    "completionTokens": 647,
+    "totalTokens": 1130,
+    "timestamp": "2026-08-08T02:55:09.812Z"
+  },
+  {
+    "id": "token_1786157705187_bcvu",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 1216,
+    "completionTokens": 1429,
+    "totalTokens": 2645,
+    "timestamp": "2026-08-08T02:55:05.187Z"
+  },
+  {
+    "id": "token_1786157695753_pq9n",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 1211,
+    "completionTokens": 1730,
+    "totalTokens": 2941,
+    "timestamp": "2026-08-08T02:54:55.753Z"
+  },
+  {
+    "id": "token_1786157684333_y3ol",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 1217,
+    "completionTokens": 953,
+    "totalTokens": 2170,
+    "timestamp": "2026-08-08T02:54:44.333Z"
+  },
+  {
+    "id": "token_1786157593395_i84m",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 194,
+    "completionTokens": 1909,
+    "totalTokens": 2103,
+    "timestamp": "2026-08-08T02:53:13.395Z"
+  },
+  {
+    "id": "token_1786157587687_m4aa",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 321,
+    "completionTokens": 1095,
+    "totalTokens": 1416,
+    "timestamp": "2026-08-08T02:53:07.687Z"
+  },
+  {
+    "id": "token_1786157579987_aibq",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 201,
+    "completionTokens": 722,
+    "totalTokens": 923,
+    "timestamp": "2026-08-08T02:52:59.987Z"
+  },
+  {
+    "id": "token_1786157577914_3vy5",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 248,
+    "completionTokens": 1905,
+    "totalTokens": 2153,
+    "timestamp": "2026-08-08T02:52:57.914Z"
+  },
+  {
+    "id": "token_1786157575301_6rbs",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-pro)",
+    "model": "gemini-2.5-pro",
+    "promptTokens": 241,
+    "completionTokens": 1360,
+    "totalTokens": 1601,
+    "timestamp": "2026-08-08T02:52:55.301Z"
+  },
+  {
+    "id": "token_1786157564600_v3ed",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 163,
+    "completionTokens": 1950,
+    "totalTokens": 2113,
+    "timestamp": "2026-08-08T02:52:44.600Z"
+  },
+  {
+    "id": "token_1786157550755_f9k9",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 170,
+    "completionTokens": 481,
+    "totalTokens": 651,
+    "timestamp": "2026-08-08T02:52:30.755Z"
+  },
+  {
+    "id": "token_1786157515820_dlxt",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 315,
+    "completionTokens": 2064,
+    "totalTokens": 2379,
+    "timestamp": "2026-08-08T02:51:55.820Z"
+  },
+  {
+    "id": "token_1786157502627_u87e",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 191,
+    "completionTokens": 1672,
+    "totalTokens": 1863,
+    "timestamp": "2026-08-08T02:51:42.627Z"
+  },
+  {
+    "id": "token_1786157491171_52o1",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 483,
+    "completionTokens": 1455,
+    "totalTokens": 1938,
+    "timestamp": "2026-08-08T02:51:31.171Z"
+  },
+  {
+    "id": "token_1786157482463_q7qf",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 198,
+    "completionTokens": 619,
+    "totalTokens": 817,
+    "timestamp": "2026-08-08T02:51:22.463Z"
+  },
+  {
+    "id": "token_1786157191244_6ijm",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 1699,
+    "completionTokens": 2737,
+    "totalTokens": 4436,
+    "timestamp": "2026-08-08T02:46:31.244Z"
+  },
+  {
+    "id": "token_1786157175356_g3w6",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 609,
+    "completionTokens": 465,
+    "totalTokens": 1074,
+    "timestamp": "2026-08-08T02:46:15.356Z"
+  },
+  {
+    "id": "token_1786157171600_lu08",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 516,
+    "completionTokens": 681,
+    "totalTokens": 1197,
+    "timestamp": "2026-08-08T02:46:11.600Z"
+  },
+  {
+    "id": "token_1786157166410_gxtg",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 434,
+    "completionTokens": 492,
+    "totalTokens": 926,
+    "timestamp": "2026-08-08T02:46:06.410Z"
+  },
+  {
+    "id": "token_1786157162568_k0wg",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 693,
+    "completionTokens": 607,
+    "totalTokens": 1300,
+    "timestamp": "2026-08-08T02:46:02.568Z"
+  },
+  {
+    "id": "token_1786157157901_c8ep",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 595,
+    "completionTokens": 688,
+    "totalTokens": 1283,
+    "timestamp": "2026-08-08T02:45:57.901Z"
+  },
+  {
+    "id": "token_1786157152884_jief",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 472,
+    "completionTokens": 830,
+    "totalTokens": 1302,
+    "timestamp": "2026-08-08T02:45:52.884Z"
+  },
+  {
+    "id": "token_1786157147002_17me",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 850,
+    "completionTokens": 972,
+    "totalTokens": 1822,
+    "timestamp": "2026-08-08T02:45:47.002Z"
+  },
+  {
+    "id": "token_1786157140133_ju26",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 739,
+    "completionTokens": 737,
+    "totalTokens": 1476,
+    "timestamp": "2026-08-08T02:45:40.133Z"
+  },
+  {
+    "id": "token_1786157135358_jkbi",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 611,
+    "completionTokens": 804,
+    "totalTokens": 1415,
+    "timestamp": "2026-08-08T02:45:35.358Z"
+  },
+  {
+    "id": "token_1786157128610_67nb",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 1277,
+    "completionTokens": 1358,
+    "totalTokens": 2635,
+    "timestamp": "2026-08-08T02:45:28.610Z"
+  },
+  {
+    "id": "token_1786157119115_zgt3",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 1272,
+    "completionTokens": 1686,
+    "totalTokens": 2958,
+    "timestamp": "2026-08-08T02:45:19.115Z"
+  },
+  {
+    "id": "token_1786157112832_vyfk",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 315,
+    "completionTokens": 1493,
+    "totalTokens": 1808,
+    "timestamp": "2026-08-08T02:45:12.832Z"
+  },
+  {
+    "id": "token_1786157107892_pl9m",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 1278,
+    "completionTokens": 1021,
+    "totalTokens": 2299,
+    "timestamp": "2026-08-08T02:45:07.892Z"
+  },
+  {
+    "id": "token_1786157102733_qbcm",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 191,
+    "completionTokens": 1985,
+    "totalTokens": 2176,
+    "timestamp": "2026-08-08T02:45:02.733Z"
+  },
+  {
+    "id": "token_1786157088939_plom",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 466,
+    "completionTokens": 1956,
+    "totalTokens": 2422,
+    "timestamp": "2026-08-08T02:44:48.939Z"
+  },
+  {
+    "id": "token_1786157077837_wbgd",
+    "agentName": "LLM Intelligence Adapter (gemini-2.5-flash)",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 198,
+    "completionTokens": 888,
+    "totalTokens": 1086,
+    "timestamp": "2026-08-08T02:44:37.837Z"
+  },
+  {
+    "id": "token_1786156744035_a1",
+    "agentName": "Layer 0 Intelligence Router",
+    "model": "gemini-2.5-pro",
+    "promptTokens": 420,
+    "completionTokens": 860,
+    "totalTokens": 1280,
+    "timestamp": "2026-08-08T02:39:04.035Z"
+  },
+  {
+    "id": "token_1786156728035_b2",
+    "agentName": "Idea Framing & Intent Agent",
+    "model": "gemini-2.5-pro",
+    "promptTokens": 580,
+    "completionTokens": 1120,
+    "totalTokens": 1700,
+    "timestamp": "2026-08-08T02:38:48.035Z"
+  },
+  {
+    "id": "token_1786156708035_c3",
+    "agentName": "Vectorized Knowledge Fabric Agent",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 310,
+    "completionTokens": 640,
+    "totalTokens": 950,
+    "timestamp": "2026-08-08T02:38:28.035Z"
+  },
+  {
+    "id": "token_1786156684035_d4",
+    "agentName": "Financial ROI & Sensitivity Engine",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 290,
+    "completionTokens": 510,
+    "totalTokens": 800,
+    "timestamp": "2026-08-08T02:38:04.035Z"
+  },
+  {
+    "id": "token_1786156658035_e5",
+    "agentName": "IEEE-830 Requirement Specification Compiler",
+    "model": "gemini-2.5-pro",
+    "promptTokens": 890,
+    "completionTokens": 1850,
+    "totalTokens": 2740,
+    "timestamp": "2026-08-08T02:37:38.035Z"
+  },
+  {
+    "id": "token_1786156631035_f6",
+    "agentName": "Quality & Governance Audit Engine",
+    "model": "gemini-2.5-flash",
+    "promptTokens": 340,
+    "completionTokens": 680,
+    "totalTokens": 1020,
+    "timestamp": "2026-08-08T02:37:11.035Z"
+  },
+  {
+    "id": "token_1786156601035_g7",
+    "agentName": "Debate Circle Multi-Agent Consensus",
+    "model": "gemini-2.5-pro",
+    "promptTokens": 1150,
+    "completionTokens": 2240,
+    "totalTokens": 3390,
+    "timestamp": "2026-08-08T02:36:41.035Z"
+  }
+]
