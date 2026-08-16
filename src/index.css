@@ -152,13 +152,13 @@
 .light .bg-slate-900\/40,
 .light .bg-\[\#0b0f19\]\/80 {
   background-color: #ffffff !important;
-  border-color: #cbd5e1 !important;
+  border-color: #e2e8f0 !important;
   color: #0f172a !important;
 }
 
 .light main,
 .light .bg-\[\#070a13\] {
-  background-color: #f1f5f9 !important;
+  background-color: #f8fafc !important;
 }
 
 .light .text-slate-400,
@@ -183,7 +183,7 @@
 .light .border-slate-800\/60,
 .light .border-slate-900\/80,
 .light .border-slate-900 {
-  border-color: #cbd5e1 !important;
+  border-color: #e2e8f0 !important;
 }
 
 /* Forms and panels in light theme */
@@ -193,7 +193,7 @@
 .light .bg-slate-950,
 .light .bg-slate-900 {
   background-color: #ffffff !important;
-  border-color: #cbd5e1 !important;
+  border-color: #e2e8f0 !important;
   color: #0f172a !important;
 }
 
@@ -208,7 +208,7 @@
 .light [class*="bg-slate-900/60"],
 .light [class*="bg-slate-950"] {
   background-color: #ffffff !important;
-  border-color: #cbd5e1 !important;
+  border-color: #e2e8f0 !important;
 }
 
 .light [class*="bg-slate-900/30"] {
@@ -216,13 +216,13 @@
 }
 
 .light [class*="bg-slate-900/20"] {
-  background-color: #f1f5f9 !important;
+  background-color: #f8fafc !important;
 }
 
 /* Custom checkbox elements */
 .light [class*="bg-slate-850"] {
-  background-color: #f1f5f9 !important;
-  border-color: #cbd5e1 !important;
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
 }
 
 .light [class*="bg-indigo-950"] {
@@ -242,14 +242,14 @@
 }
 
 .light [class*="hover:bg-slate-900/40"]:hover {
-  background-color: #f1f5f9 !important;
+  background-color: #f8fafc !important;
 }
 
 .light [class*="bg-slate-800"],
 .light [class*="bg-slate-900"],
 .light [class*="bg-slate-750"] {
-  background-color: #f1f5f9 !important;
-  border-color: #cbd5e1 !important;
+  background-color: #f8fafc !important;
+  border-color: #e2e8f0 !important;
 }
 
 .light [class*="bg-slate-800"]:hover,
@@ -264,7 +264,7 @@
   background-color: #e2e8f0 !important;
   background-image: none !important;
   color: #94a3b8 !important;
-  border-color: #cbd5e1 !important;
+  border-color: #e2e8f0 !important;
   cursor: not-allowed !important;
   box-shadow: none !important;
   opacity: 1 !important;
@@ -290,7 +290,7 @@
 .light .glass-card,
 .light .glass-panel {
   background: #ffffff !important;
-  border-color: #cbd5e1 !important;
+  border-color: #e2e8f0 !important;
   color: #0f172a !important;
   box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05) !important;
 }
@@ -335,13 +335,13 @@
 }
 
 .light .fsd-document th {
-  background-color: #f1f5f9 !important;
+  background-color: #f8fafc !important;
   color: #0f172a !important;
-  border-color: #cbd5e1 !important;
+  border-color: #e2e8f0 !important;
 }
 
 .light .fsd-document td {
-  border-color: #cbd5e1 !important;
+  border-color: #e2e8f0 !important;
 }
 
 .light .fsd-document tr:nth-child(even) {
@@ -377,3 +377,4 @@
 .react-flow__controls-button svg {
   fill: currentColor !important;
 }
+

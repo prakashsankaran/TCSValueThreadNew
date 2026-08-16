@@ -350,7 +350,7 @@ function Layout({ children }) {
     return localStorage.getItem('activeSpec') || '001-return-request-tracker';
   });
 
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'dark');
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
   const [isTokenModalOpen, setIsTokenModalOpen] = useState(false);
   const [isAiOrchestratorModalOpen, setIsAiOrchestratorModalOpen] = useState(false);
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
@@ -561,16 +561,26 @@ function Layout({ children }) {
                     isSidebarCollapsed ? 'justify-center p-2.5' : 'space-x-3 px-3 py-2.5'
                   } ${
                     isActive
-                      ? projectMode === 'brownfield'
-                        ? 'bg-gradient-to-r from-amber-950/40 to-slate-900 border border-amber-500/30 text-white font-semibold'
-                        : 'bg-gradient-to-r from-indigo-950/40 to-slate-900 border border-indigo-500/30 text-white font-semibold'
-                      : 'border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/40'
+                      ? theme === 'light'
+                        ? projectMode === 'brownfield' 
+                          ? 'bg-amber-50 border border-amber-200 text-amber-700 font-semibold'
+                          : 'bg-indigo-50 border border-indigo-200 text-indigo-700 font-semibold'
+                        : projectMode === 'brownfield'
+                          ? 'bg-gradient-to-r from-amber-950/40 to-slate-900 border border-amber-500/30 text-white font-semibold'
+                          : 'bg-gradient-to-r from-indigo-950/40 to-slate-900 border border-indigo-500/30 text-white font-semibold'
+                      : theme === 'light'
+                        ? 'border border-transparent text-slate-500 hover:text-indigo-600 hover:bg-slate-100'
+                        : 'border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/40'
                   }`}
                 >
                   <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition duration-200 shrink-0 ${
                     isActive 
-                      ? projectMode === 'brownfield' ? 'bg-amber-500/10 text-amber-400' : 'bg-indigo-500/10 text-indigo-400' 
-                      : 'bg-slate-900/50 text-slate-500 group-hover:bg-slate-900 group-hover:text-slate-300'
+                      ? theme === 'light'
+                        ? projectMode === 'brownfield' ? 'bg-amber-100 text-amber-600' : 'bg-indigo-100 text-indigo-600'
+                        : projectMode === 'brownfield' ? 'bg-amber-500/10 text-amber-400' : 'bg-indigo-500/10 text-indigo-400' 
+                      : theme === 'light'
+                        ? 'bg-slate-100 text-slate-400 group-hover:bg-indigo-100 group-hover:text-indigo-500'
+                        : 'bg-slate-900/50 text-slate-500 group-hover:bg-slate-900 group-hover:text-slate-300'
                   }`}>
                     <i className={`${item.icon} text-xs`}></i>
                   </div>
@@ -600,11 +610,15 @@ function Layout({ children }) {
                 <Link
                   to="/admin/dashboard"
                   title={isSidebarCollapsed ? 'Admin Control Plane' : undefined}
-                  className={`flex items-center rounded-xl transition duration-200 group bg-gradient-to-r from-purple-950/40 to-slate-900 border border-purple-500/30 text-purple-300 hover:text-white font-semibold ${
+                  className={`flex items-center rounded-xl transition duration-200 group font-semibold ${
                     isSidebarCollapsed ? 'justify-center p-2.5' : 'space-x-3 px-3 py-2.5'
+                  } ${
+                    theme === 'light' 
+                      ? 'bg-purple-50 border border-purple-200 text-purple-700 hover:bg-purple-100'
+                      : 'bg-gradient-to-r from-purple-950/40 to-slate-900 border border-purple-500/30 text-purple-300 hover:text-white'
                   }`}
                 >
-                  <div className="w-7 h-7 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center shrink-0">
+                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${theme === 'light' ? 'bg-purple-100 text-purple-600' : 'bg-purple-500/10 text-purple-400'}`}>
                     <i className="fas fa-user-shield text-xs"></i>
                   </div>
                   {!isSidebarCollapsed && (

@@ -8,6 +8,13 @@ export default function AdminLayout() {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+  const toggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+    localStorage.setItem('theme', nextTheme);
+  };
+
   const [allProjects, setAllProjects] = useState([]);
   const [dbMappings, setDbMappings] = useState([]);
 
@@ -86,7 +93,7 @@ export default function AdminLayout() {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-[#070a13] text-[#f3f4f6]">
+    <div className={`flex h-screen overflow-hidden bg-[#070a13] text-[#f3f4f6] ${theme}`}>
       {/* Sidebar Navigation */}
       <aside 
         className={`${
@@ -125,14 +132,18 @@ export default function AdminLayout() {
                     isSidebarCollapsed ? 'justify-center p-2.5' : 'space-x-3 px-3 py-2.5'
                   } ${
                     isActive
-                      ? 'bg-gradient-to-r from-indigo-950/40 to-slate-900 border border-indigo-500/30 text-white font-semibold'
-                      : 'border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/40'
+                      ? theme === 'light' 
+                        ? 'bg-indigo-50 border border-indigo-200 text-indigo-700 font-semibold'
+                        : 'bg-gradient-to-r from-indigo-950/40 to-slate-900 border border-indigo-500/30 text-white font-semibold'
+                      : theme === 'light'
+                        ? 'border border-transparent text-slate-500 hover:text-indigo-600 hover:bg-slate-100'
+                        : 'border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/40'
                   }`}
                 >
                   <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition duration-200 shrink-0 ${
                     isActive 
-                      ? 'bg-indigo-500/10 text-indigo-400' 
-                      : 'bg-slate-900/50 text-slate-500 group-hover:bg-slate-900 group-hover:text-slate-300'
+                      ? theme === 'light' ? 'bg-indigo-100 text-indigo-600' : 'bg-indigo-500/10 text-indigo-400' 
+                      : theme === 'light' ? 'bg-slate-100 text-slate-400 group-hover:bg-indigo-100 group-hover:text-indigo-500' : 'bg-slate-900/50 text-slate-500 group-hover:bg-slate-900 group-hover:text-slate-300'
                   }`}>
                     <i className={`${item.icon} text-xs`}></i>
                   </div>
@@ -210,6 +221,13 @@ export default function AdminLayout() {
           </div>
 
           <div className="flex items-center space-x-3">
+            <button
+              onClick={toggleTheme}
+              className="w-8 h-8 rounded-xl bg-indigo-950/60 border border-indigo-900/60 hover:border-indigo-500 flex items-center justify-center text-slate-400 hover:text-white transition duration-200 cursor-pointer"
+              title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
+            >
+              <i className={`fas ${theme === 'dark' ? 'fa-lightbulb text-amber-400 animate-pulse' : 'fa-moon text-indigo-500'} text-xs`}></i>
+            </button>
             <div className="flex items-center space-x-2 pl-2">
               <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-[10px] font-bold text-white shadow shrink-0" title={activeUser?.name || 'Platform Admin'}>
                 {userInitials}
