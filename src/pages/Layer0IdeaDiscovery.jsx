@@ -88,6 +88,23 @@ export default function Layer0IdeaDiscovery() {
   const [activeTabPhase3, setActiveTabPhase3] = useState('discovery');
   const [qaTab, setQaTab] = useState('questions'); // 'questions' | 'logs'
   const [activeProject, setActiveProject] = useState(() => localStorage.getItem('activeProject') || 'sdd-enterprise-dev');
+  const [fullscreenImage, setFullscreenImage] = useState(false);
+
+  const handleStartSampleDiscovery = async () => {
+    setTitle('Automated Returns & SLA Dispute Resolver');
+    setInputType('IDEA');
+    setSelectedPersona('Delivery Manager');
+    setRawInput('Customer return requests for vendor SLA breaches take 14 days to resolve manually across logistics emails and ERP records. We need an automated verification system with OCR receipt scanning, ERP database matching, and auto-generation of credit memos to reduce resolution time to under 2 hours.');
+    setPhase1Expanded(true);
+    setPhase2Expanded(false);
+    if (notification) setNotification(null);
+    showNotification('Sample initiative pre-populated! Review the form and run the discovery pipeline.');
+  };
+
+  const handleTriggerConnector = (type) => {
+    setDrawerType(type);
+    setDrawerOpen(true);
+  };
 
   useEffect(() => {
     const syncActiveProject = (e) => {
@@ -698,19 +715,19 @@ export default function Layer0IdeaDiscovery() {
 
   return (
     <div className="space-y-6">
-      {/* Top Header & Sub-Navigation Tabs Line */}
-      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-800 pb-3">
+      {/* Top Summary Bar & Readiness Score / Handoff */}
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-[#ECEEF1] pb-3.5">
         {/* Left Side: Title */}
         <div className="flex items-center space-x-2.5 shrink-0">
-          <div className="w-7 h-7 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
+          <div className="w-7 h-7 rounded-[8px] bg-[#F4F1FF] text-[#7157F5] border border-[#E4DCFF] flex items-center justify-center shrink-0">
             <i className="fas fa-lightbulb text-xs"></i>
           </div>
-          <h1 className="text-sm font-extrabold text-white tracking-tight flex items-center gap-2">
+          <h1 className="text-sm font-bold text-[#17181C] tracking-tight flex items-center gap-2">
             Enterprise Discovery Workbench
           </h1>
           <button
             onClick={() => setShowInfoModal(true)}
-            className="w-5 h-5 rounded-full bg-indigo-500/20 hover:bg-indigo-500/40 text-indigo-300 border border-indigo-500/40 flex items-center justify-center text-[10px] font-bold transition cursor-pointer ml-0.5"
+            className="w-5 h-5 rounded-full bg-[#F4F1FF] hover:bg-[#ECE6FF] text-[#7157F5] border border-[#E4DCFF] flex items-center justify-center text-[10px] font-bold transition cursor-pointer ml-0.5"
             title="View Initiative Info & Overview"
           >
             <i className="fas fa-info text-[9px]"></i>
@@ -722,28 +739,28 @@ export default function Layer0IdeaDiscovery() {
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setActiveSubNav('discovery')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center space-x-2 ${
+              className={`px-3.5 py-1.5 rounded-[10px] text-xs font-semibold transition flex items-center space-x-2 cursor-pointer ${
                 activeSubNav === 'discovery'
-                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30'
-                  : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  ? 'bg-[#F4F1FF] text-[#17181C] font-bold border border-[#E4DCFF] shadow-2xs'
+                  : 'bg-white text-[#667085] hover:text-[#17181C] hover:bg-[#F8F8F7] border border-[#ECEEF1]'
               }`}
             >
-              <i className="fas fa-lightbulb"></i>
-              <span>Idea to Requirement Workbench</span>
+              <i className={`fas fa-lightbulb ${activeSubNav === 'discovery' ? 'text-[#7157F5]' : 'text-[#98A2B3]'}`}></i>
+              <span>Workbench</span>
             </button>
 
             <button
               onClick={() => setActiveSubNav('inbox')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center space-x-2 ${
+              className={`px-3.5 py-1.5 rounded-[10px] text-xs font-semibold transition flex items-center space-x-2 cursor-pointer ${
                 activeSubNav === 'inbox'
-                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30'
-                  : 'bg-slate-900 text-slate-400 hover:text-slate-200 border border-slate-800'
+                  ? 'bg-[#F4F1FF] text-[#17181C] font-bold border border-[#E4DCFF] shadow-2xs'
+                  : 'bg-white text-[#667085] hover:text-[#17181C] hover:bg-[#F8F8F7] border border-[#ECEEF1]'
               }`}
             >
-              <i className="fas fa-inbox"></i>
-              <span>Enterprise Signal Inbox</span>
+              <i className={`fas fa-inbox ${activeSubNav === 'inbox' ? 'text-[#7157F5]' : 'text-[#98A2B3]'}`}></i>
+              <span>Signal Inbox</span>
               {availableSignalsCount > 0 && (
-                <span className="px-1.5 py-0.5 rounded-full text-[10px] bg-indigo-950 text-indigo-300 font-mono border border-indigo-700">
+                <span className="px-1.5 py-0.2 rounded-full text-[10px] bg-[#F4F1FF] text-[#5F46D8] font-mono border border-[#E4DCFF] font-bold">
                   {availableSignalsCount}
                 </span>
               )}
@@ -751,16 +768,16 @@ export default function Layer0IdeaDiscovery() {
           </div>
 
           {readinessScore !== undefined && activeIdeaId && (
-            <div className="flex items-center space-x-2 px-2.5 py-1 rounded-xl bg-slate-950/80 border border-slate-800">
+            <div className="flex items-center space-x-2 px-2.5 py-1 rounded-[10px] bg-[#ECFDF3] border border-[#ABEFC6] shadow-2xs">
               <div className="text-right">
-                <p className="text-[8px] uppercase tracking-wider text-slate-400 font-bold">Readiness</p>
+                <p className="text-[8px] uppercase tracking-wider text-[#067647] font-bold">Readiness</p>
                 <p className={`text-xs font-black font-mono ${
-                  readinessScore >= 85 ? 'text-emerald-400' : readinessScore >= 70 ? 'text-amber-400' : 'text-rose-400'
+                  readinessScore >= 85 ? 'text-[#067647]' : readinessScore >= 70 ? 'text-amber-600' : 'text-rose-600'
                 }`}>
                   {readinessScore}/100
                 </p>
               </div>
-              <div className={`w-2.5 h-2.5 rounded-full animate-pulse ${
+              <div className={`w-2 h-2 rounded-full animate-pulse ${
                 readinessScore >= 85 ? 'bg-emerald-500' : readinessScore >= 70 ? 'bg-amber-500' : 'bg-rose-500'
               }`}></div>
             </div>
@@ -771,26 +788,15 @@ export default function Layer0IdeaDiscovery() {
               <button
                 onClick={handleHandoffToSDD}
                 disabled={!canHandoff || isProcessing}
-                className={`px-3 py-1.5 rounded-xl text-white font-bold text-xs shadow-lg flex items-center space-x-1.5 transition ${
+                className={`px-3.5 py-1.5 rounded-[10px] text-white font-semibold text-xs shadow-2xs flex items-center space-x-1.5 transition cursor-pointer ${
                   canHandoff
-                    ? 'bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 cursor-pointer shadow-emerald-600/30'
-                    : 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed opacity-60'
+                    ? 'bg-emerald-600 hover:bg-emerald-700'
+                    : 'bg-[#ECEEF1] text-[#98A2B3] cursor-not-allowed border border-[#D0D5DD]'
                 }`}
               >
                 <i className="fas fa-paper-plane text-[10px]"></i>
-                <span>Handoff</span>
+                <span>Handoff to SDD</span>
               </button>
-
-              {!canHandoff && (
-                <div className="absolute right-0 top-10 w-60 p-3 rounded-xl bg-slate-950 border border-slate-800 text-[10px] text-slate-300 shadow-2xl opacity-0 group-hover:opacity-100 transition pointer-events-none z-50">
-                  <p className="font-bold text-rose-400 mb-1">Handoff Blocked:</p>
-                  <ul className="list-disc list-inside space-y-0.5 text-slate-400">
-                    {!humanApproved && <li>Human Governance Approval is required</li>}
-                    {readinessScore < 85 && <li>Readiness score is below 85/100 threshold</li>}
-                    {hasBlockers && <li>Active critical blockers exist</li>}
-                  </ul>
-                </div>
-              )}
             </div>
           )}
         </div>
@@ -815,99 +821,97 @@ export default function Layer0IdeaDiscovery() {
       {activeSubNav === 'discovery' && (
         <div className="space-y-6">
 
-
-
-      {/* Notification Toast */}
-      {notification && (
-        <div className={`p-3 rounded-xl text-xs font-semibold flex items-center justify-between border ${
-          notification.type === 'error' ? 'bg-rose-950/80 text-rose-300 border-rose-800' : 'bg-emerald-950/80 text-emerald-300 border-emerald-800'
-        }`}>
-          <span>{notification.msg}</span>
-          <button onClick={() => setNotification(null)} className="text-slate-400 hover:text-white">
-            <i className="fas fa-times"></i>
-          </button>
-        </div>
-      )}
-
-      {/* Vertical Collapsible Accordion Sections */}
-      <div className="space-y-6">
-
-        {/* BOX 1: Phase 1 - Idea Intake */}
-        <div className="rounded-2xl bg-[#0b0f19] border border-slate-800 shadow-xl overflow-hidden transition-all duration-300">
-          <div 
-            onClick={() => setPhase1Expanded(!phase1Expanded)}
-            className="p-4 bg-slate-900/60 border-b border-slate-800/80 flex items-center justify-between cursor-pointer select-none hover:bg-slate-900 transition"
-          >
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400">
-                <i className="fas fa-plus-circle text-sm"></i>
-              </div>
-              <div>
-                <h2 className="text-sm font-extrabold text-white tracking-tight flex items-center gap-2">
-                  Phase 1: Idea Intake & Signal Registration
-                </h2>
-                <p className="text-[10px] text-slate-400">
-                  {activeIdeaId ? `Current Selected Initiative: ${activeIdeaId}` : 'Capture raw ideas, ITSM tickets, emails, meeting transcripts, or SOP docs'}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-3">
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleStartFreshForm();
-                  setPhase1Expanded(true);
-                  setPhase2Expanded(false);
-                  setPhase3Expanded(false);
-                }}
-                className="px-3 py-1.5 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 text-[10px] font-bold flex items-center gap-1.5 transition cursor-pointer"
-              >
-                <i className="fas fa-plus"></i>
-                <span>+ New Idea</span>
+          {/* Notification Toast */}
+          {notification && (
+            <div className={`p-3 rounded-[12px] text-xs font-semibold flex items-center justify-between border ${
+              notification.type === 'error' ? 'bg-rose-50 text-rose-700 border-rose-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'
+            }`}>
+              <span>{notification.msg}</span>
+              <button onClick={() => setNotification(null)} className="text-[#667085] hover:text-[#17181C] cursor-pointer">
+                <i className="fas fa-times"></i>
               </button>
-
-              <div className="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400">
-                <i className={`fas fa-chevron-${phase1Expanded ? 'up' : 'down'} text-xs`}></i>
-              </div>
             </div>
-          </div>
+          )}
+
+          {/* Vertical Collapsible Accordion Sections */}
+          <div className="space-y-6">
+
+            {/* BOX 1: Phase 1 - Idea Intake */}
+            <div className="rounded-[16px] bg-white border border-[#ECEEF1] shadow-2xs overflow-hidden transition-all duration-300">
+              <div 
+                onClick={() => setPhase1Expanded(!phase1Expanded)}
+                className="p-4 bg-[#F8F8F7] border-b border-[#ECEEF1] flex items-center justify-between cursor-pointer select-none hover:bg-[#F2F4F7] transition"
+              >
+                <div className="flex items-center space-x-3">
+                  <div className="w-8 h-8 rounded-[10px] bg-[#F4F1FF] text-[#7157F5] border border-[#E4DCFF] flex items-center justify-center">
+                    <i className="fas fa-plus-circle text-xs"></i>
+                  </div>
+                  <div>
+                    <h2 className="text-sm font-bold text-[#17181C] tracking-tight flex items-center gap-2">
+                      Phase 1: Idea Intake & Signal Registration
+                    </h2>
+                    <p className="text-[11px] text-[#667085]">
+                      {activeIdeaId ? `Current Selected Initiative: ${activeIdeaId}` : 'Capture raw ideas, ITSM tickets, emails, meeting transcripts, or SOP docs'}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleStartFreshForm();
+                      setPhase1Expanded(true);
+                      setPhase2Expanded(false);
+                      setPhase3Expanded(false);
+                    }}
+                    className="px-3 py-1.5 rounded-[10px] bg-[#F4F1FF] hover:bg-[#ECE6FF] text-[#5F46D8] border border-[#E4DCFF] text-[11px] font-semibold flex items-center gap-1.5 transition cursor-pointer shadow-2xs"
+                  >
+                    <i className="fas fa-plus text-[10px]"></i>
+                    <span>+ New Idea</span>
+                  </button>
+
+                  <div className="w-7 h-7 rounded-[8px] bg-white border border-[#ECEEF1] flex items-center justify-center text-[#667085]">
+                    <i className={`fas fa-chevron-${phase1Expanded ? 'up' : 'down'} text-xs`}></i>
+                  </div>
+                </div>
+              </div>
 
           {phase1Expanded && (
             <div className="p-5 space-y-6 animate-fade-in">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                 
                 {/* Intake Form & Live Thought Stream Tabbed Panel */}
-                <div className="lg:col-span-7 space-y-4 bg-slate-950/40 p-4 rounded-xl border border-slate-800/80">
+                <div className="lg:col-span-7 space-y-4 bg-[#FAFAF9] p-4 rounded-[14px] border border-[#ECEEF1]">
                   {/* Top Sub-Nav Tabs */}
-                  <div className="flex items-center space-x-2 border-b border-slate-800 pb-2.5">
+                  <div className="flex items-center space-x-2 border-b border-[#ECEEF1] pb-2.5">
                     <button
                       type="button"
                       onClick={() => setIntakeSubTab('form')}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer ${
+                      className={`px-3 py-1.5 rounded-[10px] text-xs font-semibold transition flex items-center space-x-1.5 cursor-pointer ${
                         intakeSubTab === 'form'
-                          ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 border border-indigo-400'
-                          : 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-white'
+                          ? 'bg-[#F4F1FF] text-[#17181C] font-bold border border-[#E4DCFF] shadow-2xs'
+                          : 'bg-white text-[#667085] border border-[#ECEEF1] hover:bg-[#F8F8F7]'
                       }`}
                     >
-                      <i className="fas fa-edit text-xs"></i>
+                      <i className="fas fa-edit text-xs text-[#7157F5]"></i>
                       <span>Initiative Intake Form</span>
                     </button>
 
                     <button
                       type="button"
                       onClick={() => setIntakeSubTab('thought-stream')}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer ${
+                      className={`px-3 py-1.5 rounded-[10px] text-xs font-semibold transition flex items-center space-x-1.5 cursor-pointer ${
                         intakeSubTab === 'thought-stream'
-                          ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30 border border-indigo-400'
-                          : 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-white'
+                          ? 'bg-[#F4F1FF] text-[#17181C] font-bold border border-[#E4DCFF] shadow-2xs'
+                          : 'bg-white text-[#667085] border border-[#ECEEF1] hover:bg-[#F8F8F7]'
                       }`}
                     >
-                      <i className="fas fa-terminal text-emerald-400 text-xs font-mono"></i>
-                      <span>Live Agent Thought Stream & Telemetry</span>
+                      <i className="fas fa-terminal text-emerald-600 text-xs font-mono"></i>
+                      <span>Live Thought Stream</span>
                       {pipelineLogs.length > 0 && (
-                        <span className="px-1.5 py-0.2 rounded-full text-[9px] bg-emerald-950 text-emerald-300 font-mono border border-emerald-800 font-bold">
+                        <span className="px-1.5 py-0.2 rounded-full text-[9px] bg-emerald-100 text-emerald-800 font-mono border border-emerald-300 font-bold">
                           {pipelineLogs.length}
                         </span>
                       )}
@@ -919,13 +923,13 @@ export default function Layer0IdeaDiscovery() {
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         {/* Ingestion Channel Selector */}
                         <div>
-                          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                          <label className="text-[10px] font-bold text-[#667085] uppercase tracking-wider block mb-1">
                             Ingestion Channel:
                           </label>
                           <select
                             value={ingestionChannel}
                             onChange={(e) => setIngestionChannel(e.target.value)}
-                            className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 cursor-pointer"
+                            className="w-full bg-white border border-[#ECEEF1] hover:border-[#D0D5DD] rounded-[10px] px-3 py-2 text-xs text-[#17181C] font-medium focus:outline-none focus:border-[#7157F5] cursor-pointer shadow-2xs"
                           >
                             <option value="DIRECT_TEXT">Direct Thought / Idea</option>
                             <option value="ITSM_TICKET">ServiceNow / ITSM Ticket</option>
@@ -937,13 +941,13 @@ export default function Layer0IdeaDiscovery() {
 
                         {/* Input Type Category Selector */}
                         <div>
-                          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                          <label className="text-[10px] font-bold text-[#667085] uppercase tracking-wider block mb-1">
                             Signal Category:
                           </label>
                           <select
                             value={inputType}
                             onChange={(e) => setInputType(e.target.value)}
-                            className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 cursor-pointer"
+                            className="w-full bg-white border border-[#ECEEF1] hover:border-[#D0D5DD] rounded-[10px] px-3 py-2 text-xs text-[#17181C] font-medium focus:outline-none focus:border-[#7157F5] cursor-pointer shadow-2xs"
                           >
                             {LAYER0_INPUT_TYPES.map(t => (
                               <option key={t.id} value={t.id}>{t.label}</option>
@@ -953,13 +957,13 @@ export default function Layer0IdeaDiscovery() {
 
                         {/* Submitting Persona Selector */}
                         <div>
-                          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                          <label className="text-[10px] font-bold text-[#667085] uppercase tracking-wider block mb-1">
                             Submitting Persona:
                           </label>
                           <select
                             value={selectedPersona}
                             onChange={(e) => setSelectedPersona(e.target.value)}
-                            className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 cursor-pointer"
+                            className="w-full bg-white border border-[#ECEEF1] hover:border-[#D0D5DD] rounded-[10px] px-3 py-2 text-xs text-[#17181C] font-medium focus:outline-none focus:border-[#7157F5] cursor-pointer shadow-2xs"
                           >
                             {LAYER0_PERSONAS.map(p => (
                               <option key={p.id} value={p.id}>{p.title || p.role || p.label || p.id}</option>
@@ -972,7 +976,7 @@ export default function Layer0IdeaDiscovery() {
                               value={customPersona}
                               onChange={(e) => setCustomPersona(e.target.value)}
                               placeholder="Enter custom persona name..."
-                              className="w-full bg-slate-900 border border-indigo-500 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none mt-1.5"
+                              className="w-full bg-white border border-[#7157F5] rounded-[10px] px-3 py-2 text-xs text-[#17181C] focus:outline-none mt-1.5 shadow-2xs"
                             />
                           )}
                         </div>
@@ -980,7 +984,7 @@ export default function Layer0IdeaDiscovery() {
 
                       {/* Custom Title Optional */}
                       <div>
-                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                        <label className="text-[10px] font-bold text-[#667085] uppercase tracking-wider block mb-1">
                           Initiative Title (Optional):
                         </label>
                         <input
@@ -988,37 +992,37 @@ export default function Layer0IdeaDiscovery() {
                           value={title}
                           onChange={(e) => setTitle(e.target.value)}
                           placeholder="Short descriptive title"
-                          className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
+                          className="w-full bg-white border border-[#ECEEF1] hover:border-[#D0D5DD] rounded-[10px] px-3 py-2 text-xs text-[#17181C] font-medium focus:outline-none focus:border-[#7157F5] shadow-2xs"
                         />
                       </div>
 
                       {/* Raw Input or Active Connector Panel */}
                       {(ingestionChannel === 'EMAIL' || ingestionChannel === 'MEETING_TRANSCRIPT') ? (
-                        <div className="bg-slate-900 border border-slate-800 rounded-xl p-3 space-y-3">
-                          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <div className="bg-white border border-[#ECEEF1] rounded-[12px] p-3 space-y-3 shadow-2xs">
+                          <div className="flex items-center justify-between border-b border-[#ECEEF1] pb-2">
                             <div className="flex items-center space-x-2">
-                              <i className={`fas ${ingestionChannel === 'EMAIL' ? 'fa-envelope text-rose-400' : 'fa-comments text-emerald-400'}`}></i>
-                              <span className="text-[11px] font-bold text-slate-200 uppercase tracking-wider">
+                              <i className={`fas ${ingestionChannel === 'EMAIL' ? 'fa-envelope text-rose-500' : 'fa-comments text-emerald-500'}`}></i>
+                              <span className="text-[11px] font-bold text-[#17181C] uppercase tracking-wider">
                                 Google Enterprise Signal Intake
                               </span>
                             </div>
-                            <span className={`px-2 py-0.5 rounded text-[9px] font-bold ${
+                            <span className={`px-2 py-0.5 rounded-[6px] text-[9px] font-bold ${
                               connectorStatus === 'CONNECTED'
-                                ? 'bg-emerald-950 text-emerald-300 border border-emerald-800'
-                                : 'bg-rose-950 text-rose-300 border border-rose-800'
+                                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                : 'bg-rose-50 text-rose-700 border border-rose-200'
                             }`}>
                               {connectorStatus}
                             </span>
                           </div>
 
-                          <div className="grid grid-cols-2 gap-2 text-[10px] bg-slate-950 p-2 rounded-lg border border-slate-800">
+                          <div className="grid grid-cols-2 gap-2 text-[10px] bg-[#FAFAF9] p-2.5 rounded-[8px] border border-[#ECEEF1]">
                             <div>
-                              <span className="text-slate-500 block">Confirmed Signals:</span>
-                              <span className="font-bold text-indigo-300">{availableSignalsCount} Available</span>
+                              <span className="text-[#667085] block">Confirmed Signals:</span>
+                              <span className="font-bold text-[#5F46D8]">{availableSignalsCount} Available</span>
                             </div>
                             <div>
-                              <span className="text-slate-500 block">Last Refreshed:</span>
-                              <span className="font-mono text-slate-400">{lastRefreshTime}</span>
+                              <span className="text-[#667085] block">Last Refreshed:</span>
+                              <span className="font-mono text-[#344054]">{lastRefreshTime}</span>
                             </div>
                           </div>
 
@@ -1029,9 +1033,9 @@ export default function Layer0IdeaDiscovery() {
                                 setDrawerType(ingestionChannel === 'EMAIL' ? 'GMAIL' : 'MEET');
                                 setDrawerOpen(true);
                               }}
-                              className="w-full py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold transition flex items-center justify-center space-x-1.5 shadow"
+                              className="w-full py-2 rounded-[10px] bg-[#F4F1FF] hover:bg-[#ECE6FF] text-[#5F46D8] border border-[#E4DCFF] text-xs font-semibold transition flex items-center justify-center space-x-1.5 shadow-2xs cursor-pointer"
                             >
-                              <i className="fas fa-folder-open text-xs"></i>
+                              <i className="fas fa-folder-open text-xs text-[#7157F5]"></i>
                               <span>Browse Confirmed {ingestionChannel === 'EMAIL' ? 'Email' : 'Meeting'} Signals</span>
                             </button>
 
@@ -1042,9 +1046,9 @@ export default function Layer0IdeaDiscovery() {
                                   checkConnectorHealth();
                                   fetchAvailableSignalsCount();
                                 }}
-                                className="py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-[10px] font-semibold flex items-center justify-center space-x-1"
+                                className="py-1.5 rounded-[8px] bg-white hover:bg-[#F8F8F7] border border-[#ECEEF1] text-[#344054] text-[10px] font-semibold flex items-center justify-center space-x-1 cursor-pointer"
                               >
-                                <i className="fas fa-sync-alt text-[9px]"></i>
+                                <i className="fas fa-sync-alt text-[9px] text-[#7157F5]"></i>
                                 <span>Refresh</span>
                               </button>
 
@@ -1052,7 +1056,7 @@ export default function Layer0IdeaDiscovery() {
                                 href="http://localhost:7070"
                                 target="_blank"
                                 rel="noreferrer"
-                                className="py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-indigo-300 text-[10px] font-semibold flex items-center justify-center space-x-1 text-center"
+                                className="py-1.5 rounded-[8px] bg-white hover:bg-[#F8F8F7] border border-[#ECEEF1] text-[#5F46D8] text-[10px] font-semibold flex items-center justify-center space-x-1 text-center cursor-pointer"
                               >
                                 <i className="fas fa-external-link-alt text-[9px]"></i>
                                 <span>Open Intake UI</span>
@@ -1062,7 +1066,7 @@ export default function Layer0IdeaDiscovery() {
                             <button
                               type="button"
                               onClick={() => fileInputRef.current?.click()}
-                              className="w-full py-1.5 rounded-lg bg-slate-950 hover:bg-slate-900 border border-slate-800 text-slate-400 hover:text-slate-200 text-[10px] font-semibold transition flex items-center justify-center space-x-1"
+                              className="w-full py-1.5 rounded-[8px] bg-[#FAFAF9] hover:bg-[#F2F4F7] border border-[#ECEEF1] text-[#667085] hover:text-[#17181C] text-[10px] font-semibold transition flex items-center justify-center space-x-1 cursor-pointer"
                             >
                               <i className="fas fa-file-code text-[9px]"></i>
                               <span>Import SignalEnvelope JSON</span>
@@ -1078,7 +1082,7 @@ export default function Layer0IdeaDiscovery() {
                         </div>
                       ) : (
                         <div>
-                          <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                          <label className="text-[10px] font-bold text-[#667085] uppercase tracking-wider block mb-1">
                             Unstructured Input Text / Description:
                           </label>
                           <textarea
@@ -1086,7 +1090,7 @@ export default function Layer0IdeaDiscovery() {
                             value={rawInput}
                             onChange={(e) => setRawInput(e.target.value)}
                             placeholder="Enter a one-line idea, business problem, incident description, or paste email/transcript content..."
-                            className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 custom-scroll font-mono"
+                            className="w-full bg-white border border-[#ECEEF1] hover:border-[#D0D5DD] rounded-[10px] p-3 text-xs text-[#17181C] font-normal focus:outline-none focus:border-[#7157F5] custom-scroll shadow-2xs"
                           ></textarea>
                         </div>
                       )}
@@ -1094,7 +1098,7 @@ export default function Layer0IdeaDiscovery() {
                       <button
                         type="submit"
                         disabled={isProcessing || !rawInput.trim()}
-                        className="w-full py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold text-xs shadow-lg shadow-indigo-600/30 flex items-center justify-center space-x-2 transition cursor-pointer disabled:opacity-50"
+                        className="w-full py-2.5 rounded-[12px] bg-[#17181C] hover:bg-[#292B30] active:bg-[#000000] text-white font-semibold text-xs shadow-sm flex items-center justify-center space-x-2 transition cursor-pointer disabled:opacity-50"
                       >
                         {isProcessing ? (
                           <>
@@ -1111,8 +1115,8 @@ export default function Layer0IdeaDiscovery() {
                     </form>
                   ) : (
                     /* TAB 2 VIEW: Live Agent Thought Stream & Telemetry */
-                    <div className="p-4 rounded-xl bg-[#060911] border border-indigo-500/40 space-y-3 animate-fade-in shadow-2xl">
-                      <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                    <div className="p-4 rounded-[12px] bg-[#17181C] border border-[#292B30] space-y-3 animate-fade-in shadow-md">
+                      <div className="flex items-center justify-between border-b border-slate-700/60 pb-2">
                         <span className="text-xs font-bold font-mono text-indigo-300 uppercase tracking-wider flex items-center gap-2">
                           <i className="fas fa-terminal text-emerald-400"></i>
                           <span>Live Agent Thought Stream & Telemetry</span>
@@ -1124,7 +1128,7 @@ export default function Layer0IdeaDiscovery() {
                         </span>
                       </div>
 
-                      <div className="font-mono text-xs text-slate-300 h-64 overflow-y-auto custom-scroll space-y-2 p-3 bg-slate-950/90 rounded-xl border border-slate-900">
+                      <div className="font-mono text-xs text-slate-300 h-64 overflow-y-auto custom-scroll space-y-2 p-3 bg-black/40 rounded-[10px] border border-slate-800">
                         {pipelineLogs.length > 0 ? (
                           pipelineLogs.map((log, idx) => (
                             <div key={idx} className="flex items-start space-x-2 leading-relaxed">
@@ -1144,7 +1148,7 @@ export default function Layer0IdeaDiscovery() {
                           ))
                         ) : (
                           <div className="flex flex-col items-center justify-center h-full text-slate-500 space-y-2">
-                            <i className="fas fa-terminal text-2xl text-slate-700"></i>
+                            <i className="fas fa-terminal text-2xl text-slate-600"></i>
                             <p className="text-xs">No active pipeline logs recorded yet. Click "Run Discovery Pipeline" to stream agent thoughts.</p>
                           </div>
                         )}
@@ -1154,17 +1158,17 @@ export default function Layer0IdeaDiscovery() {
                 </div>
 
                 {/* Registered Initiatives List */}
-                <div className="lg:col-span-5 space-y-3 bg-slate-950/40 p-4 rounded-xl border border-slate-800/80">
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
-                      <i className="fas fa-folder-open text-indigo-400"></i>
+                <div className="lg:col-span-5 space-y-3 bg-[#FAFAF9] p-4 rounded-[14px] border border-[#ECEEF1]">
+                  <div className="flex items-center justify-between border-b border-[#ECEEF1] pb-2">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-[#344054] flex items-center gap-2">
+                      <i className="fas fa-folder-open text-[#7157F5]"></i>
                       Initiatives Repository ({ideas.length})
                     </h3>
 
                     {ideas.length > 0 && (
                       <button
                         onClick={handleClearAllIdeasPrompt}
-                        className="text-[10px] font-bold text-rose-400 hover:text-rose-300 px-2 py-0.5 rounded bg-rose-500/10 border border-rose-500/20 hover:border-rose-500/40 transition flex items-center gap-1 cursor-pointer"
+                        className="text-[10px] font-bold text-rose-600 hover:text-rose-700 px-2 py-0.5 rounded-[6px] bg-rose-50 border border-rose-200 transition flex items-center gap-1 cursor-pointer"
                       >
                         <i className="fas fa-trash-alt text-[9px]"></i>
                         <span>Reset All</span>
@@ -1173,7 +1177,7 @@ export default function Layer0IdeaDiscovery() {
                   </div>
 
                   {ideas.length === 0 ? (
-                    <p className="text-xs text-slate-500 text-center py-6">No initiatives registered yet. Fill in the form on the left to run discovery.</p>
+                    <p className="text-xs text-[#667085] text-center py-6">No initiatives registered yet. Fill in the form on the left to run discovery.</p>
                   ) : (
                     <div className="space-y-2 max-h-72 overflow-y-auto custom-scroll pr-1">
                       {ideas.map((idea) => {
@@ -1183,29 +1187,29 @@ export default function Layer0IdeaDiscovery() {
                           <div
                             key={idea.ideaId}
                             onClick={() => handleSelectIdea(idea.ideaId)}
-                            className={`p-3 rounded-xl border transition cursor-pointer flex flex-col gap-1 relative group ${
+                            className={`p-3 rounded-[12px] border transition cursor-pointer flex flex-col gap-1 relative group shadow-2xs ${
                               isActive
-                                ? 'bg-indigo-950/60 border-indigo-500/60 text-white shadow-lg'
-                                : 'bg-slate-900/50 border-slate-800/80 text-slate-400 hover:bg-slate-900 hover:text-slate-200'
+                                ? 'bg-[#F4F1FF] border-[#E4DCFF] text-[#17181C]'
+                                : 'bg-white border-[#ECEEF1] text-[#667085] hover:bg-[#F8F8F7] hover:text-[#17181C]'
                             }`}
                           >
                             <div className="flex items-center justify-between pr-5">
-                              <span className="text-[10px] font-mono font-bold text-indigo-400">{idea.ideaId}</span>
-                              <span className="text-[9px] px-2 py-0.2 rounded font-bold bg-slate-950 text-slate-300 border border-slate-800">
+                              <span className="text-[10px] font-mono font-bold text-[#7157F5]">{idea.ideaId}</span>
+                              <span className="text-[9px] px-2 py-0.2 rounded-[6px] font-bold bg-[#FAFAF9] text-[#344054] border border-[#ECEEF1]">
                                 {typeObj.label}
                               </span>
                             </div>
-                            <p className="text-xs font-semibold truncate text-slate-200 pr-5">
+                            <p className="text-xs font-semibold truncate text-[#17181C] pr-5">
                               {idea.ideaBrief?.title || idea.title || idea.originalInput}
                             </p>
-                            <div className="flex items-center justify-between text-[9px] text-slate-500 mt-1">
+                            <div className="flex items-center justify-between text-[9px] text-[#667085] mt-1">
                               <span>Tier: AUTO (T0-T4)</span>
                               <span>{new Date(idea.createdAt || Date.now()).toLocaleDateString()}</span>
                             </div>
 
                             <button
                               onClick={(e) => handleDeleteIdeaPrompt(e, idea.ideaId)}
-                              className="absolute top-2.5 right-2.5 w-6 h-6 rounded-lg bg-slate-950/60 hover:bg-rose-500/20 text-slate-500 hover:text-rose-400 border border-slate-800 hover:border-rose-500/40 flex items-center justify-center transition cursor-pointer"
+                              className="absolute top-2.5 right-2.5 w-6 h-6 rounded-[6px] bg-white hover:bg-rose-50 text-[#98A2B3] hover:text-rose-600 border border-[#ECEEF1] hover:border-rose-200 flex items-center justify-center transition cursor-pointer"
                             >
                               <i className="fas fa-trash text-[10px]"></i>
                             </button>
@@ -1223,28 +1227,27 @@ export default function Layer0IdeaDiscovery() {
 
 
         {/* BOX 2: Phase 2 - Discovery Analysis Workspace */}
-        <div className="rounded-2xl bg-[#0b0f19] border border-slate-800 shadow-xl overflow-hidden transition-all duration-300">
+        <div className="rounded-[16px] bg-white border border-[#ECEEF1] shadow-2xs overflow-hidden transition-all duration-300">
           <div 
             onClick={() => setPhase2Expanded(!phase2Expanded)}
-            className="p-4 bg-slate-900/60 border-b border-slate-800/80 flex items-center justify-between cursor-pointer select-none hover:bg-slate-900 transition"
+            className="p-4 bg-[#F8F8F7] border-b border-[#ECEEF1] flex items-center justify-between cursor-pointer select-none hover:bg-[#F2F4F7] transition"
           >
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
-                <i className="fas fa-microchip text-sm"></i>
+              <div className="w-8 h-8 rounded-[10px] bg-[#F4F1FF] text-[#7157F5] border border-[#E4DCFF] flex items-center justify-center">
+                <i className="fas fa-microchip text-xs"></i>
               </div>
               <div>
-                <h2 className="text-sm font-extrabold text-white tracking-tight flex items-center gap-2">
+                <h2 className="text-sm font-bold text-[#17181C] tracking-tight flex items-center gap-2">
                   Phase 2: Intelligent Discovery & Requirement Formation
                 </h2>
-                <p className="text-[10px] text-slate-400">
+                <p className="text-[11px] text-[#667085]">
                   {activeIdeaId ? `Active Initiative: [${activeIdeaId}] ${currentIdeaState?.title || ''}` : '8-Tab Evidence Synthesis, Financial ROI, and Quality Audit Workspace'}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center space-x-3">
-              
-              <div className="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400">
+              <div className="w-7 h-7 rounded-[8px] bg-white border border-[#ECEEF1] flex items-center justify-center text-[#667085]">
                 <i className={`fas fa-chevron-${phase2Expanded ? 'up' : 'down'} text-xs`}></i>
               </div>
             </div>
@@ -1263,7 +1266,7 @@ export default function Layer0IdeaDiscovery() {
               ) : (
                 <div className="space-y-4">
                   {/* Workspace Navigation Tabs */}
-                  <div className="flex items-center gap-1.5 overflow-x-auto custom-scroll pb-2 border-b border-slate-800">
+                  <div className="flex items-center gap-1.5 overflow-x-auto custom-scroll pb-2 border-b border-[#ECEEF1]">
                     {[
                       { id: 'brief', label: '1. Idea Brief', icon: 'fa-file-alt' },
                       { id: 'market', label: '2. Market & Competitors', icon: 'fa-search-dollar' },
@@ -1272,13 +1275,13 @@ export default function Layer0IdeaDiscovery() {
                       <button
                         key={tab.id}
                         onClick={() => setActiveTab(tab.id)}
-                        className={`px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap flex items-center space-x-2 transition cursor-pointer border ${
+                        className={`px-3 py-2 rounded-[10px] text-xs font-semibold whitespace-nowrap flex items-center space-x-2 transition cursor-pointer border ${
                           activeTab === tab.id
-                            ? 'bg-indigo-600 text-white border-indigo-400 shadow-lg shadow-indigo-600/30'
-                            : 'bg-slate-900/60 text-slate-400 border-slate-800 hover:text-white hover:bg-slate-800'
+                            ? 'bg-[#F4F1FF] text-[#17181C] font-bold border-[#E4DCFF] shadow-2xs'
+                            : 'bg-white text-[#667085] border-[#ECEEF1] hover:text-[#17181C] hover:bg-[#F8F8F7]'
                         }`}
                       >
-                        <i className={`fas ${tab.icon} text-xs`}></i>
+                        <i className={`fas ${tab.icon} text-xs ${activeTab === tab.id ? 'text-[#7157F5]' : 'text-[#98A2B3]'}`}></i>
                         <span>{tab.label}</span>
                       </button>
                     ))}
@@ -1287,66 +1290,66 @@ export default function Layer0IdeaDiscovery() {
 
               {/* TAB 1: Idea Brief */}
               {activeTab === 'brief' && (
-                <div className="p-6 rounded-2xl bg-[#0b0f19] border border-slate-800 shadow-xl space-y-4">
+                <div className="p-6 rounded-[16px] bg-white border border-[#ECEEF1] shadow-2xs space-y-4">
                   {renderModelCard(currentBrief.modelCard, 'Deterministic Intent Extractor')}
 
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                      <i className="fas fa-file-alt text-indigo-400"></i>
+                  <div className="flex items-center justify-between border-b border-[#ECEEF1] pb-3">
+                    <h3 className="text-sm font-bold text-[#17181C] flex items-center gap-2">
+                      <i className="fas fa-file-alt text-[#7157F5]"></i>
                       Idea Brief (`idea_brief.yaml`)
                     </h3>
                     <button
                       onClick={() => handleRunAgent('framing')}
                       disabled={isProcessing}
-                      className="px-3 py-1 rounded-lg bg-indigo-950 text-indigo-300 border border-indigo-800 text-[10px] font-bold hover:bg-indigo-900 cursor-pointer"
+                      className="px-3 py-1 rounded-[8px] bg-[#F4F1FF] text-[#5F46D8] border border-[#E4DCFF] text-[10px] font-semibold hover:bg-[#ECE6FF] cursor-pointer shadow-2xs"
                     >
                       Re-run Framing Task
                     </button>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 space-y-2">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Problem Hypothesis</span>
-                      <p className="text-xs text-slate-200 leading-relaxed font-sans font-medium">
+                    <div className="p-4 rounded-[12px] bg-[#FAFAF9] border border-[#ECEEF1] space-y-2">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#667085]">Problem Hypothesis</span>
+                      <p className="text-xs text-[#17181C] leading-relaxed font-sans font-medium">
                         {currentBrief.problemHypothesis || currentBrief.problemStatement || 'Intent analysis detects manual compilation overhead and operational tracking friction.'}
                       </p>
                     </div>
 
-                    <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 space-y-2">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Proposed Solution</span>
-                      <p className="text-xs text-emerald-300 leading-relaxed font-sans font-medium">
+                    <div className="p-4 rounded-[12px] bg-[#FAFAF9] border border-[#ECEEF1] space-y-2">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#667085]">Proposed Solution</span>
+                      <p className="text-xs text-emerald-700 leading-relaxed font-sans font-medium">
                         {currentBrief.proposedSolution || currentBrief.solutionOverview || 'Task-aware automated requirement formation pipeline.'}
                       </p>
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="p-4 rounded-xl bg-slate-900/40 border border-slate-800 space-y-2">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Target Personas</span>
-                      <ul className="text-xs text-slate-300 space-y-1 list-disc list-inside">
+                    <div className="p-4 rounded-[12px] bg-[#FAFAF9] border border-[#ECEEF1] space-y-2">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#667085]">Target Personas</span>
+                      <ul className="text-xs text-[#344054] space-y-1 list-disc list-inside">
                         {(currentBrief.targetPersonas || []).map((p, i) => (
                           <li key={i}>{typeof p === 'string' ? p : (p?.role || p?.persona || p?.name || JSON.stringify(p))}</li>
                         ))}
                       </ul>
                     </div>
 
-                    <div className="p-4 rounded-xl bg-slate-900/40 border border-slate-800 space-y-2">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Expected Outcomes</span>
-                      <ul className="text-xs text-slate-300 space-y-1 list-disc list-inside">
+                    <div className="p-4 rounded-[12px] bg-[#FAFAF9] border border-[#ECEEF1] space-y-2">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#667085]">Expected Outcomes</span>
+                      <ul className="text-xs text-[#344054] space-y-1 list-disc list-inside">
                         {(currentBrief.expectedOutcomes || []).map((o, i) => (
                           <li key={i}>{typeof o === 'string' ? o : (o?.statement || o?.text || o?.outcome || JSON.stringify(o))}</li>
                         ))}
                       </ul>
                     </div>
 
-                    <div className="p-4 rounded-xl bg-slate-900/40 border border-slate-800 space-y-2">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Known Facts & Unknowns</span>
-                      <ul className="text-xs text-indigo-300 space-y-1 list-disc list-inside font-mono text-[10px]">
+                    <div className="p-4 rounded-[12px] bg-[#FAFAF9] border border-[#ECEEF1] space-y-2">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#667085]">Known Facts & Unknowns</span>
+                      <ul className="text-xs text-[#5F46D8] space-y-1 list-disc list-inside font-mono text-[10px]">
                         {(currentBrief.knownFacts || []).map((f, i) => (
                           <li key={i}>{typeof f === 'string' ? f : (f?.statement || f?.text || f?.fact || JSON.stringify(f))}</li>
                         ))}
                         {(currentBrief.unknowns || []).map((u, i) => (
-                          <li key={i} className="text-amber-400">{typeof u === 'string' ? u : (u?.statement || u?.text || u?.question || JSON.stringify(u))}</li>
+                          <li key={i} className="text-amber-600">{typeof u === 'string' ? u : (u?.statement || u?.text || u?.question || JSON.stringify(u))}</li>
                         ))}
                       </ul>
                     </div>
@@ -1357,62 +1360,62 @@ export default function Layer0IdeaDiscovery() {
 
               {/* TAB 3: Market & Competitors */}
               {activeTab === 'market' && (
-                <div className="p-6 rounded-2xl bg-[#0b0f19] border border-slate-800 shadow-xl space-y-6">
+                <div className="p-6 rounded-[16px] bg-white border border-[#ECEEF1] shadow-2xs space-y-6">
                   {renderModelCard(currentMarket.modelCard, 'Market Research Engine')}
 
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                      <i className="fas fa-search-dollar text-cyan-400"></i>
+                  <div className="flex items-center justify-between border-b border-[#ECEEF1] pb-3">
+                    <h3 className="text-sm font-bold text-[#17181C] flex items-center gap-2">
+                      <i className="fas fa-search-dollar text-[#7157F5]"></i>
                       Competitor & Market Research Analysis
                     </h3>
-                    <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded bg-cyan-950/80 text-cyan-300 border border-cyan-500/40">
+                    <span className="text-[9px] font-mono font-bold px-2 py-0.5 rounded-[6px] bg-[#F4F1FF] text-[#5F46D8] border border-[#E4DCFF]">
                       Source Connector: Enterprise Benchmark Knowledge Base & Vector Index (T0/T1)
                     </span>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800/80 space-y-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Market Context & Research Summary</span>
-                    <p className="text-xs text-slate-200 leading-relaxed font-sans">
+                  <div className="p-4 rounded-[12px] bg-[#FAFAF9] border border-[#ECEEF1] space-y-2">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#667085]">Market Context & Research Summary</span>
+                    <p className="text-xs text-[#17181C] leading-relaxed font-sans">
                       {currentMarket.marketSummary || `Market context evaluated for ${currentBrief.title || 'Initiative'}. External live web search is bypassed to enforce zero fictional data and strict governance.`}
                     </p>
                   </div>
 
                   {/* Competitors & COTS Comparison Cards */}
                   <div className="space-y-3">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#667085] block">
                       Commercial Off-The-Shelf (COTS) Competitor Benchmark
                     </span>
 
                     {(currentMarket.competitors && currentMarket.competitors.length > 0) ? (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {currentMarket.competitors.map((comp, idx) => (
-                          <div key={idx} className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 space-y-2 hover:border-slate-700 transition">
+                          <div key={idx} className="p-4 rounded-[12px] bg-[#FAFAF9] border border-[#ECEEF1] space-y-2 hover:border-[#D0D5DD] transition">
                             <div className="flex items-center justify-between">
-                              <span className="text-xs font-extrabold text-white flex items-center gap-2">
-                                <i className="fas fa-building text-indigo-400"></i>
+                              <span className="text-xs font-bold text-[#17181C] flex items-center gap-2">
+                                <i className="fas fa-building text-[#7157F5]"></i>
                                 {comp.name}
                               </span>
-                              <span className="text-[9px] font-mono text-slate-500 px-2 py-0.5 rounded bg-slate-900 border border-slate-800">
+                              <span className="text-[9px] font-mono text-[#667085] px-2 py-0.5 rounded-[6px] bg-white border border-[#ECEEF1]">
                                 COTS Benchmark
                               </span>
                             </div>
-                            <p className="text-xs text-slate-300 leading-relaxed font-sans">{comp.capabilitySummary}</p>
+                            <p className="text-xs text-[#344054] leading-relaxed font-sans">{comp.capabilitySummary}</p>
                           </div>
                         ))}
                       </div>
                     ) : (
-                      <div className="p-4 rounded-xl bg-slate-950 border border-slate-800/80 text-xs text-slate-400 italic">
+                      <div className="p-4 rounded-[12px] bg-[#FAFAF9] border border-[#ECEEF1] text-xs text-[#667085] italic">
                         No direct external COTS competitors logged. Internal standard architecture benchmark applied.
                       </div>
                     )}
                   </div>
 
                   {/* Build vs Buy Differentiation */}
-                  <div className="p-4 rounded-xl bg-slate-900/40 border border-slate-800 space-y-2">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-400">
+                  <div className="p-4 rounded-[12px] bg-[#FAFAF9] border border-[#ECEEF1] space-y-2">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#5F46D8]">
                       Build vs. Buy Key Differentiators (FrugalForge SDD Advantage)
                     </span>
-                    <ul className="text-xs text-slate-300 space-y-1.5 list-disc list-inside">
+                    <ul className="text-xs text-[#344054] space-y-1.5 list-disc list-inside">
                       {(currentMarket.differentiators || [
                         'Evidence-linked requirement synthesis directly coupled with Spec-Driven Development (SDD)',
                         'Tiered Intelligence Engine (T0 -> T4) optimizing token spend and preventing data leakage',
@@ -1429,29 +1432,29 @@ export default function Layer0IdeaDiscovery() {
 
               {/* TAB 4: Enterprise Analysis */}
               {activeTab === 'enterprise' && (
-                <div className="p-6 rounded-2xl bg-[#0b0f19] border border-slate-800 shadow-xl space-y-6">
+                <div className="p-6 rounded-[16px] bg-white border border-[#ECEEF1] shadow-2xs space-y-6">
                   {renderModelCard(currentEnterprise.modelCard, 'Enterprise Impact Agent')}
 
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                      <i className="fas fa-sitemap text-purple-400"></i>
+                  <div className="flex items-center justify-between border-b border-[#ECEEF1] pb-3">
+                    <h3 className="text-sm font-bold text-[#17181C] flex items-center gap-2">
+                      <i className="fas fa-sitemap text-[#7157F5]"></i>
                       Enterprise Impact & Capability Analysis
                     </h3>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="p-4 rounded-xl bg-slate-900/60 border border-emerald-500/20 space-y-2">
-                      <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-wider">In Scope Boundaries</h4>
-                      <ul className="text-xs text-slate-300 space-y-1 list-disc list-inside">
+                    <div className="p-4 rounded-[12px] bg-[#ECFDF3] border border-[#ABEFC6] space-y-2">
+                      <h4 className="text-xs font-bold text-[#067647] uppercase tracking-wider">In Scope Boundaries</h4>
+                      <ul className="text-xs text-[#067647] space-y-1 list-disc list-inside">
                         {(currentEnterprise.scope || []).map((s, i) => (
                           <li key={i}>{typeof s === 'string' ? s : (s?.text || s?.statement || JSON.stringify(s))}</li>
                         ))}
                       </ul>
                     </div>
 
-                    <div className="p-4 rounded-xl bg-slate-900/60 border border-rose-500/20 space-y-2">
-                      <h4 className="text-xs font-bold text-rose-400 uppercase tracking-wider">Out of Scope Boundaries</h4>
-                      <ul className="text-xs text-slate-300 space-y-1 list-disc list-inside">
+                    <div className="p-4 rounded-[12px] bg-[#FEF3F2] border border-[#FECDCA] space-y-2">
+                      <h4 className="text-xs font-bold text-[#B42318] uppercase tracking-wider">Out of Scope Boundaries</h4>
+                      <ul className="text-xs text-[#B42318] space-y-1 list-disc list-inside">
                         {(currentEnterprise.outOfScope || []).map((o, i) => (
                           <li key={i}>{typeof o === 'string' ? o : (o?.text || o?.statement || JSON.stringify(o))}</li>
                         ))}
@@ -1472,20 +1475,20 @@ export default function Layer0IdeaDiscovery() {
 
 
         {/* BOX 3: Phase 3 - Discovery Compilation & Governance */}
-        <div className="rounded-2xl bg-[#0b0f19] border border-slate-800 shadow-xl overflow-hidden transition-all duration-300">
+        <div className="rounded-[16px] bg-white border border-[#ECEEF1] shadow-2xs overflow-hidden transition-all duration-300">
           <div 
             onClick={() => setPhase3Expanded(!phase3Expanded)}
-            className="p-4 bg-slate-900/60 border-b border-slate-800/80 flex items-center justify-between cursor-pointer select-none hover:bg-slate-900 transition"
+            className="p-4 bg-[#F8F8F7] border-b border-[#ECEEF1] flex items-center justify-between cursor-pointer select-none hover:bg-[#F2F4F7] transition"
           >
             <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400">
-                <i className="fas fa-brain text-sm"></i>
+              <div className="w-8 h-8 rounded-[10px] bg-[#F4F1FF] text-[#7157F5] border border-[#E4DCFF] flex items-center justify-center">
+                <i className="fas fa-brain text-xs"></i>
               </div>
               <div>
-                <h2 className="text-sm font-extrabold text-white tracking-tight flex items-center gap-2">
+                <h2 className="text-sm font-bold text-[#17181C] tracking-tight flex items-center gap-2">
                   Phase 3: Discovery Compilation & Governance
                 </h2>
-                <p className="text-[10px] text-slate-400">
+                <p className="text-[11px] text-[#667085]">
                   {activeIdeaId ? `Active Initiative: [${activeIdeaId}] Compiled requirements, audit checks, and board approvals` : 'Discovery Q&A, Quality Audit, Requirement.md, and Governance Gate'}
                 </p>
               </div>
@@ -1493,11 +1496,11 @@ export default function Layer0IdeaDiscovery() {
 
             <div className="flex items-center space-x-3">
               {readinessScore !== undefined && activeIdeaId && (
-                <span className="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 font-mono text-[10px] font-bold text-slate-300">
-                  Readiness: <span className={readinessScore >= 85 ? 'text-emerald-400' : 'text-amber-400'}>{readinessScore}/100</span>
+                <span className="px-2.5 py-1 rounded-[8px] bg-[#FAFAF9] border border-[#ECEEF1] font-mono text-[10px] font-bold text-[#344054]">
+                  Readiness: <span className={readinessScore >= 85 ? 'text-[#067647]' : 'text-amber-600'}>{readinessScore}/100</span>
                 </span>
               )}
-              <div className="w-7 h-7 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400">
+              <div className="w-7 h-7 rounded-[8px] bg-white border border-[#ECEEF1] flex items-center justify-center text-[#667085]">
                 <i className={`fas fa-chevron-${phase3Expanded ? 'up' : 'down'} text-xs`}></i>
               </div>
             </div>
@@ -1507,16 +1510,16 @@ export default function Layer0IdeaDiscovery() {
             <div className="p-5 space-y-6 animate-fade-in">
               {!activeIdeaId || !currentIdeaState ? (
                 <div className="p-10 text-center space-y-3">
-                  <i className="fas fa-brain text-4xl text-purple-500/30 animate-pulse"></i>
-                  <h3 className="text-sm font-bold text-slate-300">No Active Initiative Selected</h3>
-                  <p className="text-xs text-slate-500 max-w-md mx-auto">
+                  <i className="fas fa-brain text-4xl text-[#7157F5]/30 animate-pulse"></i>
+                  <h3 className="text-sm font-bold text-[#344054]">No Active Initiative Selected</h3>
+                  <p className="text-xs text-[#667085] max-w-md mx-auto">
                     Submit a new initiative in Phase 1 above or select an existing initiative to launch Phase 3 discovery compilation.
                   </p>
                 </div>
               ) : (
                 <div className="space-y-4">
                   {/* Workspace Navigation Tabs */}
-                  <div className="flex items-center gap-1.5 overflow-x-auto custom-scroll pb-2 border-b border-slate-800">
+                  <div className="flex items-center gap-1.5 overflow-x-auto custom-scroll pb-2 border-b border-[#ECEEF1]">
                     {[
                       { id: 'discovery', label: '4. Discovery Q&A', icon: 'fa-comments' },
                       { id: 'readiness', label: '5. Quality Audit', icon: 'fa-check-double' },
@@ -1526,13 +1529,13 @@ export default function Layer0IdeaDiscovery() {
                       <button
                         key={tab.id}
                         onClick={() => setActiveTabPhase3(tab.id)}
-                        className={`px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap flex items-center space-x-2 transition cursor-pointer border ${
+                        className={`px-3 py-2 rounded-[10px] text-xs font-semibold whitespace-nowrap flex items-center space-x-2 transition cursor-pointer border ${
                           activeTabPhase3 === tab.id
-                            ? 'bg-indigo-600 text-white border-indigo-400 shadow-lg shadow-indigo-600/30'
-                            : 'bg-slate-900/60 text-slate-400 border-slate-800 hover:text-white hover:bg-slate-800'
+                            ? 'bg-[#F4F1FF] text-[#17181C] font-bold border-[#E4DCFF] shadow-2xs'
+                            : 'bg-white text-[#667085] border-[#ECEEF1] hover:text-[#17181C] hover:bg-[#F8F8F7]'
                         }`}
                       >
-                        <i className={`fas ${tab.icon} text-xs`}></i>
+                        <i className={`fas ${tab.icon} text-xs ${activeTabPhase3 === tab.id ? 'text-[#7157F5]' : 'text-[#98A2B3]'}`}></i>
                         <span>{tab.label}</span>
                       </button>
                     ))}
@@ -1540,10 +1543,10 @@ export default function Layer0IdeaDiscovery() {
 
               {/* TAB 2: Discovery Q&A */}
               {activeTabPhase3 === 'discovery' && (
-                <div className="p-6 rounded-2xl bg-[#0b0f19] border border-slate-800 shadow-xl space-y-6">
-                      {/* Unified Analysis & Alignment Suite */}
-                  <div className="p-5 rounded-2xl bg-gradient-to-r from-purple-950/20 via-[#0b0f19] to-cyan-950/20 border border-slate-800 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-6">
-                    <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 divide-y md:divide-y-0 md:divide-x divide-slate-800">
+                <div className="p-6 rounded-[16px] bg-white border border-[#ECEEF1] shadow-2xs space-y-6">
+                  {/* Unified Analysis & Alignment Suite */}
+                  <div className="p-5 rounded-[14px] bg-[#FAFAF9] border border-[#ECEEF1] shadow-2xs flex flex-col lg:flex-row items-center justify-between gap-6">
+                    <div className="flex-1 grid grid-cols-1 md:grid-cols-2 gap-6 divide-y md:divide-y-0 md:divide-x divide-[#ECEEF1]">
                       
                       {/* Section 1: Debate Circle */}
                       <div 
@@ -1552,26 +1555,26 @@ export default function Layer0IdeaDiscovery() {
                       >
                         {/* Avatar stack */}
                         <div className="flex items-center -space-x-2 shrink-0 mt-0.5">
-                          <div className="w-8 h-8 rounded-full bg-amber-500/20 border border-slate-800 flex items-center justify-center text-amber-400 font-extrabold text-[9px] shadow animate-pulse">
+                          <div className="w-8 h-8 rounded-full bg-amber-100 border border-white flex items-center justify-center text-amber-800 font-extrabold text-[9px] shadow-2xs">
                             PO
                           </div>
-                          <div className="w-8 h-8 rounded-full bg-fuchsia-500/20 border border-slate-800 flex items-center justify-center text-fuchsia-400 font-extrabold text-[9px] shadow animate-bounce [animation-duration:3.2s]">
+                          <div className="w-8 h-8 rounded-full bg-purple-100 border border-white flex items-center justify-center text-purple-800 font-extrabold text-[9px] shadow-2xs">
                             BA
                           </div>
-                          <div className="w-8 h-8 rounded-full bg-sky-500/20 border border-slate-800 flex items-center justify-center text-sky-400 font-extrabold text-[9px] shadow">
+                          <div className="w-8 h-8 rounded-full bg-sky-100 border border-white flex items-center justify-center text-sky-800 font-extrabold text-[9px] shadow-2xs">
                             TA
                           </div>
                         </div>
 
                         <div className="space-y-1">
-                          <h4 className="text-xs font-extrabold text-white flex items-center gap-1.5 group-hover:text-purple-300 transition">
-                            <i className="fas fa-comments text-purple-400"></i>
+                          <h4 className="text-xs font-bold text-[#17181C] flex items-center gap-1.5 group-hover:text-[#7157F5] transition">
+                            <i className="fas fa-comments text-[#7157F5]"></i>
                             Debate Circle
                           </h4>
-                          <p className="text-[11px] text-slate-400 leading-relaxed">
+                          <p className="text-[11px] text-[#667085] leading-relaxed">
                             Personas debate requirements, raising ambiguities and discrepancies.
                           </p>
-                          <span className="text-[9px] font-bold text-indigo-400 block group-hover:underline pt-0.5">
+                          <span className="text-[9px] font-bold text-[#7157F5] block group-hover:underline pt-0.5">
                             Configure Debate Circle &rarr;
                           </span>
                         </div>
@@ -1582,19 +1585,19 @@ export default function Layer0IdeaDiscovery() {
                         onClick={() => setShowMlModal(true)}
                         className="pl-0 md:pl-6 pt-4 md:pt-0 flex items-start space-x-4 cursor-pointer group"
                       >
-                        <div className="w-8 h-8 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0 mt-0.5 animate-pulse">
+                        <div className="w-8 h-8 rounded-[8px] bg-[#F4F1FF] text-[#7157F5] border border-[#E4DCFF] flex items-center justify-center shrink-0 mt-0.5 shadow-2xs">
                           <i className="fas fa-project-diagram text-[10px]"></i>
                         </div>
 
                         <div className="space-y-1">
-                          <h4 className="text-xs font-extrabold text-white flex items-center gap-1.5 group-hover:text-cyan-300 transition">
-                            <i className="fas fa-search-minus text-cyan-400"></i>
+                          <h4 className="text-xs font-bold text-[#17181C] flex items-center gap-1.5 group-hover:text-[#7157F5] transition">
+                            <i className="fas fa-search-minus text-[#7157F5]"></i>
                             Ambiguity Analyzer
                           </h4>
-                          <p className="text-[11px] text-slate-400 leading-relaxed">
+                          <p className="text-[11px] text-[#667085] leading-relaxed">
                             Scan requirement specs for conflicting goals, logical voids, and semantic gaps.
                           </p>
-                          <span className="text-[9px] font-bold text-cyan-400 block group-hover:underline pt-0.5">
+                          <span className="text-[9px] font-bold text-[#7157F5] block group-hover:underline pt-0.5">
                             Configure Ambiguity Analyzer &rarr;
                           </span>
                         </div>
@@ -1603,14 +1606,14 @@ export default function Layer0IdeaDiscovery() {
                     </div>
 
                     {/* Run Button to the side */}
-                    <div className="shrink-0 pl-0 lg:pl-4 border-t lg:border-t-0 lg:border-l border-slate-800 pt-4 lg:pt-0 w-full lg:w-auto flex justify-center">
+                    <div className="shrink-0 pl-0 lg:pl-4 border-t lg:border-t-0 lg:border-l border-[#ECEEF1] pt-4 lg:pt-0 w-full lg:w-auto flex justify-center">
                       <button
                         onClick={handleRunSuite}
                         disabled={isProcessing}
-                        className={`w-full lg:w-auto px-6 py-3 rounded-xl text-white text-xs font-extrabold shadow-lg transition flex items-center justify-center space-x-2 ${
+                        className={`w-full lg:w-auto px-6 py-2.5 rounded-[12px] text-white text-xs font-semibold shadow-sm transition flex items-center justify-center space-x-2 ${
                           isProcessing 
-                            ? 'bg-slate-800 border border-slate-700 cursor-not-allowed opacity-55'
-                            : 'bg-gradient-to-r from-indigo-600 to-cyan-600 hover:from-indigo-500 hover:to-cyan-500 shadow-indigo-500/20 cursor-pointer animate-pulse hover:animate-none'
+                            ? 'bg-[#ECEEF1] text-[#98A2B3] cursor-not-allowed'
+                            : 'bg-[#17181C] hover:bg-[#292B30] active:bg-[#000000] cursor-pointer'
                         }`}
                       >
                         {isProcessing ? (
@@ -1620,7 +1623,7 @@ export default function Layer0IdeaDiscovery() {
                           </>
                         ) : (
                           <>
-                            <i className="fas fa-play text-[10px]"></i>
+                            <i className="fas fa-play text-[10px] text-[#7157F5]"></i>
                             <span>Run Suite</span>
                           </>
                         )}
@@ -1629,36 +1632,36 @@ export default function Layer0IdeaDiscovery() {
 
                   </div>
 
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                  <div className="flex items-center justify-between border-b border-[#ECEEF1] pb-3">
                     <div>
-                      <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                        <i className="fas fa-comments text-amber-400"></i>
+                      <h3 className="text-sm font-bold text-[#17181C] flex items-center gap-2">
+                        <i className="fas fa-comments text-amber-500"></i>
                         Adaptive Stakeholder Elicitation (1-Question-at-a-Time)
                       </h3>
-                      <p className="text-xs text-slate-400">Answering questions converts assumptions into confirmed facts in `Requirement.md`.</p>
+                      <p className="text-xs text-[#667085]">Answering questions converts assumptions into confirmed facts in `Requirement.md`.</p>
                     </div>
 
                     <div className="text-right">
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Discovery Sufficiency</span>
-                      <p className="text-sm font-black font-mono text-amber-400">{currentDiscovery.sufficiencyScore || 0}%</p>
+                      <span className="text-[10px] font-bold text-[#667085] uppercase tracking-wider">Discovery Sufficiency</span>
+                      <p className="text-sm font-black font-mono text-[#5F46D8]">{currentDiscovery.sufficiencyScore || 0}%</p>
                     </div>
                   </div>
 
                   {/* Two Tabs Selector */}
-                  <div className="flex items-center space-x-2 border-b border-slate-800 pb-2.5 mb-4">
+                  <div className="flex items-center space-x-2 border-b border-[#ECEEF1] pb-2.5 mb-4">
                     <button
                       type="button"
                       onClick={() => setQaTab('questions')}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer ${
+                      className={`px-3 py-1.5 rounded-[10px] text-xs font-semibold transition flex items-center space-x-1.5 cursor-pointer ${
                         qaTab === 'questions'
-                          ? 'bg-amber-600/20 text-amber-300 border border-amber-500/40 shadow-lg'
-                          : 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-white'
+                          ? 'bg-[#F4F1FF] text-[#17181C] font-bold border border-[#E4DCFF] shadow-2xs'
+                          : 'bg-white text-[#667085] border border-[#ECEEF1] hover:bg-[#F8F8F7]'
                       }`}
                     >
-                      <i className="fas fa-question-circle text-xs"></i>
+                      <i className="fas fa-question-circle text-xs text-amber-500"></i>
                       <span>Clarification Questions</span>
                       {(currentDiscovery.questionsAsked || []).length > 0 && (
-                        <span className="px-1.5 py-0.2 rounded-full text-[9px] bg-amber-950/60 text-amber-400 font-mono border border-amber-800 font-bold ml-1.5">
+                        <span className="px-1.5 py-0.2 rounded-full text-[9px] bg-amber-100 text-amber-800 font-mono border border-amber-300 font-bold ml-1.5">
                           {(currentDiscovery.questionsAsked || []).length}
                         </span>
                       )}
@@ -1667,13 +1670,13 @@ export default function Layer0IdeaDiscovery() {
                     <button
                       type="button"
                       onClick={() => setQaTab('logs')}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer ${
+                      className={`px-3 py-1.5 rounded-[10px] text-xs font-semibold transition flex items-center space-x-1.5 cursor-pointer ${
                         qaTab === 'logs'
-                          ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/40 shadow-lg'
-                          : 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-white'
+                          ? 'bg-[#F4F1FF] text-[#17181C] font-bold border border-[#E4DCFF] shadow-2xs'
+                          : 'bg-white text-[#667085] border border-[#ECEEF1] hover:bg-[#F8F8F7]'
                       }`}
                     >
-                      <i className="fas fa-terminal text-xs"></i>
+                      <i className="fas fa-terminal text-xs text-[#7157F5]"></i>
                       <span>Thought Logs</span>
                     </button>
                   </div>
@@ -1695,25 +1698,25 @@ export default function Layer0IdeaDiscovery() {
                           const evalFeedback = respObj.feedback;
 
                           return (
-                            <div key={idx} className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 space-y-2.5">
+                            <div key={idx} className="p-4 rounded-[12px] bg-[#FAFAF9] border border-[#ECEEF1] space-y-2.5">
                               <div className="flex items-center justify-between gap-3">
-                                <span className="text-xs font-bold text-indigo-300 flex items-start gap-2">
-                                  <span className="w-5 h-5 rounded-full bg-indigo-500/20 text-indigo-400 text-[10px] flex items-center justify-center font-mono font-bold shrink-0 mt-0.5">
+                                <span className="text-xs font-semibold text-[#17181C] flex items-start gap-2">
+                                  <span className="w-5 h-5 rounded-full bg-[#F4F1FF] text-[#7157F5] border border-[#E4DCFF] text-[10px] flex items-center justify-center font-mono font-bold shrink-0 mt-0.5">
                                     {idx + 1}
                                   </span>
                                   <span>{typeof q === 'string' ? q : (q?.statement || q?.question || q?.text || JSON.stringify(q))}</span>
                                 </span>
                                 <div className="flex items-center space-x-2 shrink-0">
                                   {evalScore !== undefined && (
-                                    <span className={`text-[9px] px-2 py-0.5 rounded font-mono font-bold border ${
-                                      evalScore >= 70 ? 'bg-emerald-950 text-emerald-300 border-emerald-800' : 'bg-amber-950 text-amber-300 border-amber-800'
+                                    <span className={`text-[9px] px-2 py-0.5 rounded-[6px] font-mono font-bold border ${
+                                      evalScore >= 70 ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200'
                                     }`}>
                                       <i className="fas fa-brain text-[8px] mr-1"></i>
                                       LLM Validated ({evalScore}%)
                                     </span>
                                   )}
                                   {existingResp && (
-                                    <span className="text-[9px] text-emerald-400 font-bold">
+                                    <span className="text-[9px] text-emerald-600 font-bold">
                                       <i className="fas fa-check-circle mr-1"></i>Answered
                                     </span>
                                   )}
@@ -1725,12 +1728,12 @@ export default function Layer0IdeaDiscovery() {
                                 value={discoveryAnswers[idx] !== undefined ? discoveryAnswers[idx] : existingResp}
                                 onChange={(e) => setDiscoveryAnswers({ ...discoveryAnswers, [idx]: e.target.value })}
                                 placeholder="Enter business details, system constraints, or persona inputs..."
-                                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 custom-scroll font-medium"
+                                className="w-full bg-white border border-[#ECEEF1] hover:border-[#D0D5DD] rounded-[10px] p-3 text-xs text-[#17181C] font-normal focus:outline-none focus:border-[#7157F5] custom-scroll shadow-2xs"
                               ></textarea>
 
                               {evalFeedback && (
-                                <p className="text-[10px] text-indigo-300/80 font-mono italic flex items-center gap-1.5 pt-0.5">
-                                  <i className="fas fa-info-circle text-[9px] text-indigo-400"></i>
+                                <p className="text-[10px] text-[#5F46D8] font-mono italic flex items-center gap-1.5 pt-0.5">
+                                  <i className="fas fa-info-circle text-[9px] text-[#7157F5]"></i>
                                   <span>LLM Quality Audit: {evalFeedback}</span>
                                 </p>
                               )}
@@ -1741,28 +1744,28 @@ export default function Layer0IdeaDiscovery() {
 
                       {/* Knowledge Fabric Policy Validation Card */}
                       {currentDiscovery.policyValidationResult && (
-                        <div className="mt-6 bg-[#0b0f19] border border-slate-800 rounded-2xl p-5 space-y-4">
+                        <div className="mt-6 bg-[#FAFAF9] border border-[#ECEEF1] rounded-[14px] p-5 space-y-4 shadow-2xs">
                           <div className="flex items-center justify-between">
-                            <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center gap-2">
-                              <i className="fas fa-shield-alt text-indigo-400"></i>
+                            <h4 className="text-xs font-bold text-[#17181C] uppercase tracking-wider flex items-center gap-2">
+                              <i className="fas fa-shield-alt text-[#7157F5]"></i>
                               <span>Vectorized Knowledge Fabric Compliance Scan</span>
                             </h4>
-                            <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap border shadow-sm ${
+                            <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap border shadow-2xs ${
                               currentDiscovery.policyValidationResult.conformanceStatus === 'Compliant'
-                                ? 'bg-emerald-950/80 text-emerald-300 border-emerald-500/40'
+                                ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                                 : currentDiscovery.policyValidationResult.conformanceStatus === 'Contradiction Flagged'
-                                ? 'bg-rose-950/90 text-rose-300 border-rose-500/60'
-                                : 'bg-amber-950/90 text-amber-300 border-amber-500/60'
+                                ? 'bg-rose-50 text-rose-700 border-rose-200'
+                                : 'bg-amber-50 text-amber-700 border-amber-200'
                             }`}>
                               {currentDiscovery.policyValidationResult.conformanceStatus}
                             </span>
                           </div>
 
-                          <div className="flex items-center space-x-4 bg-slate-950/60 p-4 rounded-xl border border-slate-800">
+                          <div className="flex items-center space-x-4 bg-white p-4 rounded-[12px] border border-[#ECEEF1] shadow-2xs">
                             <div className="flex-1 min-w-0">
-                              <p className="text-[10px] text-slate-500 uppercase font-bold">Policy Conformance Score</p>
+                              <p className="text-[10px] text-[#667085] uppercase font-bold">Policy Conformance Score</p>
                               <div className="flex items-center space-x-2.5 mt-1">
-                                <div className="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
+                                <div className="flex-1 h-2 bg-[#ECEEF1] rounded-full overflow-hidden">
                                   <div 
                                     className={`h-full rounded-full transition-all duration-500 ${
                                       currentDiscovery.policyValidationResult.conformanceScore >= 90
@@ -1776,10 +1779,10 @@ export default function Layer0IdeaDiscovery() {
                                 </div>
                                 <span className={`text-sm font-black font-mono ${
                                   currentDiscovery.policyValidationResult.conformanceScore >= 90
-                                    ? 'text-emerald-400'
+                                    ? 'text-emerald-700'
                                     : currentDiscovery.policyValidationResult.conformanceScore >= 70
-                                    ? 'text-amber-400'
-                                    : 'text-rose-400'
+                                    ? 'text-amber-700'
+                                    : 'text-rose-700'
                                 }`}>
                                   {currentDiscovery.policyValidationResult.conformanceScore}%
                                 </span>
@@ -1789,36 +1792,36 @@ export default function Layer0IdeaDiscovery() {
 
                           {/* List of Deviations or Compliance Findings */}
                           {(!currentDiscovery.policyValidationResult.findings || currentDiscovery.policyValidationResult.findings.length === 0) ? (
-                            <div className="py-4 text-center text-slate-500 text-xs bg-[#070a13] rounded-xl border border-slate-800/50">
+                            <div className="py-4 text-center text-[#667085] text-xs bg-white rounded-[12px] border border-[#ECEEF1]">
                               <i className="fas fa-check-circle text-emerald-500 text-lg mb-1 block"></i>
-                              <span className="font-semibold text-slate-400">Perfect Alignment Detected</span>
-                              <p className="text-[10px] text-slate-500 mt-0.5">No contradictions or deviations against existing vectorized policy documents.</p>
+                              <span className="font-semibold text-[#17181C]">Perfect Alignment Detected</span>
+                              <p className="text-[10px] text-[#667085] mt-0.5">No contradictions or deviations against existing vectorized policy documents.</p>
                             </div>
                           ) : (
                             <div className="space-y-3">
                               {currentDiscovery.policyValidationResult.findings.map((f, fIdx) => (
-                                <div key={fIdx} className="p-3.5 bg-slate-950/40 rounded-xl border border-slate-800/80 space-y-2 text-xs">
+                                <div key={fIdx} className="p-3.5 bg-white rounded-[12px] border border-[#ECEEF1] space-y-2 text-xs shadow-2xs">
                                   <div className="flex items-center justify-between">
-                                    <span className="font-bold text-slate-200 flex items-center gap-1.5">
-                                      <i className="fas fa-file-alt text-indigo-400 text-[10px]"></i>
+                                    <span className="font-bold text-[#17181C] flex items-center gap-1.5">
+                                      <i className="fas fa-file-alt text-[#7157F5] text-[10px]"></i>
                                       {f.policyDocument}
                                     </span>
-                                    <span className={`px-2 py-0.5 rounded text-[9px] font-bold border ${
+                                    <span className={`px-2 py-0.5 rounded-[6px] text-[9px] font-bold border ${
                                       f.severity === 'High'
-                                        ? 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+                                        ? 'bg-rose-50 text-rose-700 border-rose-200'
                                         : f.severity === 'Medium'
-                                        ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
-                                        : 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20'
+                                        ? 'bg-amber-50 text-amber-700 border-amber-200'
+                                        : 'bg-[#F4F1FF] text-[#5F46D8] border-[#E4DCFF]'
                                     }`}>
                                       {f.severity} Severity
                                     </span>
                                   </div>
-                                  <div className="p-2.5 bg-slate-900/50 rounded-lg border border-slate-800/60 font-mono text-[11px] text-slate-300">
-                                    <span className="text-[9px] uppercase font-bold text-rose-400 block mb-0.5">Deviation/Contradiction:</span>
+                                  <div className="p-2.5 bg-[#FEF3F2] rounded-[8px] border border-[#FECDCA] font-mono text-[11px] text-[#B42318]">
+                                    <span className="text-[9px] uppercase font-bold text-rose-700 block mb-0.5">Deviation/Contradiction:</span>
                                     {f.deviationText}
                                   </div>
-                                  <div className="p-2.5 bg-slate-900/50 rounded-lg border border-slate-800/60 font-mono text-[11px] text-slate-300">
-                                    <span className="text-[9px] uppercase font-bold text-emerald-400 block mb-0.5">Recommended Remediation:</span>
+                                  <div className="p-2.5 bg-[#ECFDF3] rounded-[8px] border border-[#ABEFC6] font-mono text-[11px] text-[#067647]">
+                                    <span className="text-[9px] uppercase font-bold text-emerald-700 block mb-0.5">Recommended Remediation:</span>
                                     {f.remediationText}
                                   </div>
                                 </div>
@@ -1829,11 +1832,11 @@ export default function Layer0IdeaDiscovery() {
                       )}
 
                       {/* Single Unified Save Button */}
-                      <div className="pt-3 border-t border-slate-800 flex justify-end mt-4">
+                      <div className="pt-3 border-t border-[#ECEEF1] flex justify-end mt-4">
                         <button
                           onClick={handleSaveAllAnswers}
                           disabled={isProcessing}
-                          className="px-6 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-xs font-bold shadow-lg shadow-indigo-600/30 flex items-center space-x-2 transition cursor-pointer disabled:opacity-50"
+                          className="px-6 py-2.5 rounded-[12px] bg-[#17181C] hover:bg-[#292B30] text-white text-xs font-semibold shadow-sm flex items-center space-x-2 transition cursor-pointer disabled:opacity-50"
                         >
                           {isProcessing ? (
                             <>
@@ -1842,7 +1845,7 @@ export default function Layer0IdeaDiscovery() {
                             </>
                           ) : (
                             <>
-                              <i className="fas fa-save text-xs"></i>
+                              <i className="fas fa-save text-xs text-[#7157F5]"></i>
                               <span>Save Discovery Answers & Sync Requirement Facts</span>
                             </>
                           )}
@@ -1851,8 +1854,8 @@ export default function Layer0IdeaDiscovery() {
                     </>
                   ) : (
                     /* Thought Logs Tab View */
-                    <div className="p-4 rounded-xl bg-[#060911] border border-slate-800 space-y-3">
-                      <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
+                    <div className="p-4 rounded-[12px] bg-[#17181C] border border-[#292B30] space-y-3 shadow-md">
+                      <div className="flex items-center justify-between border-b border-slate-700/60 pb-2">
                         <span className="text-xs font-bold font-mono text-indigo-300 uppercase tracking-wider flex items-center gap-2">
                           <i className="fas fa-terminal text-emerald-400"></i>
                           <span>Thought Logs & Telemetry</span>
@@ -1864,7 +1867,7 @@ export default function Layer0IdeaDiscovery() {
                         </span>
                       </div>
 
-                      <div className="font-mono text-xs text-slate-300 h-80 overflow-y-auto custom-scroll space-y-2.5 p-3 bg-slate-950/90 rounded-xl border border-slate-900">
+                      <div className="font-mono text-xs text-slate-300 h-80 overflow-y-auto custom-scroll space-y-2.5 p-3 bg-black/40 rounded-[10px] border border-slate-800">
                         {pipelineLogs.length > 0 ? (
                           pipelineLogs.map((log, idx) => (
                             <div key={idx} className="flex items-start space-x-2 leading-relaxed">
@@ -1884,7 +1887,7 @@ export default function Layer0IdeaDiscovery() {
                           ))
                         ) : (
                           <div className="flex flex-col items-center justify-center h-full text-slate-500 space-y-2">
-                            <i className="fas fa-terminal text-2xl text-slate-700"></i>
+                            <i className="fas fa-terminal text-2xl text-slate-600"></i>
                             <p className="text-xs">No active logs recorded yet. Click "Run Suite" to start multi-persona execution.</p>
                           </div>
                         )}
@@ -1897,30 +1900,30 @@ export default function Layer0IdeaDiscovery() {
 
               {/* TAB 7: Quality & Readiness Audit */}
               {activeTabPhase3 === 'readiness' && (
-                <div className="p-6 rounded-2xl bg-[#0b0f19] border border-slate-800 shadow-xl space-y-6">
+                <div className="p-6 rounded-[16px] bg-white border border-[#ECEEF1] shadow-2xs space-y-6">
                   {renderModelCard(currentReadiness.modelCard, 'Readiness Audit Evaluator')}
 
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+                  <div className="flex items-center justify-between border-b border-[#ECEEF1] pb-3">
                     <div>
-                      <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                        <i className="fas fa-check-double text-emerald-400"></i>
+                      <h3 className="text-sm font-bold text-[#17181C] flex items-center gap-2">
+                        <i className="fas fa-check-double text-emerald-600"></i>
                         Requirement Quality & Readiness Audit (10 Real Dimensions)
                       </h3>
-                      <p className="text-xs text-slate-400">Independent 10-dimension mathematical audit.</p>
+                      <p className="text-xs text-[#667085]">Independent 10-dimension mathematical audit.</p>
                     </div>
                   </div>
 
                   <div className="space-y-3">
                     {(currentReadiness.dimensions || currentReadiness.checks || []).map((c, i) => (
-                      <div key={i} className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between">
+                      <div key={i} className="p-3.5 rounded-[12px] bg-[#FAFAF9] border border-[#ECEEF1] flex items-center justify-between shadow-2xs">
                         <div className="space-y-0.5">
-                          <p className="text-xs font-bold text-slate-200">{c.name || c.dimension}</p>
-                          <p className="text-[10px] text-slate-400">{c.detail}</p>
+                          <p className="text-xs font-bold text-[#17181C]">{c.name || c.dimension}</p>
+                          <p className="text-[10px] text-[#667085]">{c.detail}</p>
                         </div>
                         <div className="flex items-center space-x-3 shrink-0 font-mono text-xs">
-                          <span className="text-slate-400">{c.score} / {c.weight || c.max}</span>
-                          <span className={`px-2 py-0.5 rounded text-[9px] font-bold ${
-                            c.status === 'PASS' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                          <span className="text-[#667085] font-semibold">{c.score} / {c.weight || c.max}</span>
+                          <span className={`px-2 py-0.5 rounded-[6px] text-[9px] font-bold ${
+                            c.status === 'PASS' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-amber-50 text-amber-700 border-amber-200'
                           }`}>
                             {c.status}
                           </span>
@@ -1934,25 +1937,25 @@ export default function Layer0IdeaDiscovery() {
 
               {/* TAB 6: Requirement.md Viewer */}
               {activeTabPhase3 === 'requirement' && (
-                <div className="p-6 rounded-2xl bg-[#0b0f19] border border-slate-800 shadow-xl space-y-4">
+                <div className="p-6 rounded-[16px] bg-white border border-[#ECEEF1] shadow-2xs space-y-4">
                   {renderModelCard(currentCompiled.modelCard, 'Requirement Section Compiler')}
 
-                  <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-                    <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                      <i className="fas fa-file-invoice text-indigo-400"></i>
+                  <div className="flex items-center justify-between border-b border-[#ECEEF1] pb-3">
+                    <h3 className="text-sm font-bold text-[#17181C] flex items-center gap-2">
+                      <i className="fas fa-file-invoice text-[#7157F5]"></i>
                       Compiled Enterprise `Requirement.md`
                     </h3>
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={() => navigator.clipboard.writeText(currentCompiled.markdown || '')}
-                        className="px-3 py-1 rounded-lg bg-slate-800 text-slate-200 text-[10px] font-bold hover:bg-slate-700 cursor-pointer"
+                        className="px-3 py-1 rounded-[8px] bg-white border border-[#ECEEF1] hover:bg-[#F8F8F7] text-[#344054] text-[10px] font-semibold cursor-pointer shadow-2xs"
                       >
                         Copy Markdown
                       </button>
                     </div>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-slate-300 max-h-96 overflow-y-auto custom-scroll whitespace-pre-wrap leading-relaxed">
+                  <div className="p-4 rounded-[12px] bg-[#FAFAF9] border border-[#ECEEF1] font-mono text-xs text-[#17181C] max-h-96 overflow-y-auto custom-scroll whitespace-pre-wrap leading-relaxed">
                     {currentCompiled.markdown || 'Requirement not compiled yet.'}
                   </div>
                 </div>
@@ -1961,25 +1964,25 @@ export default function Layer0IdeaDiscovery() {
 
               {/* TAB 8: Review Board & Human Gate */}
               {activeTabPhase3 === 'approval' && (
-                <div className="p-6 rounded-2xl bg-[#0b0f19] border border-slate-800 shadow-xl space-y-6">
+                <div className="p-6 rounded-[16px] bg-white border border-[#ECEEF1] shadow-2xs space-y-6">
                   {renderModelCard({
                     name: 'Human Authority Sign-off Gate',
                     algorithm: 'T4 Human Authority',
-                    icon: 'fa-gavel text-amber-400'
+                    icon: 'fa-gavel text-amber-500'
                   }, 'Governance Gate Agent')}
 
-                  <div className="border-b border-slate-800 pb-3">
-                    <h3 className="text-sm font-bold text-white flex items-center gap-2">
-                      <i className="fas fa-gavel text-amber-400"></i>
+                  <div className="border-b border-[#ECEEF1] pb-3">
+                    <h3 className="text-sm font-bold text-[#17181C] flex items-center gap-2">
+                      <i className="fas fa-gavel text-amber-500"></i>
                       Governance Review Board & Human Sign-off Gate
                     </h3>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between">
+                  <div className="p-4 rounded-[12px] bg-[#FAFAF9] border border-[#ECEEF1] flex items-center justify-between shadow-2xs">
                     <div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Current Human Sign-off Status:</span>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#667085]">Current Human Sign-off Status:</span>
                       <p className={`text-sm font-black font-mono ${
-                        currentHuman.status === 'APPROVED' ? 'text-emerald-400' : currentHuman.status === 'REJECTED' ? 'text-rose-400' : 'text-amber-400'
+                        currentHuman.status === 'APPROVED' ? 'text-emerald-700' : currentHuman.status === 'REJECTED' ? 'text-rose-700' : 'text-amber-700'
                       }`}>
                         {currentHuman.status || 'PENDING_HUMAN_REVIEW'}
                       </p>
@@ -1988,7 +1991,7 @@ export default function Layer0IdeaDiscovery() {
                     <div className="flex items-center space-x-3">
                       <button
                         onClick={() => openGovernanceModal('APPROVED')}
-                        className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs cursor-pointer shadow-lg shadow-emerald-600/30 transition flex items-center space-x-2"
+                        className="px-4 py-2 rounded-[10px] bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs cursor-pointer shadow-2xs transition flex items-center space-x-2"
                       >
                         <i className="fas fa-check-circle"></i>
                         <span>Approve for SDD</span>
@@ -1996,7 +1999,7 @@ export default function Layer0IdeaDiscovery() {
 
                       <button
                         onClick={() => openGovernanceModal('SAVED_AS_DRAFT')}
-                        className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold text-xs cursor-pointer shadow-lg transition flex items-center space-x-2"
+                        className="px-4 py-2 rounded-[10px] bg-white hover:bg-[#F8F8F7] text-[#344054] border border-[#ECEEF1] font-semibold text-xs cursor-pointer shadow-2xs transition flex items-center space-x-2"
                       >
                         <i className="fas fa-save"></i>
                         <span>Save as Draft</span>
@@ -2019,32 +2022,32 @@ export default function Layer0IdeaDiscovery() {
 
       {/* CUSTOM FRAMEWORK MODAL: General Confirmation Modal */}
       {confirmModal.open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 animate-fade-in">
-          <div className="w-full max-w-md bg-[#0b0f19] border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-5 relative">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#17181C]/70 backdrop-blur-md p-4 animate-fade-in">
+          <div className="w-full max-w-md bg-white border border-[#ECEEF1] rounded-[20px] p-6 shadow-2xl space-y-5 relative">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/30 flex items-center justify-center shrink-0">
-                <i className="fas fa-exclamation-triangle text-rose-400 text-lg"></i>
+              <div className="w-10 h-10 rounded-[12px] bg-rose-50 border border-rose-200 flex items-center justify-center shrink-0 text-rose-600">
+                <i className="fas fa-exclamation-triangle text-base"></i>
               </div>
               <div>
-                <h3 className="text-base font-extrabold text-white">{confirmModal.title}</h3>
-                <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400">Action Confirmation Required</span>
+                <h3 className="text-base font-bold text-[#17181C]">{confirmModal.title}</h3>
+                <span className="text-[10px] font-mono uppercase tracking-wider text-[#667085]">Action Confirmation Required</span>
               </div>
             </div>
 
-            <p className="text-xs text-slate-300 leading-relaxed font-sans">{confirmModal.message}</p>
+            <p className="text-xs text-[#667085] leading-relaxed font-sans">{confirmModal.message}</p>
 
-            <div className="flex items-center justify-end space-x-3 border-t border-slate-800/80 pt-4">
+            <div className="flex items-center justify-end space-x-3 border-t border-[#ECEEF1] pt-4">
               <button
                 type="button"
                 onClick={() => setConfirmModal({ open: false })}
-                className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-bold transition border border-slate-800 cursor-pointer"
+                className="px-4 py-2 rounded-[10px] bg-white hover:bg-[#F8F8F7] text-[#344054] text-xs font-semibold transition border border-[#ECEEF1] cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={confirmModal.onConfirm}
-                className={`px-4 py-2 rounded-xl text-white text-xs font-bold shadow-lg transition cursor-pointer ${confirmModal.confirmColor}`}
+                className={`px-4 py-2 rounded-[10px] text-white text-xs font-semibold shadow-2xs transition cursor-pointer ${confirmModal.confirmColor || 'bg-rose-600 hover:bg-rose-700'}`}
               >
                 {confirmModal.confirmText}
               </button>
@@ -2055,31 +2058,31 @@ export default function Layer0IdeaDiscovery() {
 
       {/* CUSTOM FRAMEWORK MODAL: Governance Sign-off Modal */}
       {governanceModal.open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 animate-fade-in">
-          <div className="w-full max-w-lg bg-[#0b0f19] border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-5 relative">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#17181C]/70 backdrop-blur-md p-4 animate-fade-in">
+          <div className="w-full max-w-lg bg-white border border-[#ECEEF1] rounded-[20px] p-6 shadow-2xl space-y-5 relative">
+            <div className="flex items-center justify-between border-b border-[#ECEEF1] pb-3">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center shrink-0">
-                  <i className="fas fa-gavel text-indigo-400 text-lg"></i>
+                <div className="w-10 h-10 rounded-[12px] bg-[#F4F1FF] text-[#7157F5] border border-[#E4DCFF] flex items-center justify-center shrink-0">
+                  <i className="fas fa-gavel text-base"></i>
                 </div>
                 <div>
-                  <h3 className="text-base font-extrabold text-white">Governance Board Decision</h3>
-                  <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400">Human Sign-off Gate</span>
+                  <h3 className="text-base font-bold text-[#17181C]">Governance Board Decision</h3>
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-[#667085]">Human Sign-off Gate</span>
                 </div>
               </div>
-              <span className={`px-2.5 py-1 rounded-lg text-xs font-black font-mono border ${
+              <span className={`px-2.5 py-1 rounded-[8px] text-xs font-bold font-mono border ${
                 governanceModal.decision === 'APPROVED'
-                  ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                  ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
                   : governanceModal.decision === 'CHANGES_REQUESTED'
-                  ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                  : 'bg-rose-500/20 text-rose-300 border-rose-500/40'
+                  ? 'bg-amber-50 text-amber-700 border-amber-200'
+                  : 'bg-rose-50 text-rose-700 border-rose-200'
               }`}>
                 {governanceModal.decision}
               </span>
             </div>
 
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-300 block">
+              <label className="text-xs font-bold text-[#344054] block">
                 {governanceModal.decision === 'APPROVED'
                   ? 'Sign-off Approval Comments / Authorization Notes:'
                   : 'Executive Draft Notes / Internal Review Comments:'}
@@ -2089,15 +2092,15 @@ export default function Layer0IdeaDiscovery() {
                 value={governanceModal.comments}
                 onChange={(e) => setGovernanceModal({ ...governanceModal, comments: e.target.value })}
                 placeholder="Enter executive sign-off notes..."
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 custom-scroll font-sans"
+                className="w-full bg-[#FAFAF9] border border-[#ECEEF1] rounded-[10px] p-3 text-xs text-[#17181C] focus:outline-none focus:border-[#7157F5] custom-scroll font-sans"
               ></textarea>
             </div>
 
-            <div className="flex items-center justify-end space-x-3 border-t border-slate-800/80 pt-4">
+            <div className="flex items-center justify-end space-x-3 border-t border-[#ECEEF1] pt-4">
               <button
                 type="button"
                 onClick={() => setGovernanceModal({ open: false, decision: '', comments: '' })}
-                className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-bold transition border border-slate-800 cursor-pointer"
+                className="px-4 py-2 rounded-[10px] bg-white hover:bg-[#F8F8F7] text-[#344054] text-xs font-semibold transition border border-[#ECEEF1] cursor-pointer"
               >
                 Cancel
               </button>
@@ -2105,10 +2108,10 @@ export default function Layer0IdeaDiscovery() {
                 type="button"
                 onClick={submitGovernanceDecision}
                 disabled={isProcessing}
-                className={`px-4 py-2 rounded-xl text-white text-xs font-bold shadow-lg transition cursor-pointer ${
+                className={`px-4 py-2 rounded-[10px] text-white text-xs font-semibold shadow-2xs transition cursor-pointer ${
                   governanceModal.decision === 'APPROVED'
-                    ? 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-600/30'
-                    : 'bg-indigo-600 hover:bg-indigo-500 shadow-indigo-600/30'
+                    ? 'bg-emerald-600 hover:bg-emerald-700'
+                    : 'bg-[#17181C] hover:bg-[#292B30]'
                 }`}
               >
                 {governanceModal.decision === 'APPROVED' ? 'Approve & Save' : 'Save as Draft'}
@@ -2128,48 +2131,48 @@ export default function Layer0IdeaDiscovery() {
 
       {/* Info Modal for Enterprise Discovery Workbench Overview */}
       {showInfoModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 animate-fade-in">
-          <div className="w-full max-w-lg bg-[#0b0f19] border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-4 relative">
-            <div className="flex items-start justify-between border-b border-slate-800 pb-3">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#17181C]/70 backdrop-blur-md p-4 animate-fade-in">
+          <div className="w-full max-w-lg bg-white border border-[#ECEEF1] rounded-[20px] p-6 shadow-2xl space-y-4 relative">
+            <div className="flex items-start justify-between border-b border-[#ECEEF1] pb-3">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
-                  <i className="fas fa-lightbulb text-lg"></i>
+                <div className="w-10 h-10 rounded-[12px] bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600 shrink-0">
+                  <i className="fas fa-lightbulb text-base"></i>
                 </div>
                 <div>
-                  <h3 className="text-base font-extrabold text-white">Enterprise Discovery & Requirement Formation</h3>
-                  <span className="text-[10px] font-mono uppercase tracking-wider text-indigo-400">Pre-SDD Requirement Formation Layer</span>
+                  <h3 className="text-base font-bold text-[#17181C]">Enterprise Discovery & Requirement Formation</h3>
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-[#7157F5]">Pre-SDD Requirement Formation Layer</span>
                 </div>
               </div>
               <button
                 onClick={() => setShowInfoModal(false)}
-                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition cursor-pointer"
+                className="text-[#98A2B3] hover:text-[#17181C] p-1 rounded-lg hover:bg-[#F8F8F7] transition cursor-pointer"
               >
                 <i className="fas fa-times"></i>
               </button>
             </div>
 
             <div className="flex flex-wrap gap-2 pt-1">
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">
+              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#F4F1FF] text-[#5F46D8] border border-[#E4DCFF]">
                 Enterprise Discovery & Requirement Formation
               </span>
-              <span className="px-2 py-0.5 rounded font-mono text-[9px] font-bold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+              <span className="px-2 py-0.5 rounded-[6px] font-mono text-[9px] font-bold bg-[#EBF3FF] text-[#0052CC] border border-[#B2DDFF]">
                 AUTO Mode (Minimum Sufficient Intelligence)
               </span>
             </div>
 
-            <div className="space-y-2 text-xs text-slate-300 leading-relaxed font-sans bg-slate-950 p-4 rounded-xl border border-slate-800">
-              <p className="font-semibold text-slate-200">
+            <div className="space-y-2 text-xs text-[#344054] leading-relaxed font-sans bg-[#FAFAF9] p-4 rounded-[12px] border border-[#ECEEF1]">
+              <p className="font-semibold text-[#17181C]">
                 Enterprise Discovery & Requirement Formation Workbench
               </p>
-              <p className="text-slate-400">
-                Converts raw business thoughts, incident tickets, mandates, and feedback into evidence-backed, financially modeled, enterprise-grade <code className="text-indigo-300 font-mono">Requirement.md</code> packages ready for Spec Kit.
+              <p className="text-[#667085]">
+                Converts raw business thoughts, incident tickets, mandates, and feedback into evidence-backed, financially modeled, enterprise-grade <code className="text-[#7157F5] font-mono">Requirement.md</code> packages ready for Spec Kit.
               </p>
             </div>
 
-            <div className="flex justify-end pt-2 border-t border-slate-800">
+            <div className="flex justify-end pt-2 border-t border-[#ECEEF1]">
               <button
                 onClick={() => setShowInfoModal(false)}
-                className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg shadow-indigo-600/30 transition cursor-pointer"
+                className="px-4 py-2 rounded-[10px] bg-[#17181C] hover:bg-[#292B30] text-white text-xs font-semibold shadow-sm transition cursor-pointer"
               >
                 Got It
               </button>
@@ -2179,23 +2182,23 @@ export default function Layer0IdeaDiscovery() {
       )}
 
       {showDebateModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 animate-fade-in">
-          <div className="w-full max-w-4xl bg-[#0b0f19] border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6 relative flex flex-col max-h-[90vh]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#17181C]/70 backdrop-blur-md p-4 animate-fade-in">
+          <div className="w-full max-w-4xl bg-white border border-[#ECEEF1] rounded-[20px] p-6 shadow-2xl space-y-6 relative flex flex-col max-h-[90vh]">
             
             {/* Modal Header */}
-            <div className="flex items-start justify-between border-b border-slate-800 pb-3 shrink-0">
+            <div className="flex items-start justify-between border-b border-[#ECEEF1] pb-3 shrink-0">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 shrink-0">
-                  <i className="fas fa-users-cog text-lg animate-spin [animation-duration:15s]"></i>
+                <div className="w-10 h-10 rounded-[12px] bg-[#F4F1FF] text-[#7157F5] border border-[#E4DCFF] flex items-center justify-center shrink-0">
+                  <i className="fas fa-users-cog text-base"></i>
                 </div>
                 <div>
-                  <h3 className="text-base font-extrabold text-white">Requirement Clarification Debate Workspace</h3>
-                  <span className="text-[10px] font-mono uppercase tracking-wider text-purple-400">P2P Persona Alignment Simulator</span>
+                  <h3 className="text-base font-bold text-[#17181C]">Requirement Clarification Debate Workspace</h3>
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-[#7157F5]">P2P Persona Alignment Simulator</span>
                 </div>
               </div>
               <button
                 onClick={() => setShowDebateModal(false)}
-                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition cursor-pointer"
+                className="text-[#98A2B3] hover:text-[#17181C] p-1 rounded-lg hover:bg-[#F8F8F7] transition cursor-pointer"
               >
                 <i className="fas fa-times"></i>
               </button>
@@ -2208,33 +2211,33 @@ export default function Layer0IdeaDiscovery() {
               <div className="space-y-5 flex flex-col h-full">
                 
                 {/* Tabs Header */}
-                <div className="flex items-center space-x-2 border-b border-slate-800 pb-2.5 shrink-0">
+                <div className="flex items-center space-x-2 border-b border-[#ECEEF1] pb-2.5 shrink-0">
                   <button
                     type="button"
                     onClick={() => setDebateTab('configs')}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer ${
+                    className={`px-3 py-1.5 rounded-[10px] text-xs font-semibold transition flex items-center space-x-1.5 cursor-pointer ${
                       debateTab === 'configs'
-                        ? 'bg-purple-600/20 text-purple-300 border border-purple-500/40 shadow-lg'
-                        : 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-white'
+                        ? 'bg-[#F4F1FF] text-[#17181C] font-bold border border-[#E4DCFF] shadow-2xs'
+                        : 'bg-white text-[#667085] border border-[#ECEEF1] hover:bg-[#F8F8F7]'
                     }`}
                   >
-                    <i className="fas fa-sliders-h text-xs"></i>
+                    <i className="fas fa-sliders-h text-xs text-[#7157F5]"></i>
                     <span>Debate Configs</span>
                   </button>
 
                   <button
                     type="button"
                     onClick={() => setDebateTab('outcomes')}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer ${
+                    className={`px-3 py-1.5 rounded-[10px] text-xs font-semibold transition flex items-center space-x-1.5 cursor-pointer ${
                       debateTab === 'outcomes'
-                        ? 'bg-indigo-600/20 text-indigo-300 border border-indigo-500/40 shadow-lg'
-                        : 'bg-slate-900 text-slate-400 border border-slate-800 hover:text-white'
+                        ? 'bg-[#F4F1FF] text-[#17181C] font-bold border border-[#E4DCFF] shadow-2xs'
+                        : 'bg-white text-[#667085] border border-[#ECEEF1] hover:bg-[#F8F8F7]'
                     }`}
                   >
-                    <i className="fas fa-clipboard-list text-xs"></i>
+                    <i className="fas fa-clipboard-list text-xs text-[#7157F5]"></i>
                     <span>Debate Outcomes</span>
                     {currentIdeaState?.debateCircleResult && (
-                      <span className="px-1.5 py-0.2 rounded-full text-[9px] bg-indigo-950/60 text-indigo-400 font-mono border border-indigo-800 font-bold ml-1.5">
+                      <span className="px-1.5 py-0.2 rounded-full text-[9px] bg-[#ECFDF3] text-[#067647] font-mono border border-[#ABEFC6] font-bold ml-1.5">
                         RESOLVED
                       </span>
                     )}
@@ -2247,25 +2250,25 @@ export default function Layer0IdeaDiscovery() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Debate Name */}
                       <div className="space-y-1.5">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Debate Name</label>
+                        <label className="text-[10px] font-bold text-[#667085] uppercase tracking-wider">Debate Name</label>
                         <input 
                           type="text"
                           value={debateName}
                           onChange={(e) => setDebateName(e.target.value)}
                           placeholder="e.g. SDLC Debate Circle"
-                          className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 transition font-medium"
+                          className="w-full bg-[#FAFAF9] border border-[#ECEEF1] rounded-[10px] p-3 text-xs text-[#17181C] focus:outline-none focus:border-[#7157F5] transition font-medium"
                         />
                       </div>
 
                       {/* Topic / Artefact */}
                       <div className="space-y-1.5">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Topic / Artefact</label>
+                        <label className="text-[10px] font-bold text-[#667085] uppercase tracking-wider">Topic / Artefact</label>
                         <input 
                           type="text"
                           value={debateTopic}
                           onChange={(e) => setDebateTopic(e.target.value)}
                           placeholder="e.g. SDLC Architecture & Security Artefacts"
-                          className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 transition font-medium"
+                          className="w-full bg-[#FAFAF9] border border-[#ECEEF1] rounded-[10px] p-3 text-xs text-[#17181C] focus:outline-none focus:border-[#7157F5] transition font-medium"
                         />
                       </div>
                     </div>
@@ -2273,8 +2276,8 @@ export default function Layer0IdeaDiscovery() {
                     {/* Debate Rounds Slider */}
                     <div className="space-y-2">
                       <div className="flex items-center justify-between">
-                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                          Debate Rounds: <span className="text-indigo-400 font-mono font-bold text-xs">{debateRounds}</span>
+                        <label className="text-[10px] font-bold text-[#667085] uppercase tracking-wider">
+                          Debate Rounds: <span className="text-[#7157F5] font-mono font-bold text-xs">{debateRounds}</span>
                         </label>
                       </div>
                       <input 
@@ -2283,22 +2286,22 @@ export default function Layer0IdeaDiscovery() {
                         max="10"
                         value={debateRounds}
                         onChange={(e) => setDebateRounds(parseInt(e.target.value))}
-                        className="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
+                        className="w-full h-1.5 bg-[#ECEEF1] rounded-lg appearance-none cursor-pointer accent-[#7157F5]"
                       />
                     </div>
 
                     {/* Consensus Mode Selector */}
                     <div className="space-y-2">
-                      <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Consensus Mode</label>
-                      <div className="flex rounded-xl bg-slate-950/80 p-1 border border-slate-800">
+                      <label className="text-[10px] font-bold text-[#667085] uppercase tracking-wider">Consensus Mode</label>
+                      <div className="flex rounded-[10px] bg-[#FAFAF9] p-1 border border-[#ECEEF1]">
                         {['Majority', 'Unanimous', 'Moderated'].map((mode) => (
                           <button
                             key={mode}
                             onClick={() => setConsensusMode(mode)}
-                            className={`flex-1 py-2 text-xs font-bold rounded-lg transition cursor-pointer ${
+                            className={`flex-1 py-2 text-xs font-semibold rounded-[8px] transition cursor-pointer ${
                               consensusMode === mode
-                                ? 'bg-indigo-600 text-white shadow shadow-indigo-600/30'
-                                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                                ? 'bg-white text-[#17181C] shadow-2xs font-bold border border-[#ECEEF1]'
+                                : 'text-[#667085] hover:text-[#17181C]'
                             }`}
                           >
                             {mode}
@@ -2314,15 +2317,15 @@ export default function Layer0IdeaDiscovery() {
                   <div className="space-y-5 animate-fade-in flex-1 overflow-y-auto pr-1 custom-scroll max-h-[50vh]">
                     {currentIdeaState?.debateCircleResult ? (
                       <div className="space-y-4">
-                        <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                          <h4 className="text-[10px] font-bold text-slate-300 uppercase tracking-wider flex items-center gap-1.5">
-                            <i className="fas fa-clipboard-check text-indigo-400"></i>
+                        <div className="flex items-center justify-between border-b border-[#ECEEF1] pb-2">
+                          <h4 className="text-[10px] font-bold text-[#17181C] uppercase tracking-wider flex items-center gap-1.5">
+                            <i className="fas fa-clipboard-check text-[#7157F5]"></i>
                             Consolidated Debate Outcome
                           </h4>
-                          <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold border ${
+                          <span className={`text-[10px] font-mono px-2 py-0.5 rounded-[6px] font-bold border ${
                             currentIdeaState.debateCircleResult.consolidated?.conformanceScore >= 80
-                              ? 'bg-emerald-950/80 text-emerald-400 border-emerald-800'
-                              : 'bg-amber-950/80 text-amber-400 border-amber-800'
+                              ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                              : 'bg-amber-50 text-amber-700 border-amber-200'
                           }`}>
                             Conformance: {currentIdeaState.debateCircleResult.consolidated?.conformanceScore || 75}%
                           </span>
@@ -2331,8 +2334,8 @@ export default function Layer0IdeaDiscovery() {
                         <div className="space-y-3 text-xs">
                           {/* Pros */}
                           <div className="space-y-1">
-                            <span className="text-[9px] font-bold text-emerald-400 uppercase tracking-wider block">Pros / Advantages</span>
-                            <ul className="list-disc list-inside text-slate-300 space-y-0.5">
+                            <span className="text-[9px] font-bold text-emerald-700 uppercase tracking-wider block">Pros / Advantages</span>
+                            <ul className="list-disc list-inside text-[#344054] space-y-0.5">
                               {(currentIdeaState.debateCircleResult.consolidated?.pros || []).map((pro, i) => (
                                 <li key={i}>{typeof pro === 'string' ? pro : (pro?.text || pro?.statement || JSON.stringify(pro))}</li>
                               ))}
@@ -2341,8 +2344,8 @@ export default function Layer0IdeaDiscovery() {
 
                           {/* Cons */}
                           <div className="space-y-1">
-                            <span className="text-[9px] font-bold text-rose-400 uppercase tracking-wider block">Cons / Risks</span>
-                            <ul className="list-disc list-inside text-slate-300 space-y-0.5">
+                            <span className="text-[9px] font-bold text-rose-700 uppercase tracking-wider block">Cons / Risks</span>
+                            <ul className="list-disc list-inside text-[#344054] space-y-0.5">
                               {(currentIdeaState.debateCircleResult.consolidated?.cons || []).map((con, i) => (
                                 <li key={i}>{typeof con === 'string' ? con : (con?.text || con?.statement || JSON.stringify(con))}</li>
                               ))}
@@ -2351,18 +2354,18 @@ export default function Layer0IdeaDiscovery() {
 
                           {/* Clarification Questions */}
                           <div className="space-y-1">
-                            <span className="text-[9px] font-bold text-amber-400 uppercase tracking-wider block">Mandatory Clarification Questions</span>
-                            <ul className="list-disc list-inside text-slate-300 space-y-0.5">
+                            <span className="text-[9px] font-bold text-amber-700 uppercase tracking-wider block">Mandatory Clarification Questions</span>
+                            <ul className="list-disc list-inside text-[#344054] space-y-0.5">
                               {(currentIdeaState.debateCircleResult.consolidated?.clarifications || []).map((q, i) => (
-                                <li key={i} className="text-amber-300/90">{typeof q === 'string' ? q : (q?.statement || q?.question || q?.text || JSON.stringify(q))}</li>
+                                <li key={i} className="text-amber-800">{typeof q === 'string' ? q : (q?.statement || q?.question || q?.text || JSON.stringify(q))}</li>
                               ))}
                             </ul>
                           </div>
                         </div>
 
                         {/* Detailed Debate Logs Accordion */}
-                        <details className="border-t border-slate-800 pt-3 group">
-                          <summary className="text-[10px] font-bold text-indigo-400 hover:text-indigo-300 cursor-pointer list-none flex items-center justify-between">
+                        <details className="border-t border-[#ECEEF1] pt-3 group">
+                          <summary className="text-[10px] font-bold text-[#7157F5] hover:text-[#5F46D8] cursor-pointer list-none flex items-center justify-between">
                             <span>View Debate Transcript Logs</span>
                             <i className="fas fa-chevron-down text-[8px] group-open:rotate-180 transition-transform"></i>
                           </summary>
@@ -2371,12 +2374,12 @@ export default function Layer0IdeaDiscovery() {
                               const isPO = speech.persona === 'PO';
                               const isBA = speech.persona === 'BA';
                               const colorClass = isPO 
-                                ? 'bg-amber-500/5 border-amber-500/20 text-amber-300/90' 
+                                ? 'bg-amber-50 border-amber-200 text-amber-900' 
                                 : isBA 
-                                  ? 'bg-fuchsia-500/5 border-fuchsia-500/20 text-fuchsia-300/90' 
-                                  : 'bg-sky-500/5 border-sky-500/20 text-sky-300/90';
+                                  ? 'bg-purple-50 border-purple-200 text-purple-900' 
+                                  : 'bg-sky-50 border-sky-200 text-sky-900';
                               return (
-                                <div key={idx} className={`p-2.5 rounded-lg border ${colorClass} space-y-1`}>
+                                <div key={idx} className={`p-2.5 rounded-[8px] border ${colorClass} space-y-1`}>
                                   <div className="flex items-center justify-between font-bold text-[10px]">
                                     <span>{speech.name} ({speech.title})</span>
                                     <span className="opacity-60 font-mono">Round {speech.round}</span>
@@ -2389,9 +2392,9 @@ export default function Layer0IdeaDiscovery() {
                         </details>
                       </div>
                     ) : (
-                      <div className="flex flex-col items-center justify-center py-12 text-slate-500 space-y-2">
-                        <i className="fas fa-clipboard-list text-3xl text-slate-700"></i>
-                        <p className="text-xs text-center text-slate-400 leading-relaxed">No debate outcomes simulated yet.<br />Run the combined analysis suite on the main dashboard to generate results.</p>
+                      <div className="flex flex-col items-center justify-center py-12 text-[#667085] space-y-2">
+                        <i className="fas fa-clipboard-list text-3xl text-[#98A2B3]"></i>
+                        <p className="text-xs text-center text-[#667085] leading-relaxed">No debate outcomes simulated yet.<br />Run the combined analysis suite on the main dashboard to generate results.</p>
                       </div>
                     )}
                   </div>
@@ -2399,73 +2402,63 @@ export default function Layer0IdeaDiscovery() {
               </div>
 
               {/* Right Column: Circle/Triangle Connection Diagram */}
-              <div className="flex flex-col items-center justify-center p-4 rounded-2xl bg-slate-950 border border-slate-800/60 relative overflow-hidden min-h-[300px]">
+              <div className="flex flex-col items-center justify-center p-4 rounded-[16px] bg-[#FAFAF9] border border-[#ECEEF1] relative overflow-hidden min-h-[300px]">
                 
                 {/* SVG Connecting Lines and Nodes */}
                 <svg className="w-full h-full max-w-[340px] max-h-[280px] z-10" viewBox="0 0 400 300">
                   
-                  {/* Glowing Connecting Lines (Triangle) */}
-                  <g className="stroke-indigo-500/30 stroke-2">
-                    {/* Line PO -> TA */}
-                    <line x1="200" y1="65" x2="90" y2="215" strokeDasharray="5,5" className="animate-dash" />
-                    {/* Line TA -> BA */}
-                    <line x1="90" y1="215" x2="310" y2="215" strokeDasharray="5,5" className="animate-dash" />
-                    {/* Line BA -> PO */}
-                    <line x1="310" y1="215" x2="200" y2="65" strokeDasharray="5,5" className="animate-dash" />
+                  {/* Connecting Lines (Triangle) */}
+                  <g className="stroke-[#D0D5DD] stroke-2">
+                    <line x1="200" y1="65" x2="90" y2="215" strokeDasharray="5,5" />
+                    <line x1="90" y1="215" x2="310" y2="215" strokeDasharray="5,5" />
+                    <line x1="310" y1="215" x2="200" y2="65" strokeDasharray="5,5" />
                   </g>
 
                   {/* Nodes */}
-                  {/* Node 1: Product Owner (PO) */}
                   <g transform="translate(200, 65)">
-                    <circle r="36" className="fill-[#0b0f19] stroke-amber-500 stroke-2 filter drop-shadow-[0_0_8px_rgba(245,158,11,0.2)]" />
-                    <circle r="30" className="fill-amber-500/10" />
-                    <text y="5" textAnchor="middle" className="fill-amber-400 font-extrabold text-sm font-sans tracking-tight">PO</text>
+                    <circle r="36" className="fill-white stroke-amber-500 stroke-2 filter drop-shadow-[0_2px_8px_rgba(245,158,11,0.15)]" />
+                    <circle r="30" className="fill-amber-50" />
+                    <text y="5" textAnchor="middle" className="fill-amber-700 font-extrabold text-sm font-sans tracking-tight">PO</text>
                   </g>
 
-                  {/* Node 2: Technical Architect (TA) */}
                   <g transform="translate(90, 215)">
-                    <circle r="36" className="fill-[#0b0f19] stroke-sky-500 stroke-2 filter drop-shadow-[0_0_8px_rgba(14,165,233,0.2)]" />
-                    <circle r="30" className="fill-sky-500/10" />
-                    <text y="5" textAnchor="middle" className="fill-sky-400 font-extrabold text-sm font-sans tracking-tight">TA</text>
+                    <circle r="36" className="fill-white stroke-sky-500 stroke-2 filter drop-shadow-[0_2px_8px_rgba(14,165,233,0.15)]" />
+                    <circle r="30" className="fill-sky-50" />
+                    <text y="5" textAnchor="middle" className="fill-sky-700 font-extrabold text-sm font-sans tracking-tight">TA</text>
                   </g>
 
-                  {/* Node 3: Business Analyst (BA) */}
                   <g transform="translate(310, 215)">
-                    <circle r="36" className="fill-[#0b0f19] stroke-fuchsia-500 stroke-2 filter drop-shadow-[0_0_8px_rgba(217,70,239,0.2)]" />
-                    <circle r="30" className="fill-fuchsia-500/10" />
-                    <text y="5" textAnchor="middle" className="fill-fuchsia-400 font-extrabold text-sm font-sans tracking-tight">BA</text>
+                    <circle r="36" className="fill-white stroke-fuchsia-500 stroke-2 filter drop-shadow-[0_2px_8px_rgba(217,70,239,0.15)]" />
+                    <circle r="30" className="fill-fuchsia-50" />
+                    <text y="5" textAnchor="middle" className="fill-fuchsia-700 font-extrabold text-sm font-sans tracking-tight">BA</text>
                   </g>
 
-                  {/* Center Node representing Consensus */}
+                  {/* Center Node */}
                   <g transform="translate(200, 165)">
-                    <circle r="22" className="fill-slate-950 stroke-purple-500/40 stroke-2 animate-pulse" />
-                    <circle r="14" className="fill-purple-500/20" />
-                    <text y="4" textAnchor="middle" className="fill-purple-400 font-bold text-[9px] font-mono tracking-tight">ALIGN</text>
+                    <circle r="22" className="fill-[#F4F1FF] stroke-[#7157F5] stroke-2" />
+                    <text y="4" textAnchor="middle" className="fill-[#5F46D8] font-bold text-[9px] font-mono tracking-tight">ALIGN</text>
                   </g>
                 </svg>
 
                 {/* Legend Overlay labels */}
-                <div className="absolute top-2 left-1/2 -translate-x-1/2 bg-slate-900/90 border border-slate-800 px-3 py-1 rounded-full text-[9px] font-bold text-slate-300 shadow">
+                <div className="absolute top-2 left-1/2 -translate-x-1/2 bg-white border border-[#ECEEF1] px-3 py-1 rounded-full text-[9px] font-semibold text-[#344054] shadow-2xs">
                   Product Owner (PO)
                 </div>
-                <div className="absolute bottom-2 left-4 bg-slate-900/90 border border-slate-800 px-3 py-1 rounded-full text-[9px] font-bold text-slate-300 shadow">
+                <div className="absolute bottom-2 left-4 bg-white border border-[#ECEEF1] px-3 py-1 rounded-full text-[9px] font-semibold text-[#344054] shadow-2xs">
                   Tech Architect (TA)
                 </div>
-                <div className="absolute bottom-2 right-4 bg-slate-900/90 border border-slate-800 px-3 py-1 rounded-full text-[9px] font-bold text-slate-300 shadow">
+                <div className="absolute bottom-2 right-4 bg-white border border-[#ECEEF1] px-3 py-1 rounded-full text-[9px] font-semibold text-[#344054] shadow-2xs">
                   Business Analyst (BA)
                 </div>
-
-                {/* Background grid visual accent */}
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none"></div>
               </div>
 
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-end space-x-3 border-t border-slate-800/80 pt-4 shrink-0">
+            <div className="flex items-center justify-end space-x-3 border-t border-[#ECEEF1] pt-4 shrink-0">
               <button
                 onClick={() => setShowDebateModal(false)}
-                className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-bold transition border border-slate-800 cursor-pointer"
+                className="px-4 py-2 rounded-[10px] bg-white hover:bg-[#F8F8F7] text-[#344054] text-xs font-semibold transition border border-[#ECEEF1] cursor-pointer"
               >
                 Cancel
               </button>
@@ -2474,9 +2467,9 @@ export default function Layer0IdeaDiscovery() {
                   setShowDebateModal(false);
                   showNotification('Alignment debate simulation started cleanly!');
                 }}
-                className="px-5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold shadow-lg shadow-indigo-600/30 transition cursor-pointer flex items-center space-x-2"
+                className="px-5 py-2 rounded-[10px] bg-[#17181C] hover:bg-[#292B30] text-white text-xs font-semibold shadow-sm transition cursor-pointer flex items-center space-x-2"
               >
-                <i className="fas fa-save text-[10px]"></i>
+                <i className="fas fa-save text-[10px] text-[#7157F5]"></i>
                 <span>Save</span>
               </button>
             </div>
@@ -2485,23 +2478,23 @@ export default function Layer0IdeaDiscovery() {
       )}
 
       {showMlModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 animate-fade-in">
-          <div className="w-full max-w-4xl bg-[#0b0f19] border border-slate-800 rounded-2xl p-6 shadow-2xl space-y-6 relative flex flex-col max-h-[90vh]">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#17181C]/70 backdrop-blur-md p-4 animate-fade-in">
+          <div className="w-full max-w-4xl bg-white border border-[#ECEEF1] rounded-[20px] p-6 shadow-2xl space-y-6 relative flex flex-col max-h-[90vh]">
             
             {/* Modal Header */}
-            <div className="flex items-start justify-between border-b border-slate-800 pb-3 shrink-0">
+            <div className="flex items-start justify-between border-b border-[#ECEEF1] pb-3 shrink-0">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400 shrink-0">
-                  <i className="fas fa-brain text-lg animate-pulse"></i>
+                <div className="w-10 h-10 rounded-[12px] bg-[#F4F1FF] text-[#7157F5] border border-[#E4DCFF] flex items-center justify-center shrink-0">
+                  <i className="fas fa-brain text-base"></i>
                 </div>
                 <div>
-                  <h3 className="text-base font-extrabold text-white">Ambiguity Analyzer Workspace</h3>
-                  <span className="text-[10px] font-mono uppercase tracking-wider text-cyan-400">Heuristic Ambiguity Scanner & Logical Gap Detector</span>
+                  <h3 className="text-base font-bold text-[#17181C]">Ambiguity Analyzer Workspace</h3>
+                  <span className="text-[10px] font-mono uppercase tracking-wider text-[#7157F5]">Heuristic Ambiguity Scanner & Logical Gap Detector</span>
                 </div>
               </div>
               <button
                 onClick={() => setShowMlModal(false)}
-                className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 transition cursor-pointer"
+                className="text-[#98A2B3] hover:text-[#17181C] p-1 rounded-lg hover:bg-[#F8F8F7] transition cursor-pointer"
               >
                 <i className="fas fa-times"></i>
               </button>
@@ -2515,25 +2508,25 @@ export default function Layer0IdeaDiscovery() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Model Name */}
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Model Name</label>
+                    <label className="text-[10px] font-bold text-[#667085] uppercase tracking-wider">Model Name</label>
                     <input 
                       type="text"
                       value={mlModelName}
                       onChange={(e) => setMlModelName(e.target.value)}
                       placeholder="e.g. Gemini 2.5 Pro"
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 transition font-medium"
+                      className="w-full bg-[#FAFAF9] border border-[#ECEEF1] rounded-[10px] p-3 text-xs text-[#17181C] focus:outline-none focus:border-[#7157F5] transition font-medium"
                     />
                   </div>
 
                   {/* Target Dataset */}
                   <div className="space-y-1.5">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Target Dataset</label>
+                    <label className="text-[10px] font-bold text-[#667085] uppercase tracking-wider">Target Dataset</label>
                     <input 
                       type="text"
                       value={mlDataset}
                       onChange={(e) => setMlDataset(e.target.value)}
                       placeholder="e.g. Enterprise SDLC Repositories"
-                      className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-200 focus:outline-none focus:border-cyan-500 transition font-medium"
+                      className="w-full bg-[#FAFAF9] border border-[#ECEEF1] rounded-[10px] p-3 text-xs text-[#17181C] focus:outline-none focus:border-[#7157F5] transition font-medium"
                     />
                   </div>
                 </div>
@@ -2541,8 +2534,8 @@ export default function Layer0IdeaDiscovery() {
                 {/* Threshold Slider */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
-                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
-                      Feasibility Threshold: <span className="text-cyan-400 font-mono font-bold text-xs">{mlThreshold}%</span>
+                    <label className="text-[10px] font-bold text-[#667085] uppercase tracking-wider">
+                      Feasibility Threshold: <span className="text-[#7157F5] font-mono font-bold text-xs">{mlThreshold}%</span>
                     </label>
                   </div>
                   <input 
@@ -2551,22 +2544,22 @@ export default function Layer0IdeaDiscovery() {
                     max="100"
                     value={mlThreshold}
                     onChange={(e) => setMlThreshold(parseInt(e.target.value))}
-                    className="w-full h-1 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-cyan-500"
+                    className="w-full h-1.5 bg-[#ECEEF1] rounded-lg appearance-none cursor-pointer accent-[#7157F5]"
                   />
                 </div>
 
                 {/* Analysis Mode Selector */}
                 <div className="space-y-2">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Analysis Mode</label>
-                  <div className="flex rounded-xl bg-slate-950/80 p-1 border border-slate-800">
+                  <label className="text-[10px] font-bold text-[#667085] uppercase tracking-wider">Analysis Mode</label>
+                  <div className="flex rounded-[10px] bg-[#FAFAF9] p-1 border border-[#ECEEF1]">
                     {['Feasibility', 'Cost/Token', 'Latency'].map((mode) => (
                       <button
                         key={mode}
                         onClick={() => setMlAnalysisMode(mode)}
-                        className={`flex-1 py-2 text-xs font-bold rounded-lg transition cursor-pointer ${
+                        className={`flex-1 py-2 text-xs font-semibold rounded-[8px] transition cursor-pointer ${
                           mlAnalysisMode === mode
-                            ? 'bg-cyan-600 text-white shadow shadow-cyan-600/30'
-                            : 'text-slate-400 hover:text-slate-200 hover:bg-slate-900/60'
+                            ? 'bg-white text-[#17181C] shadow-2xs font-bold border border-[#ECEEF1]'
+                            : 'text-[#667085] hover:text-[#17181C]'
                         }`}
                       >
                         {mode}
@@ -2576,13 +2569,13 @@ export default function Layer0IdeaDiscovery() {
                 </div>
 
                 {/* Status Indicator / Simulation log */}
-                <div className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-2">
-                  <h4 className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-500 animate-ping"></span>
+                <div className="p-4 rounded-[12px] bg-[#FAFAF9] border border-[#ECEEF1] space-y-2">
+                  <h4 className="text-[10px] font-bold text-[#667085] uppercase tracking-wider flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#7157F5] animate-ping"></span>
                     Model Metrics
                   </h4>
-                  <div className="font-mono text-[10px] text-slate-400 space-y-1">
-                    <p className="text-cyan-400/90">&gt; Engine: {mlModelName}</p>
+                  <div className="font-mono text-[10px] text-[#344054] space-y-1">
+                    <p className="text-[#5F46D8]">&gt; Engine: {mlModelName}</p>
                     <p>&gt; Data Pipeline: {mlDataset || 'None'}</p>
                     <p>&gt; Target Confidence Level: {mlThreshold}%</p>
                   </div>
@@ -2590,66 +2583,63 @@ export default function Layer0IdeaDiscovery() {
               </div>
 
               {/* Right Column: Connection/Flow Diagram */}
-              <div className="flex flex-col items-center justify-center p-4 rounded-2xl bg-slate-950 border border-slate-800/60 relative overflow-hidden min-h-[300px]">
+              <div className="flex flex-col items-center justify-center p-4 rounded-[16px] bg-[#FAFAF9] border border-[#ECEEF1] relative overflow-hidden min-h-[300px]">
                 
                 {/* SVG Flow diagram */}
                 <svg className="w-full h-full max-w-[340px] max-h-[280px] z-10" viewBox="0 0 400 300">
                   
                   {/* Connecting flow lines */}
-                  <g className="stroke-cyan-500/30 stroke-2">
-                    <line x1="100" y1="150" x2="200" y2="80" strokeDasharray="5,5" className="animate-dash" />
-                    <line x1="200" y1="80" x2="300" y2="150" strokeDasharray="5,5" className="animate-dash" />
-                    <line x1="300" y1="150" x2="200" y2="220" strokeDasharray="5,5" className="animate-dash" />
-                    <line x1="200" y1="220" x2="100" y2="150" strokeDasharray="5,5" className="animate-dash" />
+                  <g className="stroke-[#D0D5DD] stroke-2">
+                    <line x1="100" y1="150" x2="200" y2="80" strokeDasharray="5,5" />
+                    <line x1="200" y1="80" x2="300" y2="150" strokeDasharray="5,5" />
+                    <line x1="300" y1="150" x2="200" y2="220" strokeDasharray="5,5" />
+                    <line x1="200" y1="220" x2="100" y2="150" strokeDasharray="5,5" />
                   </g>
 
                   {/* Nodes */}
                   <g transform="translate(100, 150)">
-                    <circle r="30" className="fill-[#0b0f19] stroke-cyan-500 stroke-2 filter drop-shadow-[0_0_8px_rgba(6,182,212,0.2)]" />
-                    <text y="4" textAnchor="middle" className="fill-cyan-400 font-extrabold text-[10px] font-sans tracking-tight">INGEST</text>
+                    <circle r="30" className="fill-white stroke-[#008DA6] stroke-2 filter drop-shadow-[0_2px_8px_rgba(0,141,166,0.15)]" />
+                    <text y="4" textAnchor="middle" className="fill-[#008DA6] font-bold text-[10px] font-sans tracking-tight">INGEST</text>
                   </g>
 
                   <g transform="translate(200, 80)">
-                    <circle r="30" className="fill-[#0b0f19] stroke-teal-500 stroke-2 filter drop-shadow-[0_0_8px_rgba(20,184,166,0.2)]" />
-                    <text y="4" textAnchor="middle" className="fill-teal-400 font-extrabold text-[10px] font-sans tracking-tight">PROCESS</text>
+                    <circle r="30" className="fill-white stroke-[#16B8A6] stroke-2 filter drop-shadow-[0_2px_8px_rgba(20,184,166,0.15)]" />
+                    <text y="4" textAnchor="middle" className="fill-[#16B8A6] font-bold text-[10px] font-sans tracking-tight">PROCESS</text>
                   </g>
 
                   <g transform="translate(300, 150)">
-                    <circle r="30" className="fill-[#0b0f19] stroke-indigo-500 stroke-2 filter drop-shadow-[0_0_8px_rgba(99,102,241,0.2)]" />
-                    <text y="4" textAnchor="middle" className="fill-indigo-400 font-extrabold text-[10px] font-sans tracking-tight">INFER</text>
+                    <circle r="30" className="fill-white stroke-[#7157F5] stroke-2 filter drop-shadow-[0_2px_8px_rgba(113,87,245,0.15)]" />
+                    <text y="4" textAnchor="middle" className="fill-[#7157F5] font-bold text-[10px] font-sans tracking-tight">INFER</text>
                   </g>
 
                   <g transform="translate(200, 220)">
-                    <circle r="30" className="fill-[#0b0f19] stroke-emerald-500 stroke-2 filter drop-shadow-[0_0_8px_rgba(16,185,129,0.2)]" />
-                    <text y="4" textAnchor="middle" className="fill-emerald-400 font-extrabold text-[10px] font-sans tracking-tight">FEEDBACK</text>
+                    <circle r="30" className="fill-white stroke-[#067647] stroke-2 filter drop-shadow-[0_2px_8px_rgba(6,118,71,0.15)]" />
+                    <text y="4" textAnchor="middle" className="fill-[#067647] font-bold text-[10px] font-sans tracking-tight">FEEDBACK</text>
                   </g>
 
-                  {/* Center Node representing Consensus */}
+                  {/* Center Node */}
                   <g transform="translate(200, 150)">
-                    <circle r="20" className="fill-slate-950 stroke-cyan-500/40 stroke-2 animate-pulse" />
-                    <text y="4" textAnchor="middle" className="fill-cyan-300 font-bold text-[9px] font-mono tracking-tight">ML</text>
+                    <circle r="20" className="fill-[#F4F1FF] stroke-[#7157F5] stroke-2" />
+                    <text y="4" textAnchor="middle" className="fill-[#5F46D8] font-bold text-[9px] font-mono tracking-tight">ML</text>
                   </g>
                 </svg>
 
                 {/* Legend Overlay labels */}
-                <div className="absolute top-2 left-12 bg-slate-900/90 border border-slate-800 px-3 py-1 rounded-full text-[9px] font-bold text-slate-300 shadow">
+                <div className="absolute top-2 left-12 bg-white border border-[#ECEEF1] px-3 py-1 rounded-full text-[9px] font-semibold text-[#344054] shadow-2xs">
                   Data Pipelines
                 </div>
-                <div className="absolute bottom-2 right-12 bg-slate-900/90 border border-slate-800 px-3 py-1 rounded-full text-[9px] font-bold text-slate-300 shadow">
+                <div className="absolute bottom-2 right-12 bg-white border border-[#ECEEF1] px-3 py-1 rounded-full text-[9px] font-semibold text-[#344054] shadow-2xs">
                   Closed Loop Learning
                 </div>
-
-                {/* Background grid visual accent */}
-                <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:16px_16px] pointer-events-none"></div>
               </div>
 
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-end space-x-3 border-t border-slate-800/80 pt-4 shrink-0">
+            <div className="flex items-center justify-end space-x-3 border-t border-[#ECEEF1] pt-4 shrink-0">
               <button
                 onClick={() => setShowMlModal(false)}
-                className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 text-xs font-bold transition border border-slate-800 cursor-pointer"
+                className="px-4 py-2 rounded-[10px] bg-white hover:bg-[#F8F8F7] text-[#344054] text-xs font-semibold transition border border-[#ECEEF1] cursor-pointer"
               >
                 Cancel
               </button>
@@ -2658,11 +2648,52 @@ export default function Layer0IdeaDiscovery() {
                   setShowMlModal(false);
                   showNotification('Ambiguity Analyzer configuration saved successfully!');
                 }}
-                className="px-5 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold shadow-lg shadow-cyan-600/30 transition cursor-pointer flex items-center space-x-2"
+                className="px-5 py-2 rounded-[10px] bg-[#17181C] hover:bg-[#292B30] text-white text-xs font-semibold shadow-sm transition cursor-pointer flex items-center space-x-2"
               >
-                <i className="fas fa-save text-[10px]"></i>
+                <i className="fas fa-save text-[10px] text-[#7157F5]"></i>
                 <span>Save</span>
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 5. FULLSCREEN ARCHITECTURE LIGHTBOX MODAL */}
+      {fullscreenImage && (
+        <div
+          onClick={() => setFullscreenImage(false)}
+          className="fixed inset-0 z-50 bg-[#17181C]/75 backdrop-blur-md p-4 sm:p-8 flex flex-col items-center justify-center animate-fade-in cursor-zoom-out"
+        >
+          <div className="relative max-w-7xl w-full bg-white p-4 sm:p-6 rounded-[20px] shadow-2xl border border-[#ECEEF1] space-y-4" onClick={e => e.stopPropagation()}>
+            <div className="flex items-center justify-between border-b border-[#ECEEF1] pb-3">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-[10px] bg-[#F4F1FF] text-[#7157F5] border border-[#E4DCFF] flex items-center justify-center">
+                  <i className="fas fa-sitemap text-xs"></i>
+                </div>
+                <div>
+                  <h3 className="text-sm font-bold text-[#17181C]">
+                    TCS ValueThread Architecture & Pipeline Specification
+                  </h3>
+                  <p className="text-[11px] text-[#667085]">Zero-Hallucination Multi-Agent Specification Synthesis Flow</p>
+                </div>
+              </div>
+              <button
+                onClick={() => setFullscreenImage(false)}
+                className="p-2 rounded-[10px] text-[#98A2B3] hover:text-[#17181C] hover:bg-[#F8F8F7] transition-colors cursor-pointer"
+              >
+                <i className="fas fa-times text-sm"></i>
+              </button>
+            </div>
+            <div className="overflow-auto max-h-[78vh] flex items-center justify-center p-2 bg-[#FAFAF9] rounded-[12px] border border-[#ECEEF1]">
+              <img
+                src="/branding/tcs-valuethread-light-banner.png"
+                alt="TCS ValueThread Architecture Blueprint"
+                className="w-full h-auto object-contain rounded-[8px]"
+                onError={(e) => {
+                  e.currentTarget.onerror = null;
+                  e.currentTarget.src = "/branding/tcs-valuethread-full-logo-tagline.png";
+                }}
+              />
             </div>
           </div>
         </div>

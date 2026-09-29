@@ -223,11 +223,11 @@ The Return Request Tracker system empowers customers to request merchandise retu
       />
 
       {/* RIGHT PANEL */}
-      <div className="glass-panel rounded-2xl flex flex-col overflow-hidden border border-slate-800 shadow-xl">
-        <div className="px-4 py-3 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2 bg-slate-900/60 shrink-0">
-          <div className="flex items-center space-x-2 min-w-0 shrink">
-            <span className="w-1.5 h-3.5 bg-purple-500 rounded-full shrink-0"></span>
-            <h2 className="text-xs font-bold tracking-wider text-slate-200 uppercase whitespace-nowrap shrink-0">
+      <div className="bg-white rounded-[18px] flex flex-col overflow-hidden border border-[#ECEEF1] shadow-2xs">
+        <div className="px-4 py-3 border-b border-[#ECEEF1] flex flex-wrap items-center justify-between gap-2 bg-white shrink-0">
+          <div className="flex items-center gap-2 min-w-0 shrink">
+            <span className="w-1.5 h-3.5 bg-[#7157F5] rounded-full shrink-0"></span>
+            <h2 className="text-xs font-bold tracking-wider text-[#17181C] uppercase whitespace-nowrap shrink-0">
               JIRA Backlog
             </h2>
             <select
@@ -240,22 +240,22 @@ The Return Request Tracker system empowers customers to request merchandise retu
                   updatePageState('user-stories', { output: ver.content });
                 }
               }}
-              className="bg-purple-950/60 hover:bg-purple-950 border border-purple-500/40 rounded-lg px-2 py-1 text-[11px] text-purple-300 font-mono font-bold focus:outline-none cursor-pointer max-w-[130px] sm:max-w-[170px] truncate shrink min-w-[90px]"
+              className="bg-[#F8F8F7] hover:bg-white border border-[#ECEEF1] rounded-[8px] px-2 py-1 text-xs text-[#17181C] font-mono font-semibold focus:outline-none focus:border-[#7157F5] cursor-pointer max-w-[130px] sm:max-w-[170px] truncate shrink min-w-[90px]"
             >
               {savedVersions && savedVersions.length > 0 ? (
                 savedVersions.map((v) => (
-                  <option key={v.id} value={v.id} className="bg-slate-950 text-slate-200">
+                  <option key={v.id} value={v.id} className="text-[#17181C]">
                     {v.version}{v.status === 'LATEST' ? ' (LATEST)' : ''} - {v.artefactId || v.id}
                   </option>
                 ))
               ) : (
-                <option value="" className="bg-slate-950 text-slate-200">v1.0.0 (LATEST)</option>
+                <option value="" className="text-[#17181C]">v1.0.0 (LATEST)</option>
               )}
             </select>
           </div>
-          <div className="flex items-center space-x-2 shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
             {showSyncSuccess && (
-              <span className="px-2 py-0.5 bg-green-900/40 text-green-400 border border-green-800 text-[10px] font-bold rounded-md animate-fade-in whitespace-nowrap">
+              <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold rounded-[6px] animate-fade-in whitespace-nowrap">
                 {syncMessage || 'Saved & Synchronized!'}
               </span>
             )}
@@ -263,7 +263,7 @@ The Return Request Tracker system empowers customers to request merchandise retu
               type="button"
               onClick={handleSaveAndSync}
               disabled={isSyncing || !pageState.output}
-              className="px-2.5 py-1.5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white text-xs font-bold rounded-lg border border-green-500/30 shadow-md flex items-center space-x-1.5 cursor-pointer whitespace-nowrap shrink-0"
+              className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-[8px] shadow-2xs flex items-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0 transition"
             >
               {isSyncing ? <i className="fas fa-circle-notch animate-spin"></i> : <i className="fas fa-cloud-upload-alt"></i>}
               <span>Save Changes & Sync</span>
@@ -272,7 +272,7 @@ The Return Request Tracker system empowers customers to request merchandise retu
               type="button"
               onClick={handleUploadToJira}
               disabled={isJiraUploading || !pageState.output}
-              className="px-2.5 py-1.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white text-xs font-bold rounded-lg border border-indigo-500/30 shadow-md flex items-center space-x-1.5 cursor-pointer whitespace-nowrap shrink-0"
+              className="px-3 py-1.5 bg-[#7157F5] hover:bg-[#5F46D8] text-white text-xs font-semibold rounded-[8px] shadow-2xs flex items-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0 transition"
             >
               {isJiraUploading ? <i className="fas fa-circle-notch animate-spin"></i> : <i className="fab fa-jira"></i>}
               <span>Upload to JIRA</span>
@@ -280,35 +280,35 @@ The Return Request Tracker system empowers customers to request merchandise retu
           </div>
         </div>
 
-        <div className="flex-1 overflow-auto custom-scroll">
+        <div className="flex-1 overflow-auto custom-scroll bg-[#FAFAF9]">
           {!pageState.output ? (
             <div className="flex flex-col items-center justify-center h-full p-8 text-center space-y-4">
-              <div className="p-4 bg-indigo-500/5 text-indigo-400 rounded-full">
-                <i className="fas fa-clipboard-list text-3xl"></i>
+              <div className="w-12 h-12 rounded-full bg-purple-50 text-[#7157F5] flex items-center justify-center text-xl border border-purple-100 shadow-2xs">
+                <i className="fas fa-clipboard-list"></i>
               </div>
-              <div className="max-w-xs space-y-1.5">
-                <p className="text-xs font-bold text-slate-300">Generate Backlog Stories</p>
-                <p className="text-[11px] text-slate-500">Trigger compilation on the left to extract JIRA tasks directly from specifications.</p>
+              <div className="max-w-xs space-y-1">
+                <p className="text-sm font-bold text-[#17181C]">Generate Backlog Stories</p>
+                <p className="text-xs text-[#667085]">Trigger compilation on the left to extract JIRA tasks directly from specifications.</p>
               </div>
             </div>
           ) : (
-            <table className="w-full text-left border-collapse text-xs">
+            <table className="w-full text-left border-collapse text-xs bg-white">
               <thead>
-                <tr className="bg-slate-900 border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold text-[10px]">
-                  <th className="p-3 border-r border-slate-800">Summary</th>
-                  <th className="p-3 border-r border-slate-800">Description</th>
-                  <th className="p-3 border-r border-slate-800">Type</th>
-                  <th className="p-3 border-r border-slate-800 w-16">Priority</th>
-                  <th className="p-3 border-r border-slate-800 w-12 text-center">SP</th>
+                <tr className="bg-[#F8F8F7] border-b border-[#ECEEF1] text-[#667085] uppercase tracking-wider font-semibold text-[10px]">
+                  <th className="p-3 border-r border-[#ECEEF1]">Summary</th>
+                  <th className="p-3 border-r border-[#ECEEF1]">Description</th>
+                  <th className="p-3 border-r border-[#ECEEF1]">Type</th>
+                  <th className="p-3 border-r border-[#ECEEF1] w-20">Priority</th>
+                  <th className="p-3 border-r border-[#ECEEF1] w-14 text-center">SP</th>
                   <th className="p-3">Labels</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/60 bg-slate-950/20">
+              <tbody className="divide-y divide-[#ECEEF1]">
                 {pageState.output.spreadsheet?.map((row, rowIdx) => (
-                  <tr key={row.id} className="hover:bg-slate-900/30">
+                  <tr key={row.id} className="hover:bg-[#FAFAF9] transition">
                     <td 
                       onDoubleClick={() => startEditCell(rowIdx, 'summary', row.summary)}
-                      className="p-2.5 border-r border-slate-800 font-medium text-slate-200"
+                      className="p-2.5 border-r border-[#ECEEF1] font-semibold text-[#17181C]"
                     >
                       {editingCell?.rowIdx === rowIdx && editingCell?.colKey === 'summary' ? (
                         <input 
@@ -317,14 +317,14 @@ The Return Request Tracker system empowers customers to request merchandise retu
                           onChange={(e) => setEditingValue(e.target.value)}
                           onBlur={() => saveCellEdit(rowIdx, 'summary')}
                           autoFocus
-                          className="w-full bg-slate-950 text-white border border-indigo-500 rounded p-1 text-xs focus:outline-none"
+                          className="w-full bg-white text-[#17181C] border border-[#7157F5] rounded-[6px] p-1 text-xs focus:outline-none"
                         />
                       ) : row.summary}
                     </td>
 
                     <td 
                       onDoubleClick={() => startEditCell(rowIdx, 'description', row.description)}
-                      className="p-2.5 border-r border-slate-800 text-slate-400 truncate max-w-[200px]"
+                      className="p-2.5 border-r border-[#ECEEF1] text-[#475467] truncate max-w-[200px]"
                     >
                       {editingCell?.rowIdx === rowIdx && editingCell?.colKey === 'description' ? (
                         <input 
@@ -333,14 +333,14 @@ The Return Request Tracker system empowers customers to request merchandise retu
                           onChange={(e) => setEditingValue(e.target.value)}
                           onBlur={() => saveCellEdit(rowIdx, 'description')}
                           autoFocus
-                          className="w-full bg-slate-950 text-white border border-indigo-500 rounded p-1 text-xs focus:outline-none"
+                          className="w-full bg-white text-[#17181C] border border-[#7157F5] rounded-[6px] p-1 text-xs focus:outline-none"
                         />
                       ) : row.description}
                     </td>
 
                     <td 
                       onDoubleClick={() => startEditCell(rowIdx, 'issueType', row.issueType)}
-                      className="p-2.5 border-r border-slate-800"
+                      className="p-2.5 border-r border-[#ECEEF1]"
                     >
                       {editingCell?.rowIdx === rowIdx && editingCell?.colKey === 'issueType' ? (
                         <select 
@@ -348,17 +348,17 @@ The Return Request Tracker system empowers customers to request merchandise retu
                           onChange={(e) => setEditingValue(e.target.value)}
                           onBlur={() => saveCellEdit(rowIdx, 'issueType')}
                           autoFocus
-                          className="w-full bg-slate-950 text-white border border-indigo-500 rounded p-1 text-xs focus:outline-none cursor-pointer"
+                          className="w-full bg-white text-[#17181C] border border-[#7157F5] rounded-[6px] p-1 text-xs focus:outline-none cursor-pointer"
                         >
                           <option>Story</option>
                           <option>Task</option>
                           <option>Bug</option>
                         </select>
                       ) : (
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                          row.issueType === 'Story' ? 'bg-indigo-900/30 text-indigo-400 border border-indigo-800' :
-                          row.issueType === 'Bug' ? 'bg-red-900/30 text-red-400 border border-red-800' :
-                          'bg-slate-800 text-slate-300'
+                        <span className={`px-2 py-0.5 rounded-[6px] text-[10px] font-bold ${
+                          row.issueType === 'Story' ? 'bg-purple-50 text-purple-700 border border-purple-200' :
+                          row.issueType === 'Bug' ? 'bg-rose-50 text-rose-700 border border-rose-200' :
+                          'bg-[#F8F8F7] text-[#344054] border border-[#ECEEF1]'
                         }`}>
                           {row.issueType}
                         </span>
@@ -367,7 +367,7 @@ The Return Request Tracker system empowers customers to request merchandise retu
 
                     <td 
                       onDoubleClick={() => startEditCell(rowIdx, 'priority', row.priority)}
-                      className="p-2.5 border-r border-slate-800"
+                      className="p-2.5 border-r border-[#ECEEF1]"
                     >
                       {editingCell?.rowIdx === rowIdx && editingCell?.colKey === 'priority' ? (
                         <select 
@@ -375,14 +375,14 @@ The Return Request Tracker system empowers customers to request merchandise retu
                           onChange={(e) => setEditingValue(e.target.value)}
                           onBlur={() => saveCellEdit(rowIdx, 'priority')}
                           autoFocus
-                          className="w-full bg-slate-950 text-white border border-indigo-500 rounded p-1 text-xs focus:outline-none cursor-pointer"
+                          className="w-full bg-white text-[#17181C] border border-[#7157F5] rounded-[6px] p-1 text-xs focus:outline-none cursor-pointer"
                         >
                           <option>High</option>
                           <option>Medium</option>
                           <option>Low</option>
                         </select>
                       ) : (
-                        <span className={row.priority === 'High' ? 'text-red-400 font-bold' : 'text-slate-400'}>
+                        <span className={`text-xs font-semibold ${row.priority === 'High' ? 'text-rose-600' : 'text-[#475467]'}`}>
                           {row.priority}
                         </span>
                       )}
@@ -390,7 +390,7 @@ The Return Request Tracker system empowers customers to request merchandise retu
 
                     <td 
                       onDoubleClick={() => startEditCell(rowIdx, 'storyPoints', row.storyPoints)}
-                      className="p-2.5 border-r border-slate-800 text-center font-bold text-indigo-400"
+                      className="p-2.5 border-r border-[#ECEEF1] text-center font-bold text-[#7157F5]"
                     >
                       {editingCell?.rowIdx === rowIdx && editingCell?.colKey === 'storyPoints' ? (
                         <input 
@@ -399,14 +399,14 @@ The Return Request Tracker system empowers customers to request merchandise retu
                           onChange={(e) => setEditingValue(e.target.value)}
                           onBlur={() => saveCellEdit(rowIdx, 'storyPoints')}
                           autoFocus
-                          className="w-8 bg-slate-950 text-white border border-indigo-500 rounded p-1 text-xs focus:outline-none text-center"
+                          className="w-10 bg-white text-[#17181C] border border-[#7157F5] rounded-[6px] p-1 text-xs focus:outline-none text-center"
                         />
                       ) : row.storyPoints}
                     </td>
 
                     <td 
                       onDoubleClick={() => startEditCell(rowIdx, 'labels', row.labels)}
-                      className="p-2.5 text-slate-400"
+                      className="p-2.5 text-[#475467]"
                     >
                       {editingCell?.rowIdx === rowIdx && editingCell?.colKey === 'labels' ? (
                         <input 
@@ -415,7 +415,7 @@ The Return Request Tracker system empowers customers to request merchandise retu
                           onChange={(e) => setEditingValue(e.target.value)}
                           onBlur={() => saveCellEdit(rowIdx, 'labels')}
                           autoFocus
-                          className="w-full bg-slate-950 text-white border border-indigo-500 rounded p-1 text-xs focus:outline-none"
+                          className="w-full bg-white text-[#17181C] border border-[#7157F5] rounded-[6px] p-1 text-xs focus:outline-none"
                         />
                       ) : row.labels}
                     </td>
@@ -428,24 +428,24 @@ The Return Request Tracker system empowers customers to request merchandise retu
         </div>
 
         {pageState.output && (
-          <div className="px-5 py-3 border-t border-slate-800 bg-slate-900/40 flex justify-end space-x-1.5 pr-16">
+          <div className="px-5 py-3 border-t border-[#ECEEF1] bg-white flex justify-end gap-2 pr-16 shadow-2xs">
             <button 
               onClick={handleExportExcel}
-              className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-green-400 text-xs font-bold rounded-lg border border-slate-700 flex items-center space-x-1 cursor-pointer"
+              className="px-2.5 py-1.5 bg-[#F8F8F7] hover:bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-[8px] border border-[#ECEEF1] hover:border-emerald-200 flex items-center gap-1.5 cursor-pointer shadow-2xs transition"
             >
               <i className="far fa-file-excel"></i>
               <span>Excel</span>
             </button>
             <button 
               onClick={handleExportPDF}
-              className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-red-400 text-xs font-bold rounded-lg border border-slate-700 flex items-center space-x-1 cursor-pointer"
+              className="px-2.5 py-1.5 bg-[#F8F8F7] hover:bg-rose-50 text-rose-700 text-xs font-semibold rounded-[8px] border border-[#ECEEF1] hover:border-rose-200 flex items-center gap-1.5 cursor-pointer shadow-2xs transition"
             >
               <i className="far fa-file-pdf"></i>
               <span>PDF</span>
             </button>
             <button 
               onClick={handleExportMarkdown}
-              className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-indigo-400 text-xs font-bold rounded-lg border border-slate-700 flex items-center space-x-1 cursor-pointer"
+              className="px-2.5 py-1.5 bg-[#F8F8F7] hover:bg-purple-50 text-purple-700 text-xs font-semibold rounded-[8px] border border-[#ECEEF1] hover:border-purple-200 flex items-center gap-1.5 cursor-pointer shadow-2xs transition"
             >
               <i className="fab fa-markdown"></i>
               <span>Markdown</span>
@@ -455,22 +455,23 @@ The Return Request Tracker system empowers customers to request merchandise retu
       </div>
 
       {(jiraUploadResult || jiraError) && (
-        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in">
-          <div className="glass-panel max-w-lg w-full mx-4 p-6 rounded-2xl border border-slate-800 shadow-2xl space-y-4">
-            <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-              <h3 className="text-sm font-bold text-slate-200 flex items-center">
-                <i className="fab fa-jira mr-2 text-indigo-400"></i> JIRA Push Status
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-50 animate-fade-in p-4">
+          <div className="bg-white max-w-lg w-full p-6 rounded-[20px] border border-[#ECEEF1] shadow-2xl space-y-4">
+            <div className="flex justify-between items-center border-b border-[#F2F4F7] pb-3">
+              <h3 className="text-sm font-bold text-[#17181C] flex items-center gap-2">
+                <i className="fab fa-jira text-[#7157F5]"></i>
+                <span>JIRA Push Status</span>
               </h3>
               <button 
                 onClick={() => { setJiraUploadResult(null); setJiraError(''); }}
-                className="text-slate-400 hover:text-white transition cursor-pointer"
+                className="text-[#98A2B3] hover:text-[#17181C] transition cursor-pointer p-1"
               >
                 <i className="fas fa-times"></i>
               </button>
             </div>
 
             {jiraError ? (
-              <div className="bg-red-950/20 border border-red-900/60 p-4 rounded-xl text-red-400 text-xs flex items-start space-x-2">
+              <div className="bg-rose-50 border border-rose-200 p-4 rounded-[12px] text-rose-700 text-xs flex items-start gap-2">
                 <i className="fas fa-exclamation-triangle mt-0.5 shrink-0"></i>
                 <div className="space-y-1">
                   <p className="font-bold">Sync Failed</p>
@@ -479,18 +480,18 @@ The Return Request Tracker system empowers customers to request merchandise retu
               </div>
             ) : (
               <div className="space-y-3">
-                <div className="bg-green-950/20 border border-green-900/60 p-3 rounded-xl text-green-400 text-xs flex items-center space-x-2">
-                  <i className="fas fa-check-circle"></i>
+                <div className="bg-emerald-50 border border-emerald-200 p-3 rounded-[12px] text-emerald-800 text-xs flex items-center gap-2">
+                  <i className="fas fa-check-circle text-emerald-600"></i>
                   <span>Successfully generated separate user story cards on JIRA board!</span>
                 </div>
 
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider font-mono">Created JIRA Cards ({jiraUploadResult.length})</p>
+                <p className="text-[10px] font-bold text-[#667085] uppercase tracking-wider font-mono">Created JIRA Cards ({jiraUploadResult.length})</p>
                 <div className="max-h-60 overflow-y-auto space-y-2 pr-1 custom-scroll">
                   {jiraUploadResult.map((issue) => (
-                    <div key={issue.key} className="bg-slate-950/80 border border-slate-800 p-2.5 rounded-lg flex justify-between items-center text-xs">
+                    <div key={issue.key} className="bg-[#F8F8F7] border border-[#ECEEF1] p-3 rounded-[10px] flex justify-between items-center text-xs">
                       <div className="flex flex-col min-w-0 pr-2">
-                        <span className="text-slate-200 font-semibold truncate">{issue.summary}</span>
-                        <span className="text-[10px] text-slate-500">Key: <span className="text-indigo-400 font-mono">{issue.key}</span> | Status: {issue.status}</span>
+                        <span className="text-[#17181C] font-semibold truncate">{issue.summary}</span>
+                        <span className="text-[10px] text-[#667085]">Key: <span className="text-[#7157F5] font-mono font-bold">{issue.key}</span> | Status: {issue.status}</span>
                       </div>
                       <a 
                         href={issue.link || '#'} 
@@ -500,7 +501,7 @@ The Return Request Tracker system empowers customers to request merchandise retu
                           e.preventDefault();
                           window.open(issue.link || `https://jira.atlassian.com/browse/${issue.key}`, '_blank');
                         }}
-                        className="px-2.5 py-1 bg-indigo-600/20 hover:bg-indigo-600/40 text-indigo-300 hover:text-white border border-indigo-500/40 rounded-lg font-bold shrink-0 flex items-center space-x-1 transition cursor-pointer text-xs"
+                        className="px-2.5 py-1 bg-purple-50 hover:bg-purple-100 text-[#7157F5] border border-purple-200 rounded-[6px] font-semibold shrink-0 flex items-center gap-1 transition cursor-pointer text-xs"
                       >
                         <span>Open</span>
                         <i className="fas fa-external-link-alt text-[9px]"></i>
@@ -511,10 +512,10 @@ The Return Request Tracker system empowers customers to request merchandise retu
               </div>
             )}
 
-            <div className="flex justify-end pt-2">
+            <div className="flex justify-end pt-2 border-t border-[#F2F4F7]">
               <button 
                 onClick={() => { setJiraUploadResult(null); setJiraError(''); }}
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-lg transition cursor-pointer"
+                className="px-4 py-1.5 bg-[#F8F8F7] hover:bg-[#ECEEF1] text-[#344054] text-xs font-semibold rounded-[8px] transition cursor-pointer"
               >
                 Acknowledge
               </button>

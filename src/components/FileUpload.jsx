@@ -71,9 +71,9 @@ export const FileUpload = ({
   };
 
   return (
-    <div className="glass-panel p-5 rounded-2xl flex flex-col space-y-4 shadow-xl border border-slate-800">
+    <div className="bg-white p-5 rounded-[18px] flex flex-col space-y-4 shadow-2xs border border-[#ECEEF1]">
       <div className="flex justify-between items-center">
-        <h3 className="text-sm font-bold tracking-wide text-slate-300 uppercase">{title}</h3>
+        <h3 className="text-xs font-bold tracking-wider text-[#17181C] uppercase">{title}</h3>
         <ComplexityBadge complexity={complexity} />
       </div>
       
@@ -82,7 +82,7 @@ export const FileUpload = ({
         onDragOver={handleDragOver}
         onDrop={handleDrop}
         onClick={() => fileInputRef.current?.click()}
-        className="border-2 border-dashed border-slate-700 hover:border-indigo-500 bg-slate-900/40 hover:bg-slate-900/80 rounded-xl p-6 text-center cursor-pointer transition duration-300 group flex flex-col items-center justify-center space-y-2"
+        className="border-2 border-dashed border-[#D0D5DD] hover:border-[#7157F5] bg-[#FAFAF9] hover:bg-purple-50/40 rounded-[14px] p-6 text-center cursor-pointer transition group flex flex-col items-center justify-center space-y-2 shadow-2xs"
       >
         <input 
           type="file" 
@@ -91,27 +91,27 @@ export const FileUpload = ({
           className="hidden" 
           multiple 
         />
-        <div className="p-3 bg-indigo-500/10 text-indigo-400 group-hover:scale-110 transition duration-300 rounded-full">
-          <i className="fas fa-cloud-upload-alt text-2xl"></i>
+        <div className="p-3 bg-purple-50 text-[#7157F5] group-hover:scale-105 transition rounded-full border border-purple-100 shadow-2xs">
+          <i className="fas fa-cloud-upload-alt text-xl"></i>
         </div>
-        <p className="text-xs font-semibold text-slate-300">{subtitle}</p>
-        <p className="text-[10px] text-slate-500">Supports up to 50MB files</p>
+        <p className="text-xs font-semibold text-[#17181C]">{subtitle}</p>
+        <p className="text-[11px] text-[#667085]">Supports up to 50MB files</p>
       </div>
 
       {/* Inherited Inputs list */}
       {inheritedInputs.length > 0 && (
         <div className="space-y-2 pb-2">
-          <p className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider flex items-center">
+          <p className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider flex items-center">
             <i className="fas fa-link mr-1.5"></i> Inherited Inputs
           </p>
           <div className="space-y-1.5">
             {inheritedInputs.map((input, idx) => (
-              <div key={idx} className="bg-emerald-500/5 border border-emerald-500/20 rounded-lg p-2 flex justify-between items-center text-xs">
-                <div className="flex items-center space-x-2 truncate">
-                  <i className="fas fa-file-export text-emerald-400"></i>
-                  <span className="text-emerald-300 font-medium truncate">{input.artifact}</span>
+              <div key={idx} className="bg-emerald-50 border border-emerald-200 rounded-[8px] p-2 flex justify-between items-center text-xs">
+                <div className="flex items-center gap-2 truncate">
+                  <i className="fas fa-file-export text-emerald-600"></i>
+                  <span className="text-emerald-800 font-medium truncate">{input.artifact}</span>
                 </div>
-                <span className="text-[10px] text-emerald-500 font-semibold px-2 py-0.5 rounded border border-emerald-500/20 bg-emerald-500/10">
+                <span className="text-[10px] text-emerald-700 font-semibold px-2 py-0.5 rounded border border-emerald-200 bg-white">
                   {input.sourceAgent}
                 </span>
               </div>
@@ -123,18 +123,18 @@ export const FileUpload = ({
       {/* Uploaded Files list */}
       {files.length > 0 && (
         <div className="space-y-2">
-          <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Uploaded Documents ({files.length})</p>
+          <p className="text-[11px] font-bold text-[#667085] uppercase tracking-wider">Uploaded Documents ({files.length})</p>
           <div className="max-h-28 overflow-y-auto space-y-1.5 custom-scroll">
             {files.map((file, idx) => (
-              <div key={idx} className="bg-slate-950/80 border border-slate-800 rounded-lg p-2 flex justify-between items-center text-xs">
-                <div className="flex items-center space-x-2 truncate">
-                  <i className="far fa-file-alt text-indigo-400"></i>
-                  <span className="text-slate-300 font-medium truncate">{file.name}</span>
-                  <span className="text-[10px] text-slate-500">({(file.size / 1024).toFixed(1)} KB)</span>
+              <div key={idx} className="bg-[#F8F8F7] border border-[#ECEEF1] rounded-[8px] p-2 flex justify-between items-center text-xs">
+                <div className="flex items-center gap-2 truncate">
+                  <i className="far fa-file-alt text-[#7157F5]"></i>
+                  <span className="text-[#17181C] font-medium truncate">{file.name}</span>
+                  <span className="text-[10px] text-[#667085]">({(file.size / 1024).toFixed(1)} KB)</span>
                 </div>
                 <button 
                   onClick={() => onFileDelete(idx)}
-                  className="text-slate-500 hover:text-red-400 p-1 cursor-pointer"
+                  className="text-[#98A2B3] hover:text-rose-600 p-1 cursor-pointer transition"
                 >
                   <i className="fas fa-trash-alt"></i>
                 </button>
@@ -148,23 +148,23 @@ export const FileUpload = ({
       {(isLoading || logs.length > 0) && (
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center">
-              <i className="fas fa-terminal mr-1 text-pink-400"></i> Execution log console
+            <p className="text-[11px] font-bold text-[#667085] uppercase tracking-wider flex items-center">
+              <i className="fas fa-terminal mr-1 text-[#7157F5]"></i> Execution log console
             </p>
             {isLoading && (
-              <span className="text-[10px] bg-indigo-900/30 text-indigo-400 border border-indigo-800 px-2 py-0.5 rounded-full flex items-center">
+              <span className="text-[10px] bg-purple-50 text-[#7157F5] border border-purple-200 px-2 py-0.5 rounded-full flex items-center">
                 <i className="fas fa-circle-notch animate-spin mr-1"></i> Running Spec Compilation...
               </span>
             )}
           </div>
-          <div className="bg-slate-950 font-mono text-[10px] text-slate-300 p-3 rounded-lg border border-slate-800/80 h-44 overflow-y-auto custom-scroll flex flex-col space-y-1">
+          <div className="bg-[#17181C] font-mono text-[10px] text-slate-300 p-3 rounded-[10px] border border-slate-800 h-44 overflow-y-auto custom-scroll flex flex-col space-y-1">
             {logs.map((log, idx) => (
               <div key={idx} className={`whitespace-pre-wrap ${
-                log.includes('[Error]') ? 'text-red-400' :
-                log.includes('[Queue]') ? 'text-yellow-400' :
-                log.includes('[Worker]') ? 'text-green-400 font-medium' :
-                log.includes('[Resiliency]') || log.includes('[HTML]') ? 'text-pink-400 font-medium' :
-                'text-slate-400'
+                log.includes('[Error]') ? 'text-rose-400' :
+                log.includes('[Queue]') ? 'text-amber-400' :
+                log.includes('[Worker]') ? 'text-emerald-400 font-medium' :
+                log.includes('[Resiliency]') || log.includes('[HTML]') ? 'text-purple-400 font-medium' :
+                'text-slate-300'
               }`}>
                 {log}
               </div>
@@ -177,10 +177,10 @@ export const FileUpload = ({
       <button
         onClick={onTriggerGenerate}
         disabled={isLoading}
-        className={`w-full py-3 font-semibold rounded-xl text-xs flex items-center justify-center space-x-2 transition duration-300 cursor-pointer ${
+        className={`w-full py-3 font-semibold rounded-[10px] text-xs flex items-center justify-center gap-2 transition cursor-pointer shadow-2xs ${
           isLoading
-            ? 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed'
-            : 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white shadow-lg hover:shadow-indigo-500/20 glow-indigo border border-indigo-500/40'
+            ? 'bg-[#F8F8F7] text-[#98A2B3] border border-[#ECEEF1] cursor-not-allowed'
+            : 'bg-[#7157F5] hover:bg-[#5F46D8] text-white'
         }`}
       >
         {isLoading ? (
@@ -190,7 +190,7 @@ export const FileUpload = ({
           </>
         ) : (
           <>
-            <i className="fas fa-bolt text-sm"></i>
+            <i className="fas fa-bolt text-sm text-amber-300"></i>
             <span>Execute AI Spec Generation</span>
           </>
         )}

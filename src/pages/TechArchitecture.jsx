@@ -177,37 +177,37 @@ export default function TechArchitecture() {
           }}
           actions={
             pageState.output && (
-              <div className="flex items-center space-x-1.5">
+              <div className="flex items-center gap-1.5">
                 {showSyncSuccess && (
-                  <span className="px-2.5 py-1 bg-green-900/30 text-green-400 border border-green-800 text-[10px] font-bold rounded-lg animate-fade-in">
+                  <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold rounded-[6px] animate-fade-in whitespace-nowrap">
                     {syncMessage || 'Saved & Synchronized!'}
                   </span>
                 )}
                 <button 
                   onClick={handleSaveAndSync}
                   disabled={isSyncing}
-                  className="px-2.5 py-1.5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white text-xs font-bold rounded-lg border border-green-500/30 shadow-lg flex items-center space-x-1 cursor-pointer"
+                  className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-[8px] shadow-2xs flex items-center gap-1.5 cursor-pointer whitespace-nowrap transition"
                 >
                   {isSyncing ? <i className="fas fa-circle-notch animate-spin"></i> : <i className="fas fa-cloud-upload-alt"></i>}
                   <span>Save & Sync</span>
                 </button>
                 <button 
                   onClick={() => setIsConfluenceOpen(true)}
-                  className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-indigo-400 text-xs font-bold rounded-lg border border-slate-700 flex items-center space-x-1 cursor-pointer"
+                  className="px-2.5 py-1.5 bg-[#F8F8F7] hover:bg-white hover:border-[#D0D5DD] text-[#7157F5] text-xs font-semibold rounded-[8px] border border-[#ECEEF1] flex items-center gap-1.5 cursor-pointer shadow-2xs transition"
                 >
                   <i className="fab fa-confluence"></i>
                   <span>Confluence</span>
                 </button>
                 <button 
                   onClick={handleExportSVG}
-                  className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-indigo-400 text-xs font-bold rounded-lg border border-slate-700 flex items-center space-x-1 cursor-pointer"
+                  className="px-2.5 py-1.5 bg-[#F8F8F7] hover:bg-white hover:border-[#D0D5DD] text-[#7157F5] text-xs font-semibold rounded-[8px] border border-[#ECEEF1] flex items-center gap-1.5 cursor-pointer shadow-2xs transition"
                 >
                   <i className="far fa-file-image"></i>
                   <span>SVG</span>
                 </button>
                 <button 
                   onClick={handleExportPDF}
-                  className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-red-400 text-xs font-bold rounded-lg border border-slate-700 flex items-center space-x-1 cursor-pointer"
+                  className="px-2.5 py-1.5 bg-[#F8F8F7] hover:bg-rose-50 text-rose-700 text-xs font-semibold rounded-[8px] border border-[#ECEEF1] hover:border-rose-200 flex items-center gap-1.5 cursor-pointer shadow-2xs transition"
                 >
                   <i className="far fa-file-pdf"></i>
                   <span>PDF</span>
@@ -218,62 +218,62 @@ export default function TechArchitecture() {
         >
           {!pageState.output ? (
             <div className="flex flex-col items-center justify-center h-full p-8 text-center space-y-4">
-              <div className="p-4 bg-indigo-500/5 text-indigo-400 rounded-full">
-                <i className="fas fa-sitemap text-3xl"></i>
+              <div className="w-12 h-12 rounded-full bg-purple-50 text-[#7157F5] flex items-center justify-center text-xl border border-purple-100 shadow-2xs">
+                <i className="fas fa-sitemap"></i>
               </div>
-              <div className="max-w-xs space-y-1.5">
-                <p className="text-xs font-bold text-slate-300">Architecture Board Offline</p>
-                <p className="text-[11px] text-slate-500">Provide specs on the left and compile to explore the system design graphs & database layouts.</p>
+              <div className="max-w-xs space-y-1">
+                <p className="text-sm font-bold text-[#17181C]">Architecture Board Offline</p>
+                <p className="text-xs text-[#667085]">Provide specs on the left and compile to explore the system design graphs & database layouts.</p>
               </div>
             </div>
           ) : (
             <div className="flex flex-col h-full space-y-4">
               
-              <div className="flex space-x-1.5 bg-slate-900/60 p-1 border border-slate-800 rounded-xl self-start">
+              <div className="flex bg-[#F8F8F7] p-1 border border-[#ECEEF1] rounded-[10px] self-start shadow-2xs">
                 <button 
                   onClick={() => setActiveTab('blueprint')}
-                  className={`px-4 py-2 rounded-lg text-xs font-bold transition duration-150 cursor-pointer ${
-                    activeTab === 'blueprint' ? 'bg-indigo-600 text-white shadow' : 'text-slate-400 hover:text-white'
+                  className={`px-3.5 py-1.5 rounded-[8px] text-xs font-semibold transition cursor-pointer ${
+                    activeTab === 'blueprint' ? 'bg-[#7157F5] text-white shadow-2xs' : 'text-[#667085] hover:text-[#17181C]'
                   }`}
                 >
                   System Blueprint Diagram
                 </button>
                 <button 
                   onClick={() => setActiveTab('document')}
-                  className={`px-4 py-2 rounded-lg text-xs font-bold transition duration-150 cursor-pointer ${
-                    activeTab === 'document' ? 'bg-indigo-600 text-white shadow' : 'text-slate-400 hover:text-white'
+                  className={`px-3.5 py-1.5 rounded-[8px] text-xs font-semibold transition cursor-pointer ${
+                    activeTab === 'document' ? 'bg-[#7157F5] text-white shadow-2xs' : 'text-[#667085] hover:text-[#17181C]'
                   }`}
                 >
                   Full Specification Document
                 </button>
               </div>
 
-              <div className="flex-1 bg-slate-950/60 rounded-xl border border-slate-900 p-5 relative overflow-hidden flex flex-col justify-between min-h-[300px]">
+              <div className="flex-1 bg-white rounded-[14px] border border-[#ECEEF1] p-5 relative overflow-hidden flex flex-col justify-between min-h-[300px] shadow-2xs">
                 
                 {activeTab === 'blueprint' ? (
                   <div className="flex-1 relative flex flex-col overflow-hidden">
-                    <div className="absolute top-2 right-2 bg-slate-900/80 border border-slate-800 p-1.5 rounded-lg flex space-x-1 z-10">
+                    <div className="absolute top-2 right-2 bg-white border border-[#ECEEF1] p-1.5 rounded-[8px] flex items-center gap-1 z-10 shadow-2xs">
                       <button 
                         onClick={() => setZoomScale(prev => Math.min(prev + 0.1, 2))}
-                        className="w-7 h-7 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded flex items-center justify-center font-bold text-xs cursor-pointer"
+                        className="w-7 h-7 bg-[#F8F8F7] hover:bg-white text-[#344054] rounded-[6px] border border-[#ECEEF1] flex items-center justify-center font-bold text-xs cursor-pointer shadow-2xs"
                       >
                         +
                       </button>
                       <button 
                         onClick={() => setZoomScale(prev => Math.max(prev - 0.1, 0.5))}
-                        className="w-7 h-7 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded flex items-center justify-center font-bold text-xs cursor-pointer"
+                        className="w-7 h-7 bg-[#F8F8F7] hover:bg-white text-[#344054] rounded-[6px] border border-[#ECEEF1] flex items-center justify-center font-bold text-xs cursor-pointer shadow-2xs"
                       >
                         -
                       </button>
                       <button 
                         onClick={() => setZoomScale(1)}
-                        className="px-2 h-7 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded flex items-center justify-center text-[10px] font-bold cursor-pointer"
+                        className="px-2 h-7 bg-[#F8F8F7] hover:bg-white text-[#344054] rounded-[6px] border border-[#ECEEF1] flex items-center justify-center text-[10px] font-semibold cursor-pointer shadow-2xs"
                       >
                         Reset
                       </button>
                     </div>
 
-                    <div className="flex-1 overflow-auto flex items-center justify-center custom-scroll bg-slate-950/20 rounded-lg border border-slate-900/50 p-4">
+                    <div className="flex-1 overflow-auto flex items-center justify-center custom-scroll bg-[#FAFAF9] rounded-[10px] border border-[#ECEEF1] p-4">
                       <div 
                         ref={diagramRef} 
                         style={{ transform: `scale(${zoomScale})`, transformOrigin: 'center center', transition: 'transform 0.2s' }}
@@ -286,7 +286,7 @@ export default function TechArchitecture() {
                     <iframe
                       srcDoc={pageState.output?.html || pageState.output?.document || ''}
                       title="Technical Architecture Document"
-                      className="w-full flex-1 border-0 rounded-xl bg-white"
+                      className="w-full flex-1 border-0 rounded-[10px] bg-white"
                       style={{ minHeight: '500px' }}
                     />
                   </div>

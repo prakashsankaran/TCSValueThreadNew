@@ -57,16 +57,16 @@ export default function HeaderTokenBadge({ onClick }) {
   return (
     <button
       onClick={onClick}
-      className={`flex items-center space-x-1.5 px-3 py-1 rounded-xl transition duration-300 shadow-sm cursor-pointer ${
+      className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-[10px] transition duration-200 shadow-2xs cursor-pointer ${
         isExceeded
-          ? 'bg-red-950/80 border border-red-500/60 text-red-300 hover:bg-red-900 animate-pulse'
-          : 'bg-indigo-950/60 border border-indigo-500/30 text-indigo-300 hover:text-white hover:bg-indigo-900/60 hover:border-indigo-500/50'
+          ? 'bg-rose-50 border border-rose-200 text-rose-700 hover:bg-rose-100 animate-pulse'
+          : 'bg-white hover:bg-[#F8F8F7] border border-[#ECEEF1] hover:border-[#D0D5DD] text-[#344054]'
       }`}
       title={isExceeded ? `Token limit exceeded! (${totalTokens.toLocaleString()} / ${threshold.toLocaleString()})` : "View Model Token Consumption & History Log"}
     >
-      <i className={`fas ${isExceeded ? 'fa-exclamation-triangle text-red-400' : 'fa-bolt text-amber-400'} text-xs animate-pulse`}></i>
-      <span className="text-[10px] font-black font-mono tracking-wider">
-        {formatTokens(totalTokens)} Tokens {isExceeded ? '⚠️ Limit' : ''}
+      <i className={`fas ${isExceeded ? 'fa-exclamation-triangle text-rose-600' : 'fa-bolt text-amber-500'} text-xs`}></i>
+      <span className="text-xs font-semibold font-mono tracking-tight text-[#17181C]">
+        {formatTokens(totalTokens)} <span className="text-[10px] font-sans font-normal text-[#667085]">Tokens</span> {isExceeded ? '⚠️' : ''}
       </span>
     </button>
   );

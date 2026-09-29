@@ -80,87 +80,101 @@ export default function AdminPersonas() {
   };
 
   return (
-    <div className="text-white fade-in p-2 space-y-6">
+    <div className="fade-in space-y-5 max-w-7xl mx-auto pb-8">
       
       {/* Header */}
-      <div className="flex justify-between items-center">
-        <h1 className="text-[28px] font-bold tracking-tight text-white flex items-center space-x-3">
-          <i className="fas fa-users-cog text-indigo-400"></i>
-          <span>Persona Management</span>
-        </h1>
+      <div className="bg-white border border-[#ECEEF1] rounded-[18px] p-5 shadow-2xs flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-xl font-bold tracking-tight text-[#17181C] flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-[10px] bg-purple-50 text-purple-600 border border-purple-100 flex items-center justify-center text-sm shrink-0">
+              <i className="fas fa-users-cog"></i>
+            </div>
+            <span>Persona & Role Governance</span>
+          </h1>
+          <p className="text-xs text-[#667085] mt-1">
+            Define accountable SDLC personas, decision boundaries, review permissions, and agent pairings.
+          </p>
+        </div>
 
         <button 
           onClick={handleOpenCreate}
-          className="bg-gradient-to-r from-indigo-500 to-indigo-600 hover:from-indigo-400 hover:to-indigo-500 text-white font-semibold py-2.5 px-5 rounded-xl shadow-lg transition flex items-center space-x-2 text-[13px] cursor-pointer"
+          className="bg-[#7157F5] hover:bg-[#5F46D8] text-white font-semibold py-2 px-4 rounded-[10px] shadow-2xs transition-all flex items-center gap-2 text-xs cursor-pointer"
         >
-          <i className="fas fa-plus text-xs"></i>
+          <i className="fas fa-plus text-[10px]"></i>
           <span>Create Persona</span>
         </button>
       </div>
 
-      {/* Search Bar */}
-      <div className="bg-[#0b0f19] border border-slate-800/80 rounded-2xl p-4 flex justify-between items-center shadow-lg">
-        <div className="w-full relative">
-          <i className="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-sm"></i>
+      {/* Search & Overview Bar */}
+      <div className="bg-white border border-[#ECEEF1] rounded-[16px] p-3.5 flex flex-col sm:flex-row justify-between items-center gap-3 shadow-2xs">
+        <div className="w-full sm:flex-1 relative">
+          <i className="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-[#98A2B3] text-xs"></i>
           <input 
             type="text" 
             placeholder="Search personas by name, responsibility, or decision area..." 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-[#060913]/70 border border-slate-800 rounded-xl py-2 pl-10 pr-4 text-[13px] text-white focus:outline-none focus:border-indigo-500 transition"
+            className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] py-2 pl-9 pr-4 text-xs text-[#17181C] placeholder-[#98A2B3] focus:outline-none focus:border-[#7157F5] focus:bg-white transition"
           />
         </div>
+        <span className="px-3 py-1.5 bg-purple-50 text-purple-700 border border-purple-200 text-xs font-semibold rounded-[8px] shrink-0">
+          {personas.length} Active Personas Cataloged
+        </span>
       </div>
 
       {/* Table Panel */}
-      <div className="bg-[#0b0f19] border border-slate-800/80 rounded-2xl overflow-hidden shadow-xl">
-        <div className="p-5 border-b border-slate-800/80 bg-slate-900/20 flex justify-between items-center">
+      <div className="bg-white border border-[#ECEEF1] rounded-[18px] overflow-hidden shadow-2xs">
+        <div className="p-4 border-b border-[#ECEEF1] bg-[#FAFAF9] flex justify-between items-center">
           <div>
-            <h3 className="text-base font-bold text-white">Accountable SDLC Persona Catalog</h3>
-            <p className="text-[12px] text-slate-400">Each persona owns specific governance decisions and is supported by bounded AI agents.</p>
+            <h3 className="text-xs font-bold uppercase tracking-wider text-[#17181C]">Accountable SDLC Persona Catalog</h3>
+            <p className="text-[11px] text-[#667085]">Each persona owns specific governance decisions and is supported by bounded AI agents.</p>
           </div>
-          <span className="px-3 py-1 bg-indigo-950/60 text-indigo-300 border border-indigo-800 text-xs font-mono font-bold rounded-lg">
-            {personas.length} Active Personas
-          </span>
         </div>
         
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="bg-slate-900/40 border-b border-slate-800/80 text-[10px] uppercase tracking-wider text-slate-500 font-bold">
-                <th className="py-3.5 px-5">Persona Name</th>
-                <th className="py-3.5 px-5">Primary Responsibility</th>
-                <th className="py-3.5 px-5">Decisions Owned</th>
-                <th className="py-3.5 px-5">Reviews & Approvals</th>
-                <th className="py-3.5 px-5 text-right">Actions</th>
+              <tr className="bg-[#F8F8F7] border-b border-[#ECEEF1] text-[10px] uppercase tracking-wider text-[#667085] font-bold">
+                <th className="py-3 px-4">Persona Name</th>
+                <th className="py-3 px-4">Primary Responsibility</th>
+                <th className="py-3 px-4">Decisions Owned</th>
+                <th className="py-3 px-4">Reviews & Approvals</th>
+                <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/80 text-slate-300 font-sans">
+            <tbody className="divide-y divide-[#ECEEF1] text-[#344054]">
               {filteredPersonas.map((persona, index) => (
-                <tr key={index} className="hover:bg-slate-800/20 transition group">
-                  <td className="py-3.5 px-5">
-                    <span className="font-bold text-indigo-300 block">{persona.name}</span>
+                <tr key={index} className="hover:bg-[#F8F8F7]/80 transition group">
+                  <td className="py-3.5 px-4 font-semibold text-[#17181C]">
+                    <div className="flex items-center gap-2">
+                      <div className="w-6 h-6 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center text-[10px] font-bold shrink-0">
+                        {persona.name.substring(0, 2).toUpperCase()}
+                      </div>
+                      <span className="text-[#17181C]">{persona.name}</span>
+                    </div>
                   </td>
-                  <td className="py-3.5 px-5 text-slate-300 max-w-[280px]">
+                  <td className="py-3.5 px-4 text-[#475467] max-w-[280px]">
                     {persona.role}
                   </td>
-                  <td className="py-3.5 px-5 text-amber-300 font-mono text-[11px] max-w-[220px]">
-                    {persona.decisions || 'Governance & Scope'}
+                  <td className="py-3.5 px-4 max-w-[220px]">
+                    <span className="inline-block px-2 py-0.5 rounded-[6px] bg-amber-50 text-amber-800 border border-amber-200 text-[11px] font-medium">
+                      {persona.decisions || 'Governance & Scope'}
+                    </span>
                   </td>
-                  <td className="py-3.5 px-5 text-slate-400 text-[11px] max-w-[200px]">
+                  <td className="py-3.5 px-4 text-[#667085] text-[11px] max-w-[200px]">
                     {persona.approvals || 'Gate Sign-offs'}
                   </td>
-                  <td className="py-3.5 px-5 text-right whitespace-nowrap">
-                    <div className="flex items-center justify-end space-x-2">
+                  <td className="py-3.5 px-4 text-right whitespace-nowrap">
+                    <div className="flex items-center justify-end gap-1.5">
                       <button 
                         onClick={() => handleOpenModify(index)}
-                        className="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 px-3 py-1 rounded-lg text-[11px] font-semibold transition cursor-pointer"
+                        className="bg-white hover:bg-[#F8F8F7] border border-[#ECEEF1] text-[#344054] px-2.5 py-1 rounded-[8px] text-[11px] font-semibold transition shadow-2xs cursor-pointer"
                       >
                         Modify
                       </button>
                       <button 
                         onClick={() => handleDelete(index)}
-                        className="bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 text-rose-400 px-2.5 py-1 rounded-lg text-[11px] font-semibold transition cursor-pointer"
+                        className="bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 px-2 py-1 rounded-[8px] text-[11px] font-semibold transition cursor-pointer"
                         title="Delete Persona"
                       >
                         <i className="fas fa-trash-alt"></i>
@@ -174,76 +188,83 @@ export default function AdminPersonas() {
         </div>
       </div>
 
-      {/* Create / Modify Modal - Supports ALL 5 Data Points */}
+      {/* Create / Modify Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm overflow-y-auto">
-          <div className="bg-[#0c1222] border border-slate-800 rounded-2xl p-6 w-full max-w-lg shadow-2xl relative space-y-4 my-8">
-            <h2 className="text-lg font-bold text-white flex items-center space-x-2">
-              <i className="fas fa-user-edit text-indigo-400"></i>
-              <span>{editingPersonaIndex !== null ? `Modify Persona: ${personas[editingPersonaIndex]?.name}` : 'Create Persona'}</span>
-            </h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs overflow-y-auto">
+          <div className="bg-white border border-[#ECEEF1] rounded-[20px] p-6 w-full max-w-lg shadow-2xl relative space-y-4 my-8">
+            <div className="flex justify-between items-center pb-2 border-b border-[#F2F4F7]">
+              <h2 className="text-base font-bold text-[#17181C] flex items-center gap-2">
+                <i className="fas fa-user-edit text-[#7157F5]"></i>
+                <span>{editingPersonaIndex !== null ? `Modify Persona: ${personas[editingPersonaIndex]?.name}` : 'Create Persona'}</span>
+              </h2>
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                className="text-[#98A2B3] hover:text-[#17181C] text-sm cursor-pointer p-1"
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
             
-            <div className="space-y-4 text-xs">
+            <div className="space-y-3.5 text-xs">
               {/* Data Point 1: Persona Name */}
               <div>
-                <label className="block text-slate-300 font-bold mb-1 uppercase tracking-wide">1. Persona Name</label>
+                <label className="block text-[#344054] font-bold mb-1 uppercase tracking-wide text-[10px]">1. Persona Name</label>
                 <input 
                   type="text"
                   value={newPersona.name}
                   onChange={(e) => setNewPersona({...newPersona, name: e.target.value})}
-                  className="w-full bg-[#060913] border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] p-2.5 text-[#17181C] focus:outline-none focus:border-[#7157F5] focus:bg-white"
                   placeholder="e.g. Enterprise Architect"
                 />
               </div>
 
               {/* Data Point 2: Primary Responsibility */}
               <div>
-                <label className="block text-slate-300 font-bold mb-1 uppercase tracking-wide">2. Primary Responsibility</label>
+                <label className="block text-[#344054] font-bold mb-1 uppercase tracking-wide text-[10px]">2. Primary Responsibility</label>
                 <textarea 
                   rows="2"
                   value={newPersona.role}
                   onChange={(e) => setNewPersona({...newPersona, role: e.target.value})}
-                  className="w-full bg-[#060913] border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-indigo-500 custom-scroll"
+                  className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] p-2.5 text-[#17181C] focus:outline-none focus:border-[#7157F5] focus:bg-white custom-scroll"
                   placeholder="Define primary responsibilities and role scope"
                 />
               </div>
 
               {/* Data Point 3: Decisions Owned */}
               <div>
-                <label className="block text-slate-300 font-bold mb-1 uppercase tracking-wide">3. Decisions Owned</label>
+                <label className="block text-[#344054] font-bold mb-1 uppercase tracking-wide text-[10px]">3. Decisions Owned</label>
                 <input 
                   type="text"
                   value={newPersona.decisions}
                   onChange={(e) => setNewPersona({...newPersona, decisions: e.target.value})}
-                  className="w-full bg-[#060913] border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] p-2.5 text-[#17181C] focus:outline-none focus:border-[#7157F5] focus:bg-white"
                   placeholder="e.g. HLD/LLD direction, ADRs, integration contracts"
                 />
               </div>
 
               {/* Data Point 4: Reviews & Approvals */}
               <div>
-                <label className="block text-slate-300 font-bold mb-1 uppercase tracking-wide">4. Reviews & Approvals</label>
+                <label className="block text-[#344054] font-bold mb-1 uppercase tracking-wide text-[10px]">4. Reviews & Approvals</label>
                 <input 
                   type="text"
                   value={newPersona.approvals}
                   onChange={(e) => setNewPersona({...newPersona, approvals: e.target.value})}
-                  className="w-full bg-[#060913] border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] p-2.5 text-[#17181C] focus:outline-none focus:border-[#7157F5] focus:bg-white"
                   placeholder="e.g. User stories, acceptance criteria and UAT outcome"
                 />
               </div>
-
             </div>
 
-            <div className="flex justify-end space-x-3 pt-3 border-t border-slate-800">
+            <div className="flex justify-end gap-2 pt-3 border-t border-[#ECEEF1]">
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="px-4 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white"
+                className="px-4 py-2 rounded-[10px] text-xs font-semibold text-[#667085] hover:bg-[#F8F8F7] border border-transparent"
               >
                 Cancel
               </button>
               <button 
                 onClick={handleSave}
-                className="bg-indigo-600 hover:bg-indigo-500 text-white px-5 py-2 rounded-lg text-xs font-bold transition flex items-center space-x-2 cursor-pointer"
+                className="bg-[#7157F5] hover:bg-[#5F46D8] text-white px-4 py-2 rounded-[10px] text-xs font-semibold transition flex items-center gap-1.5 shadow-2xs cursor-pointer"
               >
                 <i className="fas fa-save"></i>
                 <span>{editingPersonaIndex !== null ? 'Save Changes' : 'Create Persona'}</span>

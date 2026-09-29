@@ -26,6 +26,7 @@ import EvalHarnessView from './pages/EvalHarnessView';
 import SpecControlView from './pages/SpecControlView';
 import KnowledgeFabricView from './pages/KnowledgeFabricView';
 import Layer0IdeaDiscovery from './pages/Layer0IdeaDiscovery';
+import HomePage from './pages/HomePage';
 import WipPlaceholder from './components/WipPlaceholder';
 import ChatbotWidget from './components/ChatbotWidget';
 import { AiOrchestratorModal } from './components/AiOrchestratorModal';
@@ -56,6 +57,7 @@ import MissingDependencyView from './components/MissingDependencyView';
 import './index.css';
 
 const greenfieldNavigationItems = [
+  { path: '/', label: 'Framework Home', icon: 'fas fa-home', desc: 'Overview, architecture & launchpad', badge: 'Home' },
   { path: '/layer0', label: 'Enterprise Discovery', icon: 'fas fa-lightbulb', desc: 'Pre-SDD requirement formation & signal intake' },
   { path: '/requirement-to-spec', label: 'Requirement to Spec', icon: 'fas fa-file-signature', desc: 'SpeckIt package generator' },
   { path: '/spec-to-story', label: 'Spec to Story', icon: 'fas fa-exchange-alt', desc: 'Agile story generator' },
@@ -73,6 +75,7 @@ const greenfieldNavigationItems = [
 ];
 
 const brownfieldNavigationItems = [
+  { path: '/', label: 'Framework Home', icon: 'fas fa-home', desc: 'Overview, architecture & launchpad', badge: 'Home' },
   { path: '/layer0', label: 'Enterprise Discovery', icon: 'fas fa-lightbulb', desc: 'Pre-SDD requirement formation & signal intake' },
   { path: '/brownfield-context', label: '1. Project Context', icon: 'fas fa-folder-plus', desc: 'Code, DDL & legacy docs', badge: 'Context' },
   { path: '/code-to-spec', label: 'Code to Spec', icon: 'fas fa-microchip', desc: 'Reverse-engineer v1 baseline', badge: 'Baseline' },
@@ -186,14 +189,8 @@ function Layout({ children }) {
     : (activeUser?.isSuperAdmin ? 'Platform Admin' : 'Platform Admin');
 
   useEffect(() => {
-    const proj = allProjects.find(p => p.name === activeProject);
-    if (proj && proj.type === 'Brown Field') {
-      setProjectMode('brownfield');
-    } else {
-      setProjectMode('greenfield');
-    }
     localStorage.setItem('activeProject', activeProject);
-  }, [activeProject, allProjects, setProjectMode]);
+  }, [activeProject]);
   
   const baseNavigationItems = projectMode === 'brownfield' ? brownfieldNavigationItems : greenfieldNavigationItems;
   
@@ -325,6 +322,18 @@ function Layout({ children }) {
         badge: 'Layer 3'
       });
     }
+  }
+
+  // Always include Framework Home ('/') at the start of activeNavigationItems for ALL personas
+  const homeItem = baseNavigationItems.find(item => item.path === '/') || {
+    path: '/',
+    label: 'Framework Home',
+    icon: 'fas fa-home',
+    desc: 'Overview, architecture & launchpad',
+    badge: 'Home'
+  };
+  if (!activeNavigationItems.some(item => item.path === '/')) {
+    activeNavigationItems.unshift(homeItem);
   }
 
   const DEFAULT_SPECS = [
@@ -494,306 +503,311 @@ function Layout({ children }) {
 
   const missingDependencies = getMissingDependencies();
 
+  const isHomePage = location.pathname === '/';
+
   return (
-    <div className={`flex h-screen overflow-hidden bg-[#070a13] text-[#f3f4f6] ${theme}`}>
-      <aside 
-        className={`${
-          isSidebarCollapsed ? 'w-16' : 'w-64'
-        } border-r border-slate-800 bg-[#0b0f19] flex flex-col justify-between shrink-0 transition-all duration-300 ease-in-out`}
-      >
-        <div className="flex-1 min-h-0 overflow-y-auto custom-scroll">
-          <Link 
-            to="/requirements" 
-            className={`px-4 py-4 border-b border-slate-800 flex items-center bg-slate-950/20 hover:bg-slate-950/40 transition cursor-pointer ${
-              isSidebarCollapsed ? 'justify-center' : 'space-x-3'
-            }`}
-            title="TCS ValueThread"
-          >
-            <div className="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/30 shrink-0">
-              <i className="fas fa-bolt text-white text-sm"></i>
+    <div className="flex flex-col h-screen overflow-hidden bg-[#FAFAF9] text-[#17181C]">
+      {/* 1. TOP STICKY NAVBAR (SignalForge Style with TCS ValueThread Branding) */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#ECEEF1] px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between select-none shrink-0 shadow-2xs">
+        {/* Left: Official TCS ValueThread Logo */}
+        <div 
+          className="flex items-center gap-3 cursor-pointer group shrink-0"
+          onClick={() => navigate('/')}
+          title="TCS ValueThread Home"
+        >
+          <img
+            src="/branding/tcs-valuethread-header-logo.png"
+            alt="TCS ValueThread"
+            className="h-8 sm:h-9 md:h-10 w-auto object-contain transition-transform duration-150 group-hover:scale-[1.02]"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = "/branding/tcs-valuethread-full-logo-tagline.png";
+            }}
+          />
+        </div>
+
+        {/* Right: Project Selector, Active Spec Status, AI Router & Action Button */}
+        <div className="flex items-center gap-2.5 shrink-0">
+          {isAdminPersona && (
+            <button
+              onClick={() => navigate('/admin/dashboard')}
+              className={`px-3 py-1.5 rounded-[10px] text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer ${
+                location.pathname.startsWith('/admin')
+                  ? 'text-purple-900 bg-purple-100 font-bold border border-purple-200 shadow-2xs'
+                  : 'text-purple-700 hover:text-purple-900 hover:bg-purple-50 border border-[#E4DCFF]'
+              }`}
+              title="Admin Control Center"
+            >
+              <i className="fas fa-user-shield text-xs text-purple-600"></i>
+              <span className="hidden sm:inline">Admin Plane</span>
+            </button>
+          )}
+          {/* Project Selector Dropdown */}
+          <div className="hidden sm:flex relative items-center">
+            <select 
+              value={activeProject}
+              onChange={(e) => {
+                const newProj = e.target.value;
+                setActiveProject(newProj);
+                localStorage.setItem('activeProject', newProj);
+                window.dispatchEvent(new CustomEvent('activeProjectChanged', { detail: { projectId: newProj } }));
+              }}
+              className="bg-white hover:bg-[#F8F8F7] border border-[#ECEEF1] hover:border-[#D0D5DD] rounded-[10px] pl-3 pr-7 py-1.5 text-xs text-[#344054] font-semibold transition-colors focus:outline-none cursor-pointer appearance-none shadow-2xs"
+            >
+              {userProjects.map(up => (
+                <option key={up.projectId} value={up.projectId}>{up.projectId}</option>
+              ))}
+              {userProjects.length === 0 && <option value="">Vendor Management</option>}
+            </select>
+            <i className="fas fa-chevron-down absolute right-2.5 text-[9px] text-[#98A2B3] pointer-events-none"></i>
+          </div>
+
+          {/* Active Spec Envelope Badge */}
+          {activeSpec ? (
+            <div 
+              onClick={() => navigate('/spec-control')}
+              className="hidden md:flex items-center gap-1.5 px-2.5 py-1 bg-[#F4F1FF] border border-[#E4DCFF] rounded-[10px] text-xs font-semibold text-[#5F46D8] cursor-pointer hover:bg-[#ECE6FF] transition"
+              title={`Active Spec Baseline: ${activeSpec}`}
+            >
+              <i className="fas fa-layer-group text-[11px]"></i>
+              <span className="max-w-[110px] truncate">{activeSpec}</span>
             </div>
-            {!isSidebarCollapsed && (
-              <div className="truncate">
-                <h1 className="text-xs font-black uppercase tracking-widest bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">TCS ValueThread</h1>
-                <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Intelligent Requirements Framework</p>
-              </div>
-            )}
-          </Link>
+          ) : null}
 
-          <nav className="p-2 space-y-1">
-            {activeNavigationItems.map((item) => {
-              const isActive = location.pathname === item.path;
-              const isWip = projectMode === 'brownfield' && item.wip;
+          {/* Active Persona Badge */}
+          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] text-xs font-semibold text-[#344054]">
+            <i className="fas fa-user-circle text-[#7157F5]"></i>
+            <span className="hidden md:inline text-[#667085]">Role:</span>
+            <span className="text-[#17181C]">{activePersona}</span>
+          </div>
 
-              if (isWip) {
-                return (
-                  <div
-                    key={item.path}
-                    title={isSidebarCollapsed ? `${item.label} (Work In Progress)` : 'Work In Progress'}
-                    className={`flex items-center rounded-xl border border-transparent opacity-40 cursor-not-allowed select-none ${
-                      isSidebarCollapsed ? 'justify-center p-2.5' : 'space-x-3 px-3 py-2.5'
+          {/* AI Orchestrator Shortcut Button */}
+          <button
+            onClick={() => setIsAiOrchestratorModalOpen(true)}
+            className="px-3 py-1.5 rounded-[10px] bg-gradient-to-r from-[#7157F5] to-[#5F46D8] hover:from-[#5F46D8] hover:to-[#4C35C2] text-white text-xs font-semibold shadow-xs flex items-center gap-1.5 transition cursor-pointer"
+            title="Open Autonomous AI Multi-Agent Orchestrator"
+          >
+            <i className="fas fa-wand-magic-sparkles text-amber-300 text-xs"></i>
+            <span className="hidden sm:inline">AI Router</span>
+          </button>
+
+          {/* Sign Out Button */}
+          <button
+            onClick={() => {
+              localStorage.removeItem('activeUserId');
+              navigate('/login');
+            }}
+            className="p-1.5 rounded-[8px] text-[#667085] hover:text-red-600 hover:bg-red-50 border border-[#ECEEF1] hover:border-red-200 transition cursor-pointer"
+            title="Sign Out of ValueThread"
+          >
+            <i className="fas fa-sign-out-alt text-xs"></i>
+          </button>
+        </div>
+      </header>
+
+      {/* 2. BODY CONTENT: COLLAPSIBLE SDLC SIDEBAR + MAIN WORKSPACE */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Sleek Light SDLC Sidebar - Hidden when on Home Page */}
+        {!isHomePage && (
+          <aside 
+            className={`${
+              isSidebarCollapsed ? 'w-16' : 'w-64'
+            } border-r border-[#ECEEF1] bg-white flex flex-col justify-between shrink-0 transition-all duration-300 ease-in-out z-20`}
+          >
+            <div className="flex-1 min-h-0 overflow-y-auto custom-scroll p-3 space-y-3">
+              {/* Mode Selector (Greenfield / Brownfield) */}
+              {!isSidebarCollapsed ? (
+                <div className="bg-[#F8F8F7] p-1 rounded-[12px] border border-[#ECEEF1] flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={() => handleModeToggle('greenfield')}
+                    className={`flex-1 py-1.5 px-2 rounded-[8px] text-[11px] font-bold transition cursor-pointer text-center ${
+                      projectMode === 'greenfield'
+                        ? 'bg-white text-[#17181C] shadow-2xs border border-[#ECEEF1]'
+                        : 'text-[#667085] hover:text-[#17181C]'
                     }`}
                   >
-                    <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 bg-slate-950/60 text-slate-600 border border-slate-900">
-                      <i className={`${item.icon} text-xs`}></i>
-                    </div>
-                    {!isSidebarCollapsed && (
-                      <div className="truncate flex-1 min-w-0">
-                        <div className="flex items-center justify-between">
-                          <p className="text-xs truncate text-slate-500">{item.label}</p>
-                          <span className="text-[8px] font-bold px-1.5 py-0.2 rounded border border-slate-800/80 bg-slate-950 text-slate-500 font-mono">
-                            WIP
-                          </span>
-                        </div>
-                        <p className="text-[9px] text-slate-600 truncate">{item.desc}</p>
-                      </div>
-                    )}
-                  </div>
-                );
-              }
+                    Greenfield
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleModeToggle('brownfield')}
+                    className={`flex-1 py-1.5 px-2 rounded-[8px] text-[11px] font-bold transition cursor-pointer text-center ${
+                      projectMode === 'brownfield'
+                        ? 'bg-white text-[#17181C] shadow-2xs border border-[#ECEEF1]'
+                        : 'text-[#667085] hover:text-[#17181C]'
+                    }`}
+                  >
+                    Brownfield
+                  </button>
+                </div>
+              ) : (
+                <div className="flex justify-center pb-1">
+                  <button
+                    type="button"
+                    onClick={() => handleModeToggle(projectMode === 'greenfield' ? 'brownfield' : 'greenfield')}
+                    className="text-[10px] font-bold text-[#7157F5] bg-[#F4F1FF] px-1.5 py-0.5 rounded-[6px] cursor-pointer hover:bg-[#ECE6FF] transition"
+                    title="Toggle Greenfield / Brownfield"
+                  >
+                    {projectMode === 'greenfield' ? 'GF' : 'BF'}
+                  </button>
+                </div>
+              )}
 
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  title={isSidebarCollapsed ? item.label : undefined}
-                  className={`flex items-center rounded-xl transition duration-200 group ${
-                    isSidebarCollapsed ? 'justify-center p-2.5' : 'space-x-3 px-3 py-2.5'
-                  } ${
-                    isActive
-                      ? theme === 'light'
-                        ? projectMode === 'brownfield' 
-                          ? 'bg-amber-50 border border-amber-200 text-amber-700 font-semibold'
-                          : 'bg-indigo-50 border border-indigo-200 text-indigo-700 font-semibold'
-                        : projectMode === 'brownfield'
-                          ? 'bg-gradient-to-r from-amber-950/40 to-slate-900 border border-amber-500/30 text-white font-semibold'
-                          : 'bg-gradient-to-r from-indigo-950/40 to-slate-900 border border-indigo-500/30 text-white font-semibold'
-                      : theme === 'light'
-                        ? 'border border-transparent text-slate-500 hover:text-indigo-600 hover:bg-slate-100'
-                        : 'border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/40'
-                  }`}
-                >
-                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition duration-200 shrink-0 ${
-                    isActive 
-                      ? theme === 'light'
-                        ? projectMode === 'brownfield' ? 'bg-amber-100 text-amber-600' : 'bg-indigo-100 text-indigo-600'
-                        : projectMode === 'brownfield' ? 'bg-amber-500/10 text-amber-400' : 'bg-indigo-500/10 text-indigo-400' 
-                      : theme === 'light'
-                        ? 'bg-slate-100 text-slate-400 group-hover:bg-indigo-100 group-hover:text-indigo-500'
-                        : 'bg-slate-900/50 text-slate-500 group-hover:bg-slate-900 group-hover:text-slate-300'
-                  }`}>
-                    <i className={`${item.icon} text-xs`}></i>
-                  </div>
-                  {!isSidebarCollapsed && (
-                    <div className="truncate flex-1 min-w-0">
-                      <div className="flex items-center justify-between">
-                        <p className="text-xs truncate">{item.label}</p>
-                        {item.badge && (
-                          <span className={`text-[8px] font-bold px-1.5 py-0.2 rounded border ml-1 shrink-0 ${
-                            isActive 
-                              ? projectMode === 'brownfield' ? 'bg-amber-500/20 text-amber-300 border-amber-500/40' : 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40'
-                              : 'bg-slate-900 text-slate-400 border-slate-800'
-                          }`}>
-                            {item.badge}
-                          </span>
+              {/* SDLC Agents Navigation List */}
+              <nav className="space-y-1">
+                {activeNavigationItems.map((item) => {
+                  const isActive = location.pathname === item.path;
+                  const isWip = projectMode === 'brownfield' && item.wip;
+
+                  if (isWip) {
+                    return (
+                      <div
+                        key={item.path}
+                        title={isSidebarCollapsed ? `${item.label} (Work In Progress)` : 'Work In Progress'}
+                        className={`flex items-center rounded-[10px] border border-transparent opacity-40 cursor-not-allowed select-none ${
+                          isSidebarCollapsed ? 'justify-center p-2' : 'gap-2.5 px-3 py-2'
+                        }`}
+                      >
+                        <div className="w-6 h-6 rounded-[8px] flex items-center justify-center shrink-0 bg-[#F8F8F7] text-[#98A2B3] border border-[#ECEEF1]">
+                          <i className={`${item.icon} text-[11px]`}></i>
+                        </div>
+                        {!isSidebarCollapsed && (
+                          <div className="truncate flex-1 min-w-0">
+                            <div className="flex items-center justify-between">
+                              <p className="text-xs truncate text-[#98A2B3]">{item.label}</p>
+                              <span className="text-[8px] font-bold px-1.5 py-0.2 rounded border border-[#ECEEF1] bg-[#F8F8F7] text-[#98A2B3] font-mono">
+                                WIP
+                              </span>
+                            </div>
+                          </div>
                         )}
                       </div>
-                      <p className="text-[9px] text-slate-500 group-hover:text-slate-400 transition truncate">{item.desc}</p>
-                    </div>
-                  )}
-                </Link>
-              );
-            })}
-            
-            {isAdminPersona && (
-              <div className="pt-2 border-t border-slate-800/80 mt-2">
-                <Link
-                  to="/admin/dashboard"
-                  title={isSidebarCollapsed ? 'Admin Control Plane' : undefined}
-                  className={`flex items-center rounded-xl transition duration-200 group font-semibold ${
-                    isSidebarCollapsed ? 'justify-center p-2.5' : 'space-x-3 px-3 py-2.5'
-                  } ${
-                    theme === 'light' 
-                      ? 'bg-purple-50 border border-purple-200 text-purple-700 hover:bg-purple-100'
-                      : 'bg-gradient-to-r from-purple-950/40 to-slate-900 border border-purple-500/30 text-purple-300 hover:text-white'
-                  }`}
-                >
-                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${theme === 'light' ? 'bg-purple-100 text-purple-600' : 'bg-purple-500/10 text-purple-400'}`}>
-                    <i className="fas fa-user-shield text-xs"></i>
+                    );
+                  }
+
+                  return (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      title={isSidebarCollapsed ? item.label : undefined}
+                      className={`flex items-center rounded-[10px] transition-all duration-150 ${
+                        isSidebarCollapsed ? 'justify-center p-2' : 'gap-2.5 px-3 py-2'
+                      } ${
+                        isActive
+                          ? 'bg-[#F4F1FF] text-[#17181C] font-bold border border-[#E4DCFF] shadow-2xs'
+                          : 'text-[#667085] hover:text-[#17181C] hover:bg-[#F8F8F7] border border-transparent'
+                      }`}
+                    >
+                      <div className={`w-6 h-6 rounded-[8px] flex items-center justify-center shrink-0 transition-colors ${
+                        isActive 
+                          ? 'bg-[#7157F5] text-white' 
+                          : 'bg-[#F8F8F7] text-[#98A2B3] group-hover:text-[#17181C]'
+                      }`}>
+                        <i className={`${item.icon} text-[11px]`}></i>
+                      </div>
+                      {!isSidebarCollapsed && (
+                        <div className="truncate flex-1 min-w-0">
+                          <div className="flex items-center justify-between">
+                            <p className="text-xs truncate">{item.label}</p>
+                            {item.badge && (
+                              <span className={`text-[8px] font-bold px-1.5 py-0.2 rounded border ml-1 shrink-0 ${
+                                isActive 
+                                  ? 'bg-white text-[#5F46D8] border-[#E4DCFF]'
+                                  : 'bg-[#F8F8F7] text-[#667085] border-[#ECEEF1]'
+                              }`}>
+                                {item.badge}
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-[9px] text-[#98A2B3] truncate">{item.desc}</p>
+                        </div>
+                      )}
+                    </Link>
+                  );
+                })}
+              </nav>
+            </div>
+
+            {/* Sidebar Footer: Spec Selector & Collapse Toggle */}
+            <div className="p-3 border-t border-[#ECEEF1] bg-[#F8F8F7] space-y-2">
+              {!isSidebarCollapsed ? (
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between text-[11px]">
+                    <span className="text-[#667085] font-semibold">Active Spec:</span>
+                    <select
+                      value={activeSpec}
+                      onChange={(e) => handleSpecChange(e.target.value)}
+                      className="bg-white border border-[#ECEEF1] rounded-[6px] text-[10px] text-[#17181C] font-semibold px-1.5 py-0.5 max-w-[125px] truncate focus:outline-none cursor-pointer"
+                    >
+                      {specs.map(s => {
+                        const sName = typeof s === 'string' ? s : s.name;
+                        return <option key={sName} value={sName}>{sName}</option>;
+                      })}
+                    </select>
                   </div>
-                  {!isSidebarCollapsed && (
-                    <div className="truncate flex-1 min-w-0">
-                      <p className="text-xs truncate font-bold">Admin Control Plane</p>
-                      <p className="text-[9px] text-purple-400/80 truncate">Personas, Workflows & Users</p>
-                    </div>
-                  )}
-                </Link>
-              </div>
-            )}
-          </nav>
-        </div>
+                  <div className="flex items-center justify-between text-[10px]">
+                    <span className="text-[#667085] font-semibold">API Server:</span>
+                    <span className="text-emerald-700 font-semibold flex items-center">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1 animate-pulse"></span> 7001
+                    </span>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex justify-center" title={`API Server: 7001 | Spec: ${activeSpec}`}>
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                </div>
+              )}
 
-        <div className="p-3 border-t border-slate-800 bg-slate-950/20 space-y-2">
-          {!isSidebarCollapsed ? (
-            <>
-              <div className="flex items-center justify-between text-[10px]">
-                <span className="text-slate-500 font-bold uppercase tracking-wider">Workspace:</span>
-                <span 
-                  className="text-indigo-400 font-semibold font-mono truncate max-w-[120px] capitalize" 
-                  title={activeSpec}
-                >
-                  {activeSpec.replace(/^\d+-/, '').replace(/-/g, ' ')}
-                </span>
-              </div>
-              <div className="flex items-center justify-between text-[10px]">
-                <span className="text-slate-500 font-bold uppercase tracking-wider">API Server:</span>
-                <span className="text-green-400 font-semibold flex items-center">
-                  <span className="w-1.5 h-1.5 rounded-full bg-green-500 mr-1 animate-pulse"></span> Port 7001
-                </span>
-              </div>
-            </>
-          ) : (
-            <div className="flex justify-center" title="API Server: Port 7001">
-              <span className="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
-            </div>
-          )}
-
-          <button
-            onClick={() => navigate('/login')}
-            className="w-full py-1.5 mt-2 mb-2 rounded-lg bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500/20 hover:border-rose-500/40 text-rose-400 hover:text-rose-300 text-xs flex items-center justify-center transition cursor-pointer gap-2"
-            title="Sign Out"
-          >
-            <i className="fas fa-sign-out-alt"></i>
-            {!isSidebarCollapsed && <span>Sign Out</span>}
-          </button>
-
-          <button
-            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-            className="w-full py-1.5 rounded-lg bg-slate-900/60 border border-slate-800/80 hover:bg-slate-800 text-slate-400 hover:text-white text-xs flex items-center justify-center transition cursor-pointer"
-            title={isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-          >
-            <i className={`fas ${isSidebarCollapsed ? 'fa-angle-double-right' : 'fa-angle-double-left'}`}></i>
-          </button>
-        </div>
-      </aside>
-
-      <main className="flex-1 flex flex-col min-w-0 bg-[#070a13] relative">
-        <header className="h-14 border-b border-slate-800 bg-[#0b0f19]/80 backdrop-blur flex justify-between items-center px-4 md:px-6 shrink-0 min-w-0 gap-4">
-          <div className="flex items-center space-x-3 shrink-0">
-            <button
-              onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-              className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 hover:border-indigo-500/50 flex items-center justify-center text-slate-400 hover:text-white transition duration-200 cursor-pointer shrink-0"
-              title={isSidebarCollapsed ? 'Expand Sidebar' : 'Collapse Sidebar'}
-            >
-              <i className={`fas ${isSidebarCollapsed ? 'fa-bars text-indigo-400' : 'fa-outdent'} text-xs`}></i>
-            </button>
-
-            <h2 className="text-xs font-black text-slate-400 uppercase tracking-widest hidden 2xl:block shrink-0">
-              {projectMode === 'brownfield' ? 'Brownfield Spec Board' : 'Workspace Spec Board'}
-            </h2>
-
-            <div className="h-5 w-px bg-slate-800 mx-1.5 hidden 2xl:block"></div>
-            
-            <div className="hidden sm:flex relative items-center shrink-0">
-              <div className="absolute left-3 pointer-events-none">
-                <svg className="w-3.5 h-3.5 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                </svg>
-              </div>
-              <select 
-                value={activeProject}
-                onChange={(e) => {
-                  const newProj = e.target.value;
-                  setActiveProject(newProj);
-                  localStorage.setItem('activeProject', newProj);
-                  window.dispatchEvent(new CustomEvent('activeProjectChanged', { detail: { projectId: newProj } }));
-                }}
-                className="bg-slate-800/40 border border-slate-800 hover:bg-slate-800/80 rounded-lg pl-9 pr-8 py-1.5 text-xs text-slate-300 transition-colors focus:outline-none cursor-pointer appearance-none h-[34px] max-w-[170px] font-semibold"
-              >
-                {userProjects.map(up => (
-                  <option key={up.projectId} value={up.projectId}>{up.projectId}</option>
-                ))}
-                {userProjects.length === 0 && <option value="">No Projects Assigned</option>}
-              </select>
-              <div className="absolute right-3 pointer-events-none">
-                <svg className="w-3 h-3 text-slate-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polyline points="6 9 12 15 18 9" />
-                </svg>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 text-[10px] shrink-0">
-            <HeaderTokenBadge onClick={() => setIsTokenModalOpen(true)} />
-
-            <button
-              onClick={() => setIsAiOrchestratorModalOpen(true)}
-              className="px-2.5 py-1.5 bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-500/40 hover:border-indigo-400 text-indigo-300 hover:text-white rounded-xl text-[10px] font-bold transition flex items-center space-x-1.5 cursor-pointer"
-              title="Configure AI Orchestrator & Google Gemini API Key"
-            >
-              <i className="fas fa-brain text-indigo-400"></i>
-              <span className="hidden xl:inline">AI Router</span>
-            </button>
-
-            <button
-              onClick={toggleTheme}
-              className="w-8 h-8 rounded-xl bg-indigo-950/60 border border-indigo-900/60 hover:border-indigo-500 flex items-center justify-center text-slate-400 hover:text-white transition duration-200 cursor-pointer"
-              title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
-            >
-              <i className={`fas ${theme === 'dark' ? 'fa-lightbulb text-amber-400 animate-pulse' : 'fa-moon text-indigo-500'} text-xs`}></i>
-            </button>
-
-            <div className="flex items-center space-x-2 pl-2 border-l border-slate-800 ml-1">
-              <div 
-                className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-[10px] font-bold text-white shadow shrink-0" 
-                title={`${activeUser?.name || 'User'} (${activePersona})`}
-              >
-                {activeUser?.name ? activeUser.name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase() : 'U'}
-              </div>
               <button
-                onClick={() => navigate('/login')}
-                className="px-2.5 py-1 bg-rose-500/15 hover:bg-rose-500/25 text-rose-400 border border-rose-500/30 rounded-lg text-[10px] font-bold transition duration-200 cursor-pointer flex items-center space-x-1 shrink-0"
-                title="Sign Out of Workspace"
+                onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+                className="w-full py-1.5 rounded-[8px] bg-white border border-[#ECEEF1] hover:bg-[#F8F8F7] text-[#667085] hover:text-[#17181C] text-xs flex items-center justify-center transition cursor-pointer shadow-2xs"
+                title={isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
               >
-                <i className="fas fa-sign-out-alt"></i>
-                <span>Sign Out</span>
+                <i className={`fas ${isSidebarCollapsed ? 'fa-angles-right' : 'fa-angles-left'} text-[10px]`}></i>
               </button>
             </div>
-          </div>
-        </header>
-
-        {!isAdminPersona && (
-          <WorkflowStatusTracker activeProject={activeProject} />
+          </aside>
         )}
 
-        <div className="flex-1 p-6 overflow-y-auto custom-scroll">
-          {activeNavigationItems.length === 0 ? (
-            <div className="flex flex-col items-center justify-center h-full text-slate-500">
-              <i className="fas fa-robot text-5xl mb-4 opacity-50"></i>
-              <h2 className="text-xl font-semibold text-slate-400">No Agents Mapped</h2>
-              <p className="text-sm mt-2 max-w-md text-center">
-                Your assigned persona (<span className="text-indigo-400">{activePersona}</span>) for project <span className="text-indigo-400">{activeProject}</span> has not been mapped to any agents yet. This will be configured by the Super Administrator.
-              </p>
-            </div>
-          ) : missingDependencies ? (
-            <MissingDependencyView missing={missingDependencies} />
-          ) : projectMode === 'brownfield' && brownfieldNavigationItems.find(item => item.path === location.pathname && item.wip) ? (
-            (() => {
-              const item = brownfieldNavigationItems.find(i => i.path === location.pathname);
-              return (
-                <WipPlaceholder
-                  title={item.label}
-                  description={`The Brownfield capability for "${item.label}" (${item.desc}) is currently under active development.`}
-                  icon={item.icon}
-                  badge="WIP"
-                />
-              );
-            })()
-          ) : (
-            children
+        {/* Main Content Area */}
+        <main className="flex-1 flex flex-col min-w-0 bg-[#FAFAF9] relative overflow-hidden">
+          {!isHomePage && !isAdminPersona && (
+            <WorkflowStatusTracker activeProject={activeProject} />
           )}
-        </div>
-      </main>
+
+          <div className={`flex-1 overflow-y-auto custom-scroll ${isHomePage ? 'p-0' : 'p-4 sm:p-6 lg:p-8'}`}>
+            {isHomePage ? (
+              children
+            ) : activeNavigationItems.length <= 1 ? (
+              <div className="flex flex-col items-center justify-center h-full text-[#667085]">
+                <i className="fas fa-robot text-5xl mb-4 text-[#98A2B3]"></i>
+                <h2 className="text-xl font-bold text-[#17181C]">No Agents Mapped</h2>
+                <p className="text-sm mt-2 max-w-md text-center text-[#667085]">
+                  Your assigned persona (<span className="text-[#7157F5] font-semibold">{activePersona}</span>) for project <span className="text-[#7157F5] font-semibold">{activeProject}</span> has not been mapped to any agents yet. This will be configured by the Super Administrator.
+                </p>
+              </div>
+            ) : missingDependencies ? (
+              <MissingDependencyView missing={missingDependencies} />
+            ) : projectMode === 'brownfield' && brownfieldNavigationItems.find(item => item.path === location.pathname && item.wip) ? (
+              (() => {
+                const item = brownfieldNavigationItems.find(i => i.path === location.pathname);
+                return (
+                  <WipPlaceholder
+                    title={item.label}
+                    description={`The Brownfield capability for "${item.label}" (${item.desc}) is currently under active development.`}
+                    icon={item.icon}
+                    badge="WIP"
+                  />
+                );
+              })()
+            ) : (
+              children
+            )}
+          </div>
+        </main>
+      </div>
+
       <ChatbotWidget />
       <TokenThresholdAlert onOpenWidget={() => setIsTokenModalOpen(true)} />
       <TokenTrackerWidget 
@@ -835,7 +849,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           </Route>
 
           <Route element={<Layout><Outlet /></Layout>}>
-            <Route path="/" element={null} />
+            <Route path="/" element={<HomePage />} />
             <Route path="/layer0" element={<Layer0IdeaDiscovery />} />
             <Route path="/orchestrator" element={<AgentOrchestrator />} />
             <Route path="/requirements" element={<RequirementAgent />} />

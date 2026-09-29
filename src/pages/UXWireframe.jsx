@@ -74,11 +74,11 @@ export default function UXWireframe() {
 
       {/* Right panel */}
       <div className="lg:col-span-7 h-full flex flex-col overflow-hidden">
-        <div className="glass-panel rounded-2xl flex flex-col h-full overflow-hidden shadow-xl border border-slate-800">
+        <div className="bg-white rounded-[18px] flex flex-col h-full overflow-hidden shadow-2xs border border-[#ECEEF1]">
           
-          <div className="px-5 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-900/60">
-            <div className="flex items-center space-x-2">
-              <span className="w-1.5 h-3 bg-orange-500 rounded-full shrink-0"></span>
+          <div className="px-5 py-3.5 border-b border-[#ECEEF1] flex justify-between items-center bg-white shrink-0">
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-3.5 bg-amber-500 rounded-full shrink-0"></span>
               {savedVersions && savedVersions.length > 0 ? (
                 <select
                   value={selectedVersionId}
@@ -90,7 +90,7 @@ export default function UXWireframe() {
                       updatePageState('ux-wireframe', { output: ver.content });
                     }
                   }}
-                  className="bg-slate-950 border border-orange-500/50 rounded-xl px-3 py-1 text-xs text-orange-300 font-bold focus:outline-none focus:border-orange-400 cursor-pointer shadow-inner"
+                  className="bg-[#F8F8F7] border border-[#ECEEF1] rounded-[8px] px-3 py-1 text-xs text-[#17181C] font-semibold focus:outline-none focus:border-[#7157F5] cursor-pointer"
                 >
                   {savedVersions.map((v) => (
                     <option key={v.id} value={v.id}>
@@ -100,17 +100,17 @@ export default function UXWireframe() {
                 </select>
               ) : (
                 <div>
-                  <h2 className="text-sm font-bold text-slate-200 uppercase flex items-center">
+                  <h2 className="text-xs font-bold text-[#17181C] uppercase flex items-center tracking-wider">
                     Tailwind UX Prototype Viewport
                   </h2>
-                  <p className="text-[10px] text-slate-500 font-medium">Click around the generated app panels to simulate user interactions</p>
+                  <p className="text-[11px] text-[#667085]">Click around the generated app panels to simulate user interactions</p>
                 </div>
               )}
             </div>
             
-            <div className="flex items-center space-x-1.5">
+            <div className="flex items-center gap-2">
               {showSyncSuccess && (
-                <span className="px-2.5 py-1 bg-green-900/30 text-green-400 border border-green-800 text-[10px] font-bold rounded-lg animate-fade-in">
+                <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold rounded-[6px] animate-fade-in whitespace-nowrap">
                   {syncMessage || 'Saved & Synchronized!'}
                 </span>
               )}
@@ -119,24 +119,24 @@ export default function UXWireframe() {
                   <button 
                     onClick={handleSaveAndSync}
                     disabled={isSyncing}
-                    className="px-2.5 py-1.5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white text-xs font-bold rounded-lg border border-green-500/30 shadow-lg flex items-center space-x-1 cursor-pointer"
+                    className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-[8px] shadow-2xs flex items-center gap-1.5 cursor-pointer whitespace-nowrap transition"
                   >
                     {isSyncing ? <i className="fas fa-circle-notch animate-spin"></i> : <i className="fas fa-cloud-upload-alt"></i>}
                     <span>Save & Sync</span>
                   </button>
                   <button 
                     onClick={handleReload}
-                    className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-lg border border-slate-700 flex items-center space-x-1.5 cursor-pointer"
+                    className="px-2.5 py-1.5 bg-[#F8F8F7] hover:bg-white hover:border-[#D0D5DD] text-[#344054] text-xs font-semibold rounded-[8px] border border-[#ECEEF1] flex items-center gap-1.5 cursor-pointer shadow-2xs transition"
                     title="Reload sandbox environment"
                   >
-                    <i className="fas fa-redo-alt"></i>
+                    <i className="fas fa-redo-alt text-xs text-[#667085]"></i>
                     <span>Reload</span>
                   </button>
                   <button 
                     onClick={handleDownloadHTML}
-                    className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-orange-400 text-xs font-bold rounded-lg border border-slate-700 flex items-center space-x-1.5 cursor-pointer"
+                    className="px-2.5 py-1.5 bg-[#F8F8F7] hover:bg-amber-50 text-amber-700 text-xs font-semibold rounded-[8px] border border-[#ECEEF1] hover:border-amber-200 flex items-center gap-1.5 cursor-pointer shadow-2xs transition"
                   >
-                    <i className="fab fa-html5"></i>
+                    <i className="fab fa-html5 text-xs text-amber-600"></i>
                     <span>Download HTML</span>
                   </button>
                 </>
@@ -144,15 +144,15 @@ export default function UXWireframe() {
             </div>
           </div>
 
-          <div className="flex-1 p-4 bg-slate-950/60">
+          <div className="flex-1 p-4 bg-[#FAFAF9] overflow-hidden flex flex-col">
             {!pageState.output ? (
               <div className="flex flex-col items-center justify-center h-full p-8 text-center space-y-4">
-                <div className="p-4 bg-indigo-500/5 text-indigo-400 rounded-full">
-                  <i className="fas fa-desktop text-3xl"></i>
+                <div className="w-12 h-12 rounded-full bg-purple-50 text-[#7157F5] flex items-center justify-center text-xl border border-purple-100 shadow-2xs">
+                  <i className="fas fa-desktop"></i>
                 </div>
-                <div className="max-w-xs space-y-1.5">
-                  <p className="text-xs font-bold text-slate-300">UX Sandbox Offline</p>
-                  <p className="text-[11px] text-slate-500">Select specifications and trigger prototype creation to view a live interactive mockup of the application UI.</p>
+                <div className="max-w-xs space-y-1">
+                  <p className="text-sm font-bold text-[#17181C]">UX Sandbox Offline</p>
+                  <p className="text-xs text-[#667085]">Select specifications and trigger prototype creation to view a live interactive mockup of the application UI.</p>
                 </div>
               </div>
             ) : (
@@ -160,7 +160,7 @@ export default function UXWireframe() {
                 key={iframeKey}
                 srcDoc={pageState.output}
                 title="UX Wireframe sandbox frame"
-                className="w-full h-full border border-slate-800 rounded-xl bg-[#0b0f19]"
+                className="w-full h-full border border-[#ECEEF1] rounded-[14px] bg-white shadow-2xs"
                 sandbox="allow-scripts allow-popups allow-modals allow-downloads"
               />
             )}

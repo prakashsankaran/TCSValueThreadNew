@@ -157,37 +157,37 @@ export default function TraceabilityMatrix() {
           }}
           actions={
             pageState.output && (
-              <div className="flex items-center space-x-1.5">
+              <div className="flex items-center gap-1.5">
                 {showSyncSuccess && (
-                  <span className="px-2.5 py-1 bg-green-900/30 text-green-400 border border-green-800 text-[10px] font-bold rounded-lg animate-fade-in">
+                  <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold rounded-[6px] animate-fade-in whitespace-nowrap">
                     {syncMessage || 'Saved & Synchronized!'}
                   </span>
                 )}
                 <button 
                   onClick={handleSaveAndSync}
                   disabled={isSyncing}
-                  className="px-2.5 py-1.5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white text-xs font-bold rounded-lg border border-green-500/30 shadow-lg flex items-center space-x-1 cursor-pointer"
+                  className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-[8px] shadow-2xs flex items-center gap-1.5 cursor-pointer whitespace-nowrap transition"
                 >
                   {isSyncing ? <i className="fas fa-circle-notch animate-spin"></i> : <i className="fas fa-cloud-upload-alt"></i>}
                   <span>Save & Sync</span>
                 </button>
                 <button 
                   onClick={() => setIsConfluenceOpen(true)}
-                  className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-indigo-400 text-xs font-bold rounded-lg border border-slate-700 flex items-center space-x-1 cursor-pointer"
+                  className="px-2.5 py-1.5 bg-[#F8F8F7] hover:bg-white hover:border-[#D0D5DD] text-[#7157F5] text-xs font-semibold rounded-[8px] border border-[#ECEEF1] flex items-center gap-1.5 cursor-pointer shadow-2xs transition"
                 >
                   <i className="fab fa-confluence"></i>
                   <span>Confluence</span>
                 </button>
                 <button 
                   onClick={handleExportExcel}
-                  className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-green-400 text-xs font-bold rounded-lg border border-slate-700 flex items-center space-x-1 cursor-pointer"
+                  className="px-2.5 py-1.5 bg-[#F8F8F7] hover:bg-emerald-50 text-emerald-700 text-xs font-semibold rounded-[8px] border border-[#ECEEF1] hover:border-emerald-200 flex items-center gap-1.5 cursor-pointer shadow-2xs transition"
                 >
                   <i className="far fa-file-excel"></i>
                   <span>Excel</span>
                 </button>
                 <button 
                   onClick={handleExportPDF}
-                  className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-red-400 text-xs font-bold rounded-lg border border-slate-700 flex items-center space-x-1 cursor-pointer"
+                  className="px-2.5 py-1.5 bg-[#F8F8F7] hover:bg-rose-50 text-rose-700 text-xs font-semibold rounded-[8px] border border-[#ECEEF1] hover:border-rose-200 flex items-center gap-1.5 cursor-pointer shadow-2xs transition"
                 >
                   <i className="far fa-file-pdf"></i>
                   <span>PDF</span>
@@ -198,56 +198,56 @@ export default function TraceabilityMatrix() {
         >
           {!pageState.output ? (
             <div className="flex flex-col items-center justify-center h-full p-8 text-center space-y-4">
-              <div className="p-4 bg-indigo-500/5 text-indigo-400 rounded-full">
-                <i className="fas fa-link text-3xl"></i>
+              <div className="w-12 h-12 rounded-full bg-purple-50 text-[#7157F5] flex items-center justify-center text-xl border border-purple-100 shadow-2xs">
+                <i className="fas fa-link"></i>
               </div>
-              <div className="max-w-xs space-y-1.5">
-                <p className="text-xs font-bold text-slate-300">Traceability Reviewboard Offline</p>
-                <p className="text-[11px] text-slate-500">Provide requirements specifications on the left to compile links linking specs, database records, and test plans.</p>
+              <div className="max-w-xs space-y-1">
+                <p className="text-sm font-bold text-[#17181C]">Traceability Reviewboard Offline</p>
+                <p className="text-xs text-[#667085]">Provide requirements specifications on the left to compile links linking specs, database records, and test plans.</p>
               </div>
             </div>
           ) : (
             <div className="flex flex-col h-full space-y-4">
               
-              <div className="bg-indigo-950/40 border border-indigo-900/60 p-4 rounded-xl flex items-center justify-between shadow-sm">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 rounded-full bg-indigo-500/10 flex items-center justify-center text-indigo-400 text-sm">
+              <div className="bg-white border border-[#ECEEF1] p-4 rounded-[14px] flex items-center justify-between shadow-2xs">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-[#7157F5] text-sm border border-purple-100 shadow-2xs">
                     <i className="fas fa-chart-line"></i>
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-slate-200 uppercase tracking-wide">Status Trackers Coverage</h4>
-                    <p className="text-[10px] text-slate-500 font-medium">Requirement-to-code traceability index</p>
+                    <h4 className="text-xs font-bold text-[#17181C] uppercase tracking-wide">Status Trackers Coverage</h4>
+                    <p className="text-[11px] text-[#667085]">Requirement-to-code traceability index</p>
                   </div>
                 </div>
                 
-                <span className="px-3.5 py-1.5 bg-emerald-950/30 text-emerald-400 border border-emerald-900/60 text-xs font-bold rounded-full flex items-center">
-                  <i className="fas fa-check-circle mr-1.5"></i>
+                <span className="px-3.5 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold rounded-full flex items-center gap-1.5 shadow-2xs">
+                  <i className="fas fa-check-circle text-emerald-600"></i>
                   <span>{pageState.output.coverage} Traceability Coverage achieved</span>
                 </span>
               </div>
 
-              <div className="flex-1 bg-slate-950/60 border border-slate-900 rounded-xl overflow-x-auto custom-scroll">
+              <div className="flex-1 bg-white border border-[#ECEEF1] rounded-[14px] overflow-x-auto custom-scroll shadow-2xs">
                 <table className="w-full text-left border-collapse text-xs">
                   <thead>
-                    <tr className="bg-slate-900 border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold text-[10px]">
-                      <th className="p-3 border-r border-slate-800">Requirement ID (FSD)</th>
-                      <th className="p-3 border-r border-slate-800">User Story ID (JIRA)</th>
-                      <th className="p-3 border-r border-slate-800">Tech Spec Section</th>
-                      <th className="p-3 border-r border-slate-800">Database Tables</th>
-                      <th className="p-3 border-r border-slate-800">Test Case IDs</th>
+                    <tr className="bg-[#F8F8F7] border-b border-[#ECEEF1] text-[#667085] uppercase tracking-wider font-semibold text-[10px]">
+                      <th className="p-3 border-r border-[#ECEEF1]">Requirement ID (FSD)</th>
+                      <th className="p-3 border-r border-[#ECEEF1]">User Story ID (JIRA)</th>
+                      <th className="p-3 border-r border-[#ECEEF1]">Tech Spec Section</th>
+                      <th className="p-3 border-r border-[#ECEEF1]">Database Tables</th>
+                      <th className="p-3 border-r border-[#ECEEF1]">Test Case IDs</th>
                       <th className="p-3">Evidence Correlation Key</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-800 bg-slate-950/20 text-slate-300">
+                  <tbody className="divide-y divide-[#ECEEF1] text-[#344054]">
                     {pageState.output.matrix?.map((row, idx) => (
-                      <tr key={idx} className="hover:bg-slate-900/20">
-                        <td className="p-3 border-r border-slate-800 font-bold text-indigo-400">{row.reqId}</td>
-                        <td className="p-3 border-r border-slate-800 font-medium text-slate-200">{row.userStoryId}</td>
-                        <td className="p-3 border-r border-slate-800 text-slate-400">{row.techSpec}</td>
-                        <td className="p-3 border-r border-slate-800 font-mono text-purple-400">{row.dbTables}</td>
-                        <td className="p-3 border-r border-slate-800 text-emerald-400 font-medium">{row.testCases}</td>
+                      <tr key={idx} className="hover:bg-[#FAFAF9] transition">
+                        <td className="p-3 border-r border-[#ECEEF1] font-bold text-[#7157F5] font-mono">{row.reqId}</td>
+                        <td className="p-3 border-r border-[#ECEEF1] font-semibold text-[#17181C]">{row.userStoryId}</td>
+                        <td className="p-3 border-r border-[#ECEEF1] text-[#475467]">{row.techSpec}</td>
+                        <td className="p-3 border-r border-[#ECEEF1] font-mono text-purple-700 font-semibold">{row.dbTables}</td>
+                        <td className="p-3 border-r border-[#ECEEF1] text-emerald-700 font-semibold">{row.testCases}</td>
                         <td className="p-3">
-                          <span className="px-2 py-0.5 bg-indigo-950/60 border border-indigo-800 text-indigo-300 font-mono text-[10px] rounded">
+                          <span className="px-2 py-0.5 bg-purple-50 border border-purple-200 text-[#7157F5] font-mono text-[10px] font-bold rounded-[6px]">
                             CORR-REQ-8821
                           </span>
                         </td>

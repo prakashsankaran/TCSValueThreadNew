@@ -108,15 +108,15 @@ export const JiraPublishModal = ({ isOpen, onClose, onSuccess, onError }) => {
   const showSprintSelector = isLoadingSprints || sprints.length > 0;
 
   return (
-    <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in">
-      <div className="glass-panel max-w-md w-full mx-4 p-6 rounded-2xl border border-slate-800 shadow-2xl space-y-4">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-50 animate-fade-in p-4">
+      <div className="bg-white max-w-md w-full p-6 rounded-[20px] border border-[#ECEEF1] shadow-2xl space-y-4">
 
         {/* Header */}
-        <div className="flex justify-between items-center border-b border-slate-850 pb-3">
-          <h3 className="text-sm font-bold text-slate-200 flex items-center">
-            <i className="fab fa-jira mr-2 text-indigo-400"></i> Push Backlog to JIRA Board
+        <div className="flex justify-between items-center border-b border-[#ECEEF1] pb-3">
+          <h3 className="text-sm font-bold text-[#17181C] flex items-center gap-2">
+            <i className="fab fa-jira text-[#7157F5]"></i> Push Backlog to JIRA Board
           </h3>
-          <button onClick={onClose} className="text-slate-400 hover:text-white transition cursor-pointer">
+          <button onClick={onClose} className="text-[#667085] hover:text-[#17181C] transition cursor-pointer p-1 rounded-lg hover:bg-[#F8F8F7]">
             <i className="fas fa-times"></i>
           </button>
         </div>
@@ -126,32 +126,32 @@ export const JiraPublishModal = ({ isOpen, onClose, onSuccess, onError }) => {
 
           {/* Choose Account */}
           <div className="space-y-1.5">
-            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Jira Account & Project</label>
-            <div className="p-2.5 bg-slate-950/60 border border-slate-900 rounded-lg text-xs text-slate-300 flex justify-between items-center">
+            <label className="block text-[10px] font-bold text-[#667085] uppercase tracking-wider">Jira Account & Project</label>
+            <div className="p-3 bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] text-xs text-[#344054] flex justify-between items-center shadow-2xs">
               <div>
-                <p className="font-semibold text-slate-200">{selectedAccount}</p>
-                <p className="text-[10px] text-slate-500">Project Space Key: <span className="text-indigo-400 font-mono font-bold">{projectKey}</span></p>
+                <p className="font-semibold text-[#17181C]">{selectedAccount}</p>
+                <p className="text-[11px] text-[#667085]">Project Space Key: <span className="text-[#7157F5] font-mono font-bold">{projectKey}</span></p>
               </div>
-              <span className="px-2 py-0.5 bg-green-500/10 text-green-400 border border-green-500/20 text-[9px] font-bold rounded">Connected</span>
+              <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold rounded-[6px]">Connected</span>
             </div>
           </div>
 
           {/* Select JIRA Board */}
           <div className="space-y-1.5">
-            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Select Agile/Scrum Board</label>
+            <label className="block text-[10px] font-bold text-[#667085] uppercase tracking-wider">Select Agile/Scrum Board</label>
             {isLoadingBoards ? (
-              <div className="text-xs text-slate-500 flex items-center space-x-1.5 py-2">
-                <i className="fas fa-circle-notch animate-spin"></i>
+              <div className="text-xs text-[#667085] flex items-center gap-1.5 py-2">
+                <i className="fas fa-circle-notch animate-spin text-[#7157F5]"></i>
                 <span>Loading boards from Atlassian...</span>
               </div>
             ) : boards.length === 0 ? (
-              <p className="text-xs text-red-400">No boards found for project key {projectKey}</p>
+              <p className="text-xs text-rose-600">No boards found for project key {projectKey}</p>
             ) : (
               <div className="relative">
                 <select
                   value={selectedBoardId}
                   onChange={(e) => handleBoardChange(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-indigo-500 text-slate-250 font-semibold appearance-none"
+                  className="w-full bg-white border border-[#ECEEF1] rounded-[8px] px-3 py-2 text-xs focus:outline-none focus:border-[#7157F5] text-[#17181C] font-semibold appearance-none"
                 >
                   {boards.map(board => (
                     <option key={board.id} value={board.id}>
@@ -159,7 +159,7 @@ export const JiraPublishModal = ({ isOpen, onClose, onSuccess, onError }) => {
                     </option>
                   ))}
                 </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[#667085]">
                   <i className="fas fa-chevron-down text-xs"></i>
                 </div>
               </div>
@@ -169,16 +169,16 @@ export const JiraPublishModal = ({ isOpen, onClose, onSuccess, onError }) => {
           {/* Select Sprint */}
           {showSprintSelector && (
             <div className="space-y-1.5 animate-fade-in">
-              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+              <label className="block text-[10px] font-bold text-[#667085] uppercase tracking-wider">
                 Select Active/Future Sprint
               </label>
               {isLoadingSprints ? (
-                <div className="text-xs text-slate-500 flex items-center space-x-1.5 py-2">
-                  <i className="fas fa-circle-notch animate-spin"></i>
+                <div className="text-xs text-[#667085] flex items-center gap-1.5 py-2">
+                  <i className="fas fa-circle-notch animate-spin text-[#7157F5]"></i>
                   <span>Retrieving sprint lists...</span>
                 </div>
               ) : sprints.length === 0 ? (
-                <div className="p-2.5 bg-yellow-950/20 border border-yellow-900/40 rounded-lg text-[11px] text-yellow-400">
+                <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-[8px] text-[11px] text-amber-800">
                   No active sprints found. Issues will default to Backlog.
                 </div>
               ) : (
@@ -186,7 +186,7 @@ export const JiraPublishModal = ({ isOpen, onClose, onSuccess, onError }) => {
                   <select
                     value={selectedSprintId}
                     onChange={(e) => setSelectedSprintId(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-indigo-500 text-slate-250 font-semibold appearance-none"
+                    className="w-full bg-white border border-[#ECEEF1] rounded-[8px] px-3 py-2 text-xs focus:outline-none focus:border-[#7157F5] text-[#17181C] font-semibold appearance-none"
                   >
                     <option value="">-- Send to Backlog --</option>
                     {sprints.map(sprint => (
@@ -195,7 +195,7 @@ export const JiraPublishModal = ({ isOpen, onClose, onSuccess, onError }) => {
                       </option>
                     ))}
                   </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[#667085]">
                     <i className="fas fa-chevron-down text-xs"></i>
                   </div>
                 </div>
@@ -204,18 +204,18 @@ export const JiraPublishModal = ({ isOpen, onClose, onSuccess, onError }) => {
           )}
 
           {/* Action Buttons */}
-          <div className="flex space-x-2 pt-2 justify-end border-t border-slate-850">
+          <div className="flex gap-2 pt-2 justify-end border-t border-[#ECEEF1]">
             <button
               onClick={onClose}
               disabled={isSyncing}
-              className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-lg transition cursor-pointer"
+              className="px-4 py-2 bg-[#F8F8F7] hover:bg-white text-[#344054] text-xs font-semibold rounded-[8px] border border-[#ECEEF1] transition cursor-pointer shadow-2xs"
             >
               Cancel
             </button>
             <button
               onClick={handleSync}
               disabled={isSyncing || isLoadingBoards || boards.length === 0}
-              className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-lg shadow-lg border border-indigo-500/30 transition flex items-center space-x-1.5 cursor-pointer"
+              className="px-4 py-2 bg-[#7157F5] hover:bg-[#5F46D8] text-white text-xs font-semibold rounded-[8px] shadow-2xs transition flex items-center gap-1.5 cursor-pointer"
             >
               {isSyncing ? (
                 <>
@@ -236,3 +236,4 @@ export const JiraPublishModal = ({ isOpen, onClose, onSuccess, onError }) => {
     </div>
   );
 };
+

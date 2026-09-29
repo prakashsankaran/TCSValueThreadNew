@@ -24,20 +24,20 @@ export const ENGINE_REGISTRY = {
   T2_LOCAL_SLM: {
     tier: 'T2',
     id: 't2_local_cost_optimized_model',
-    name: 'T2 Cost-Optimized Gateway Model (Gemini 2.5 Flash)',
+    name: 'T2 Cost-Optimized Gateway Model (Gemini 3.6 Flash)',
     executionMode: 'SLM',
-    modelName: 'gemini-2.5-flash',
+    modelName: 'gemini-3.6-flash',
     latencyMs: 800,
     costEst: 0.0001
   },
   T3_ENTERPRISE_LLM: {
     tier: 'T3',
     id: 't3_enterprise_llm_reasoning',
-    name: 'T3 Enterprise High Intelligence Model (Google Gemini 2.5 Pro)',
+    name: 'T3 Enterprise High Intelligence Model (Google Gemini 3.6 Flash)',
     executionMode: 'LLM',
-    modelName: 'gemini-2.5-pro',
-    latencyMs: 2400,
-    costEst: 0.005
+    modelName: 'gemini-3.6-flash',
+    latencyMs: 1200,
+    costEst: 0.001
   },
   T4_HUMAN: {
     tier: 'T4',
@@ -50,78 +50,88 @@ export const ENGINE_REGISTRY = {
 };
 
 /**
- * Adapter to call Server Proxy for Google Gemini 2.5 Pro tasks
+ * Adapter to call Server Proxy for Google Gemini tasks with auto-fallback
  */
 export async function invokeModelAdapter({ modelName, prompt, systemInstruction, temperature = 0.2 }) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
   const startTime = Date.now();
   const apiKey = process.env.GEMINI_API_KEY || '';
-  const selectedModel = modelName || process.env.ENTERPRISE_LLM_MODEL || 'gemini-2.5-pro';
 
   if (!apiKey) {
     return { success: false, status: 'UNAVAILABLE', error: 'Server GEMINI_API_KEY not configured.', latencyMs: Date.now() - startTime };
   }
 
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 45000);
+  const candidateModels = [
+    modelName?.replace(/^models\//, ''),
+    'gemini-3.6-flash',
+    'gemini-3.5-flash',
+    'gemini-3.1-flash-lite',
+    'gemini-3.1-pro-preview'
+  ].filter((m, idx, arr) => m && arr.indexOf(m) === idx && !m.includes('2.5-') && !m.includes('2.0-') && !m.includes('1.5-'));
 
-    const contents = [ ...(systemInstruction ? [{ role: 'user', parts: [{ text: `[System Instruction]: ${systemInstruction}` }] }] : []), { role: 'user', parts: [{ text: prompt }] } ];
+  if (candidateModels.length === 0) {
+    candidateModels.push('gemini-3.6-flash', 'gemini-3.5-flash');
+  }
 
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${apiKey}`;
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ contents, generationConfig: { temperature } }),
-      signal: controller.signal
-    });
+  const contents = [ ...(systemInstruction ? [{ role: 'user', parts: [{ text: `[System Instruction]: ${systemInstruction}` }] }] : []), { role: 'user', parts: [{ text: prompt }] } ];
 
-    clearTimeout(timeoutId);
+  for (const selectedModel of candidateModels) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000);
 
-    if (res.ok) {
-      const data = await res.json();
-      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || null;
-      if (text && text.trim().length > 0) {
-        const cTokens = Math.max(20, Math.ceil(text.length / 4));
-        const pTokens = Math.max(20, Math.ceil(prompt.length / 4));
-        const tTokens = pTokens + cTokens;
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${selectedModel}:generateContent?key=${apiKey}`;
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents, generationConfig: { temperature } }),
+        signal: controller.signal
+      });
 
-        try {
-          fetch('http://localhost:7001/api/tokens/record', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              agentName: `LLM Intelligence Adapter (${selectedModel})`,
-              model: selectedModel,
-              promptTokens: pTokens,
-              completionTokens: cTokens,
-              totalTokens: tTokens
-            })
-          }).catch(() => {});
-        } catch (e) {}
+      clearTimeout(timeoutId);
 
-        return {
-          success: true,
-          status: 'SUCCESS',
-          text: text.trim(),
-          modelUsed: `Google ${selectedModel} (Google Gemini)`,
-          latencyMs: Date.now() - startTime,
-          tokens: { prompt: pTokens, completion: cTokens, total: tTokens }
-        };
+      if (res.ok) {
+        const data = await res.json();
+        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || null;
+        if (text && text.trim().length > 0) {
+          const cTokens = Math.max(20, Math.ceil(text.length / 4));
+          const pTokens = Math.max(20, Math.ceil(prompt.length / 4));
+          const tTokens = pTokens + cTokens;
+
+          try {
+            fetch('http://localhost:7001/api/tokens/record', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                agentName: `LLM Intelligence Adapter (${selectedModel})`,
+                model: selectedModel,
+                promptTokens: pTokens,
+                completionTokens: cTokens,
+                totalTokens: tTokens
+              })
+            }).catch(() => {});
+          } catch (e) {}
+
+          return {
+            success: true,
+            status: 'SUCCESS',
+            text: text.trim(),
+            modelUsed: `Google ${selectedModel} (Google Gemini)`,
+            latencyMs: Date.now() - startTime,
+            tokens: { prompt: pTokens, completion: cTokens, total: tTokens }
+          };
+        }
       }
-    } else {
-      const errText = await res.text();
-      console.warn(`[EngineRegistry] Google Gemini returned HTTP ${res.status}: ${errText}`);
+    } catch (err) {
+      // try next candidate model
     }
-  } catch (err) {
-    console.warn(`[EngineRegistry] Google Gemini invocation note (${selectedModel}): ${err.message}`);
   }
 
   return {
     success: false,
     text: null,
     status: 'UNAVAILABLE',
-    error: 'Google Gemini Gateway execution unverified.',
+    error: 'Google Gemini Gateway execution unverified across candidate models.',
     latencyMs: Date.now() - startTime
   };
 }

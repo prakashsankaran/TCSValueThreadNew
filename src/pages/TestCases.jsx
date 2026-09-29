@@ -82,33 +82,33 @@ export default function TestCases() {
           }}
           actions={
             pageState.output && (
-              <div className="flex items-center space-x-1.5">
+              <div className="flex items-center gap-1.5">
                 {showSyncSuccess && (
-                  <span className="px-2.5 py-1 bg-green-900/30 text-green-400 border border-green-800 text-[10px] font-bold rounded-lg animate-fade-in">
+                  <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold rounded-[6px] animate-fade-in whitespace-nowrap">
                     {syncMessage || 'Saved & Synchronized!'}
                   </span>
                 )}
                 <button 
                   onClick={handleSaveAndSync}
                   disabled={isSyncing}
-                  className="px-2.5 py-1.5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white text-xs font-bold rounded-lg border border-green-500/30 shadow-lg flex items-center space-x-1 cursor-pointer"
+                  className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-[8px] shadow-2xs flex items-center gap-1.5 cursor-pointer whitespace-nowrap transition"
                 >
                   {isSyncing ? <i className="fas fa-circle-notch animate-spin"></i> : <i className="fas fa-cloud-upload-alt"></i>}
                   <span>Save & Sync</span>
                 </button>
                 <button 
                   onClick={() => setIsConfluenceOpen(true)}
-                  className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-indigo-400 text-xs font-bold rounded-lg border border-slate-700 flex items-center space-x-1 cursor-pointer"
+                  className="px-2.5 py-1.5 bg-[#F8F8F7] hover:bg-white hover:border-[#D0D5DD] text-[#7157F5] text-xs font-semibold rounded-[8px] border border-[#ECEEF1] flex items-center gap-1.5 cursor-pointer shadow-2xs transition"
                 >
                   <i className="fab fa-confluence"></i>
                   <span>Confluence</span>
                 </button>
                 <button 
                   onClick={handleDownloadPDF}
-                  className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-red-400 text-xs font-bold rounded-lg border border-slate-700 flex items-center space-x-1 cursor-pointer"
+                  className="px-2.5 py-1.5 bg-[#F8F8F7] hover:bg-rose-50 text-rose-700 text-xs font-semibold rounded-[8px] border border-[#ECEEF1] hover:border-rose-200 flex items-center gap-1.5 cursor-pointer shadow-2xs transition"
                 >
                   <i className="far fa-file-pdf"></i>
-                  <span>Download PDF</span>
+                  <span>PDF</span>
                 </button>
               </div>
             )
@@ -116,12 +116,12 @@ export default function TestCases() {
         >
           {!pageState.output ? (
             <div className="flex flex-col items-center justify-center h-full p-8 text-center space-y-4">
-              <div className="p-4 bg-indigo-500/5 text-indigo-400 rounded-full">
-                <i className="fas fa-tasks text-3xl"></i>
+              <div className="w-12 h-12 rounded-full bg-purple-50 text-[#7157F5] flex items-center justify-center text-xl border border-purple-100 shadow-2xs">
+                <i className="fas fa-tasks"></i>
               </div>
-              <div className="max-w-xs space-y-1.5">
-                <p className="text-xs font-bold text-slate-300">Test Document Not Generated</p>
-                <p className="text-[11px] text-slate-500">Provide specs on the left and compile to generate the comprehensive test strategy & test cases document.</p>
+              <div className="max-w-xs space-y-1">
+                <p className="text-sm font-bold text-[#17181C]">Test Document Not Generated</p>
+                <p className="text-xs text-[#667085]">Provide specs on the left and compile to generate the comprehensive test strategy & test cases document.</p>
               </div>
             </div>
           ) : (
@@ -135,29 +135,40 @@ export default function TestCases() {
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
       margin: 0; padding: 0;
-      background: #0f172a;
-      color: #e2e8f0;
-      font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
+      background: #FFFFFF;
+      color: #344054;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-size: 13px;
       line-height: 1.6;
       width: 100%;
       overflow-x: hidden;
     }
-    body { padding: 16px; }
+    body { padding: 20px; }
     table {
       width: 100%;
       max-width: 100%;
       border-collapse: collapse;
       table-layout: auto;
       word-break: break-word;
+      margin-top: 12px;
     }
     td, th {
       word-break: break-word;
       overflow-wrap: break-word;
       max-width: 300px;
+      padding: 8px 10px;
+      border-bottom: 1px solid #ECEEF1;
     }
+    th {
+      background: #F8F8F7;
+      text-align: left;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: #667085;
+    }
+    h1, h2, h3, h4 { color: #17181C; }
     img { max-width: 100%; height: auto; }
-    pre, code { white-space: pre-wrap; word-break: break-word; }
+    pre, code { white-space: pre-wrap; word-break: break-word; background: #F8F8F7; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
     * { max-width: 100%; }
     div, section, article, p { overflow-wrap: break-word; }
   </style>
@@ -165,8 +176,8 @@ export default function TestCases() {
 <body>${pageState.output.html || ''}</body>
 </html>`}
               title="Test Strategy & Test Cases Document"
-              className="w-full h-full border border-slate-800 rounded-xl"
-              style={{ background: '#0f172a' }}
+              className="w-full h-full border border-[#ECEEF1] rounded-[14px] bg-white shadow-2xs"
+              style={{ background: '#FFFFFF' }}
             />
           )}
         </GeneratedOutput>

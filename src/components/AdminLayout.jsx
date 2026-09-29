@@ -93,33 +93,63 @@ export default function AdminLayout() {
   };
 
   return (
-    <div className={`flex h-screen overflow-hidden bg-[#070a13] text-[#f3f4f6] ${theme}`}>
-      {/* Sidebar Navigation */}
-      <aside 
-        className={`${
-          isSidebarCollapsed ? 'w-16' : 'w-64'
-        } border-r border-slate-800 bg-[#0b0f19] flex flex-col justify-between shrink-0 transition-all duration-300 ease-in-out`}
-      >
-        <div className="flex-1 min-h-0 overflow-y-auto custom-scroll">
-          {/* Brand header */}
-          <div className={`px-4 py-4 border-b border-slate-800 flex items-center bg-slate-950/20 ${
-              isSidebarCollapsed ? 'justify-center' : 'space-x-3'
-            }`}>
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-lg shadow-indigo-500/30 shrink-0 text-white">
-              <i className="fas fa-gem text-xs"></i>
-            </div>
-            {!isSidebarCollapsed && (
-              <div className="truncate">
-                <h1 className="text-xs font-black uppercase tracking-widest bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">TCS ValueThread</h1>
-                <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">Platform Admin Control Center</p>
-              </div>
-            )}
-          </div>
+    <div className="flex flex-col h-screen overflow-hidden bg-[#FAFAF9] text-[#17181C]">
+      {/* 1. TOP ADMIN STICKY HEADER */}
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#ECEEF1] px-4 sm:px-6 py-2.5 flex items-center justify-between select-none shrink-0 shadow-2xs">
+        <div className="flex items-center gap-3">
+          <img
+            src="/branding/tcs-valuethread-header-logo.png"
+            alt="TCS ValueThread"
+            className="h-8 sm:h-9 w-auto object-contain cursor-pointer transition-transform hover:scale-[1.02]"
+            onClick={() => navigate('/')}
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = "/branding/tcs-valuethread-full-logo-tagline.png";
+            }}
+          />
+          <span className="hidden sm:inline text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-[6px] bg-purple-50 text-purple-700 border border-purple-200">
+            Admin Control Plane
+          </span>
+        </div>
 
-          {/* Navigation Links */}
-          <nav className="p-2 space-y-1 mt-4">
-            <span className={`block px-3 mb-2 text-[10px] font-bold uppercase tracking-wider text-slate-500 ${isSidebarCollapsed ? 'text-center' : ''}`}>
-              {isSidebarCollapsed ? 'CFG' : 'Configuration'}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => navigate('/layer0')}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-[10px] bg-white hover:bg-[#F8F8F7] text-[#344054] border border-[#ECEEF1] hover:border-[#D0D5DD] text-xs font-semibold shadow-2xs transition-all cursor-pointer"
+          >
+            <i className="fas fa-arrow-left text-[#7157F5] text-xs"></i>
+            <span>Return to Workspace</span>
+          </button>
+
+          <div className="flex items-center gap-2 pl-2 border-l border-[#ECEEF1]">
+            <div 
+              className="w-7 h-7 rounded-full bg-purple-600 text-white flex items-center justify-center text-[10px] font-bold shadow-xs shrink-0 cursor-default" 
+              title={activeUser?.name || 'Platform Admin'}
+            >
+              {userInitials}
+            </div>
+            <button
+              onClick={handleLogout}
+              className="p-1.5 text-[#98A2B3] hover:text-rose-600 hover:bg-rose-50 rounded-[8px] transition-colors cursor-pointer"
+              title="Sign Out of Admin Control Plane"
+            >
+              <i className="fas fa-sign-out-alt text-xs"></i>
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* 2. BODY FRAME: ADMIN SIDEBAR + MAIN VIEW */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Sidebar Navigation */}
+        <aside 
+          className={`${
+            isSidebarCollapsed ? 'w-16' : 'w-64'
+          } border-r border-[#ECEEF1] bg-white flex flex-col justify-between shrink-0 transition-all duration-300 ease-in-out z-20`}
+        >
+          <div className="flex-1 min-h-0 overflow-y-auto custom-scroll p-3 space-y-1">
+            <span className={`block px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#98A2B3] ${isSidebarCollapsed ? 'text-center' : ''}`}>
+              {isSidebarCollapsed ? 'CFG' : 'Administration'}
             </span>
             {navigationItems.map((item) => {
               const isActive = location.pathname.startsWith(item.path);
@@ -128,24 +158,20 @@ export default function AdminLayout() {
                   key={item.path}
                   to={item.path}
                   title={isSidebarCollapsed ? item.label : undefined}
-                  className={`flex items-center rounded-xl transition duration-200 group ${
-                    isSidebarCollapsed ? 'justify-center p-2.5' : 'space-x-3 px-3 py-2.5'
+                  className={`flex items-center rounded-[10px] transition-all duration-150 ${
+                    isSidebarCollapsed ? 'justify-center p-2' : 'gap-2.5 px-3 py-2'
                   } ${
                     isActive
-                      ? theme === 'light' 
-                        ? 'bg-indigo-50 border border-indigo-200 text-indigo-700 font-semibold'
-                        : 'bg-gradient-to-r from-indigo-950/40 to-slate-900 border border-indigo-500/30 text-white font-semibold'
-                      : theme === 'light'
-                        ? 'border border-transparent text-slate-500 hover:text-indigo-600 hover:bg-slate-100'
-                        : 'border border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/40'
+                      ? 'bg-purple-50 text-purple-900 font-bold border border-purple-200 shadow-2xs'
+                      : 'text-[#667085] hover:text-[#17181C] hover:bg-[#F8F8F7] border border-transparent'
                   }`}
                 >
-                  <div className={`w-7 h-7 rounded-lg flex items-center justify-center transition duration-200 shrink-0 ${
+                  <div className={`w-6 h-6 rounded-[8px] flex items-center justify-center shrink-0 transition-colors ${
                     isActive 
-                      ? theme === 'light' ? 'bg-indigo-100 text-indigo-600' : 'bg-indigo-500/10 text-indigo-400' 
-                      : theme === 'light' ? 'bg-slate-100 text-slate-400 group-hover:bg-indigo-100 group-hover:text-indigo-500' : 'bg-slate-900/50 text-slate-500 group-hover:bg-slate-900 group-hover:text-slate-300'
+                      ? 'bg-purple-600 text-white' 
+                      : 'bg-[#F8F8F7] text-[#98A2B3] group-hover:text-[#17181C]'
                   }`}>
-                    <i className={`${item.icon} text-xs`}></i>
+                    <i className={`${item.icon} text-[11px]`}></i>
                   </div>
                   {!isSidebarCollapsed && (
                     <div className="truncate flex-1 min-w-0">
@@ -154,101 +180,38 @@ export default function AdminLayout() {
                         {item.badge && (
                           <span className={`text-[8px] font-bold px-1.5 py-0.2 rounded border ml-1 shrink-0 ${
                             isActive 
-                              ? 'bg-indigo-500/20 text-indigo-300 border-indigo-500/40'
-                              : 'bg-slate-900 text-slate-400 border-slate-800'
+                              ? 'bg-white text-purple-700 border-purple-200'
+                              : 'bg-[#F8F8F7] text-[#667085] border-[#ECEEF1]'
                           }`}>
                             {item.badge}
                           </span>
                         )}
                       </div>
-                      <p className="text-[9px] text-slate-500 group-hover:text-slate-400 transition truncate">{item.desc}</p>
+                      <p className="text-[9px] text-[#98A2B3] truncate">{item.desc}</p>
                     </div>
                   )}
                 </Link>
               );
             })}
-          </nav>
-        </div>
+          </div>
 
-        {/* Footer System Status & Collapse Toggle */}
-        <div className="p-3 border-t border-slate-800 bg-slate-950/20 space-y-2">
-          {!isSidebarCollapsed && (
-            <div className="mb-4 px-2 py-3 rounded-lg bg-slate-900/40 border border-slate-800 flex items-center space-x-3">
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex flex-shrink-0 items-center justify-center font-bold text-white text-xs">
-                {userInitials}
-              </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-xs font-semibold text-white truncate">{activeUser?.name || 'Platform Admin'}</p>
-                <p className="text-[10px] text-indigo-400 truncate">{activeUser?.email || 'prasanna@frugalforge.io'}</p>
-              </div>
-            </div>
-          )}
-
-          <button
-            onClick={handleLogout}
-            className="w-full py-2 mb-2 rounded-lg bg-rose-500/10 border border-rose-500/20 hover:bg-rose-500/20 hover:border-rose-500/40 text-rose-400 hover:text-rose-300 text-xs flex items-center justify-center transition cursor-pointer gap-2"
-          >
-            <i className="fas fa-sign-out-alt"></i>
-            {!isSidebarCollapsed && <span>Log Out</span>}
-          </button>
-
-          <button
-            onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-            className="w-full py-1.5 rounded-lg bg-slate-900/60 border border-slate-800/80 hover:bg-slate-800 text-slate-400 hover:text-white text-xs flex items-center justify-center transition cursor-pointer"
-            title={isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
-          >
-            <i className={`fas ${isSidebarCollapsed ? 'fa-angle-double-right' : 'fa-angle-double-left'}`}></i>
-          </button>
-        </div>
-      </aside>
-
-      {/* Main Workspace Frame */}
-      <main className="flex-1 flex flex-col min-w-0 bg-[#070a13] relative">
-        {/* Top bar header */}
-        <header className="h-14 border-b border-slate-800 bg-[#0b0f19]/80 backdrop-blur flex justify-between items-center px-6 shrink-0 min-w-0">
-          <div className="flex items-center space-x-3 min-w-0">
+          {/* Footer Collapse Toggle */}
+          <div className="p-3 border-t border-[#ECEEF1] bg-[#F8F8F7]">
             <button
               onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-              className="w-8 h-8 rounded-xl bg-slate-900 border border-slate-800 hover:border-indigo-500/50 flex items-center justify-center text-slate-400 hover:text-white transition duration-200 cursor-pointer shrink-0"
+              className="w-full py-1.5 rounded-[8px] bg-white border border-[#ECEEF1] hover:bg-[#F8F8F7] text-[#667085] hover:text-[#17181C] text-xs flex items-center justify-center transition cursor-pointer shadow-2xs"
+              title={isSidebarCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
             >
-              <i className={`fas ${isSidebarCollapsed ? 'fa-bars text-indigo-400' : 'fa-outdent'} text-xs`}></i>
+              <i className={`fas ${isSidebarCollapsed ? 'fa-angles-right' : 'fa-angles-left'} text-[10px]`}></i>
             </button>
-            <h2 className="text-xs font-black text-slate-400 uppercase tracking-widest hidden lg:block shrink-0">
-              Platform Admin Control Center
-            </h2>
-
-            <div className="h-5 w-px bg-slate-800 mx-3 hidden lg:block"></div>
           </div>
-
-          <div className="flex items-center space-x-3">
-            <button
-              onClick={toggleTheme}
-              className="w-8 h-8 rounded-xl bg-indigo-950/60 border border-indigo-900/60 hover:border-indigo-500 flex items-center justify-center text-slate-400 hover:text-white transition duration-200 cursor-pointer"
-              title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
-            >
-              <i className={`fas ${theme === 'dark' ? 'fa-lightbulb text-amber-400 animate-pulse' : 'fa-moon text-indigo-500'} text-xs`}></i>
-            </button>
-            <div className="flex items-center space-x-2 pl-2">
-              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-[10px] font-bold text-white shadow shrink-0" title={activeUser?.name || 'Platform Admin'}>
-                {userInitials}
-              </div>
-              <button
-                onClick={handleLogout}
-                className="px-2.5 py-1 bg-rose-500/15 hover:bg-rose-500/25 text-rose-400 border border-rose-500/30 rounded-lg text-[10px] font-bold transition duration-200 cursor-pointer flex items-center space-x-1 shrink-0"
-                title="Sign Out of Admin Control Center"
-              >
-                <i className="fas fa-sign-out-alt"></i>
-                <span>Log Out</span>
-              </button>
-            </div>
-          </div>
-        </header>
+        </aside>
 
         {/* Dynamic page contents wrapper */}
-        <div className="flex-1 p-6 overflow-y-auto custom-scroll">
+        <div className="flex-1 p-6 overflow-y-auto custom-scroll bg-[#FAFAF9]">
           <Outlet />
         </div>
-      </main>
+      </div>
     </div>
   );
 }

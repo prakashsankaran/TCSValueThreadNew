@@ -83,11 +83,11 @@ export default function FunctionalSpec() {
       />
 
       {/* RIGHT PANEL */}
-      <div className="glass-panel rounded-2xl flex flex-col overflow-hidden border border-slate-800 shadow-xl">
-        <div className="px-4 py-3 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2 bg-slate-900/60 shrink-0">
-          <div className="flex items-center space-x-2 min-w-0 shrink">
-            <span className="w-1.5 h-3.5 bg-indigo-500 rounded-full shrink-0"></span>
-            <h2 className="text-xs font-bold tracking-wider text-slate-200 uppercase whitespace-nowrap shrink-0">
+      <div className="bg-white rounded-[18px] flex flex-col overflow-hidden border border-[#ECEEF1] shadow-2xs">
+        <div className="px-4 py-3 border-b border-[#ECEEF1] flex flex-wrap items-center justify-between gap-2 bg-white shrink-0">
+          <div className="flex items-center gap-2 min-w-0 shrink">
+            <span className="w-1.5 h-3.5 bg-[#7157F5] rounded-full shrink-0"></span>
+            <h2 className="text-xs font-bold tracking-wider text-[#17181C] uppercase whitespace-nowrap shrink-0">
               Functional Spec
             </h2>
             <select
@@ -99,23 +99,23 @@ export default function FunctionalSpec() {
                   updatePageState('functional-spec', { output: ver.content });
                 }
               }}
-              className="bg-indigo-950/60 hover:bg-indigo-950 border border-indigo-500/40 rounded-lg px-2 py-1 text-[11px] text-indigo-300 font-mono font-bold focus:outline-none cursor-pointer max-w-[130px] sm:max-w-[170px] truncate shrink min-w-[90px]"
+              className="bg-[#F8F8F7] hover:bg-white border border-[#ECEEF1] rounded-[8px] px-2 py-1 text-xs text-[#17181C] font-mono font-semibold focus:outline-none focus:border-[#7157F5] cursor-pointer max-w-[130px] sm:max-w-[170px] truncate shrink min-w-[90px]"
             >
               {savedVersions && savedVersions.length > 0 ? (
                 savedVersions.map((v) => (
-                  <option key={v.id} value={v.id} className="bg-slate-950 text-slate-200">
+                  <option key={v.id} value={v.id} className="text-[#17181C]">
                     {v.version}{v.status === 'LATEST' ? ' (LATEST)' : ''} - {v.artefactId || v.id}
                   </option>
                 ))
               ) : (
-                <option value="" className="bg-slate-950 text-slate-200">v1.0.0 (LATEST)</option>
+                <option value="" className="text-[#17181C]">v1.0.0 (LATEST)</option>
               )}
             </select>
           </div>
 
-          <div className="flex items-center space-x-2 shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
             {showSyncSuccess && (
-              <span className="px-2 py-0.5 bg-green-900/40 text-green-400 border border-green-800 text-[10px] font-bold rounded-md animate-fade-in whitespace-nowrap">
+              <span className="px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold rounded-[6px] animate-fade-in whitespace-nowrap">
                 {syncMessage || 'Saved & Synchronized!'}
               </span>
             )}
@@ -123,7 +123,7 @@ export default function FunctionalSpec() {
               type="button"
               onClick={() => handleSaveAndSync()}
               disabled={isSyncing || !pageState.output}
-              className="px-2.5 py-1.5 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white text-xs font-bold rounded-lg border border-green-500/30 shadow-md flex items-center space-x-1.5 cursor-pointer whitespace-nowrap"
+              className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold rounded-[8px] shadow-2xs flex items-center gap-1.5 cursor-pointer whitespace-nowrap transition"
             >
               {isSyncing ? <i className="fas fa-circle-notch animate-spin"></i> : <i className="fas fa-cloud-upload-alt"></i>}
               <span>Save Changes & Sync</span>
@@ -132,7 +132,7 @@ export default function FunctionalSpec() {
             <button 
               type="button"
               onClick={() => setIsConfluenceOpen(true)}
-              className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-indigo-400 text-xs font-bold rounded-lg border border-slate-700 flex items-center space-x-1.5 cursor-pointer shrink-0"
+              className="px-2.5 py-1.5 bg-[#F8F8F7] hover:bg-white hover:border-[#D0D5DD] text-[#7157F5] text-xs font-semibold rounded-[8px] border border-[#ECEEF1] flex items-center gap-1.5 cursor-pointer shrink-0 shadow-2xs transition"
               title="Publish to Confluence"
             >
               <i className="fab fa-confluence"></i>
@@ -142,7 +142,7 @@ export default function FunctionalSpec() {
             <button 
               type="button"
               onClick={handleDownloadPDF}
-              className="px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-red-400 text-xs font-bold rounded-lg border border-slate-700 flex items-center space-x-1.5 cursor-pointer shrink-0"
+              className="px-2.5 py-1.5 bg-[#F8F8F7] hover:bg-white hover:border-[#D0D5DD] text-rose-600 text-xs font-semibold rounded-[8px] border border-[#ECEEF1] flex items-center gap-1.5 cursor-pointer shrink-0 shadow-2xs transition"
               title="Download PDF"
             >
               <i className="far fa-file-pdf"></i>
@@ -151,22 +151,22 @@ export default function FunctionalSpec() {
           </div>
         </div>
 
-        <div className="flex-1 p-4 overflow-hidden flex flex-col bg-[#070a13]">
+        <div className="flex-1 p-2 overflow-hidden flex flex-col bg-[#FAFAF9]">
           {!pageState.output ? (
             <div className="flex flex-col items-center justify-center h-full p-8 text-center space-y-4">
-              <div className="p-4 bg-indigo-500/5 text-indigo-400 rounded-full">
-                <i className="fas fa-file-invoice text-3xl"></i>
+              <div className="w-12 h-12 rounded-full bg-purple-50 text-[#7157F5] flex items-center justify-center text-xl border border-purple-100 shadow-2xs">
+                <i className="fas fa-file-invoice"></i>
               </div>
-              <div className="max-w-xs space-y-1.5">
-                <p className="text-xs font-bold text-slate-300">No FSD Compiled Yet</p>
-                <p className="text-[11px] text-slate-500">Click "Compile FSD" on the left to compile the functional specification document.</p>
+              <div className="max-w-xs space-y-1">
+                <p className="text-sm font-bold text-[#17181C]">No FSD Compiled Yet</p>
+                <p className="text-xs text-[#667085]">Click "Compile FSD" on the left to compile the functional specification document.</p>
               </div>
             </div>
           ) : (
             <iframe
               srcDoc={formatFSDDocument(pageState.output)}
               title="FSD Document Preview"
-              className="w-full h-full border border-slate-800 rounded-xl bg-[#070a13]"
+              className="w-full h-full border border-[#ECEEF1] rounded-[10px] bg-white shadow-2xs"
             />
           )}
         </div>

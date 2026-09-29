@@ -46,87 +46,87 @@ const AgentNode = ({ id, data }) => {
   const outputs = MODULE_OUTPUT_ARTIFACTS[data.label] || data.outputs || ['Generated SDLC Artefact'];
 
   return (
-    <div className="bg-[#0b0f19] border border-slate-700/90 rounded-2xl shadow-2xl min-w-[280px] max-w-[320px] font-sans overflow-hidden transition-all hover:border-purple-500/60 group/node relative">
+    <div className="bg-white border border-[#ECEEF1] hover:border-purple-400 rounded-[16px] shadow-md min-w-[280px] max-w-[320px] font-sans overflow-hidden transition-all group/node relative">
       
       {/* General Node Input Handle (Left Top) */}
       <Handle 
         type="target" 
         position={Position.Left} 
         id={`in-${id}`} 
-        style={{ left: '-7px', top: '24px', background: '#3b82f6', width: '11px', height: '11px', border: '2px solid #0b0f19', zIndex: 30 }} 
+        style={{ left: '-6px', top: '22px', background: '#3b82f6', width: '10px', height: '10px', border: '2px solid #ffffff', zIndex: 30 }} 
         title="General Node Input Port"
       />
 
       {/* Card Header */}
-      <div className="bg-gradient-to-r from-purple-950/80 via-slate-900 to-indigo-950/80 px-3.5 py-2.5 border-b border-slate-800 flex items-center justify-between">
+      <div className="bg-[#FAFAF9] px-3.5 py-2.5 border-b border-[#ECEEF1] flex items-center justify-between">
         <div className="min-w-0 pr-2">
-          <div className="flex items-center space-x-1.5">
-            <span className="text-white font-bold text-[12px] tracking-tight block truncate" title={data.label}>
+          <div className="flex items-center gap-1.5">
+            <span className="text-[#17181C] font-bold text-xs tracking-tight block truncate" title={data.label}>
               {data.label}
             </span>
           </div>
-          <span className="text-[10px] text-indigo-300 font-semibold font-mono flex items-center mt-0.5">
-            <i className="fas fa-user-tag text-[8px] mr-1 text-indigo-400"></i>
+          <span className="text-[10px] text-purple-700 font-semibold flex items-center mt-0.5">
+            <i className="fas fa-user-tag text-[8px] mr-1 text-purple-500"></i>
             {data.persona}
           </span>
         </div>
-        <div className="flex items-center space-x-1.5 shrink-0">
+        <div className="flex items-center gap-1 shrink-0">
           <button 
             onClick={onDelete} 
-            className="w-6 h-6 rounded-md bg-slate-800 hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 transition flex items-center justify-center cursor-pointer" 
+            className="w-5.5 h-5.5 rounded-[6px] bg-white hover:bg-rose-50 border border-[#ECEEF1] text-[#98A2B3] hover:text-rose-600 transition flex items-center justify-center cursor-pointer shadow-2xs" 
             title="Remove Agent Node"
           >
-            <i className="fas fa-times text-[10px]"></i>
+            <i className="fas fa-times text-[9px]"></i>
           </button>
         </div>
       </div>
 
       {/* Node Body */}
-      <div className="p-3 space-y-2 text-xs bg-[#060913]">
+      <div className="p-3 space-y-2 text-xs bg-white">
         
         {/* EXECUTION MODE BADGE */}
-        <div className="py-1 px-2.5 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-between text-[10px]">
-          <span className="text-slate-400 font-semibold uppercase tracking-wider text-[9px]">Execution Mode</span>
-          <span className="px-2 py-0.5 rounded-full bg-slate-800 text-purple-300 font-mono font-bold text-[9px] border border-slate-700">
+        <div className="py-1 px-2.5 bg-[#F8F8F7] border border-[#ECEEF1] rounded-[8px] flex items-center justify-between text-[10px]">
+          <span className="text-[#667085] font-semibold uppercase tracking-wider text-[9px]">Execution Mode</span>
+          <span className="px-2 py-0.2 rounded-full bg-purple-50 text-purple-700 font-semibold text-[9px] border border-purple-200">
             {data.autonomy || 'Bounded Execution'}
           </span>
         </div>
 
         {/* MAPPABLE ARTEFACTS WITH BLUE (IN) LEFT HANDLES & GREEN (OUT) RIGHT HANDLES */}
         <div className="space-y-1.5 pt-1">
-          <div className="text-[9px] font-bold uppercase tracking-wider text-slate-400 flex items-center justify-between">
+          <div className="text-[9px] font-bold uppercase tracking-wider text-[#667085] flex items-center justify-between">
             <span className="flex items-center">
-              <i className="fas fa-cubes text-purple-400 mr-1.5"></i>
+              <i className="fas fa-cubes text-[#7157F5] mr-1.5"></i>
               Module Artefacts (Inputs & Outputs)
             </span>
-            <span className="text-slate-500 font-mono text-[9px]">({outputs.length})</span>
+            <span className="text-[#98A2B3] font-mono text-[9px]">({outputs.length})</span>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             {outputs.map((out, idx) => (
               <div 
                 key={idx} 
-                className="relative flex items-center justify-between px-2.5 py-1.5 rounded-xl bg-[#0c1222] border border-slate-800 text-[10px] text-slate-200 group/art hover:border-indigo-500/60 transition"
+                className="relative flex items-center justify-between px-2.5 py-1.5 rounded-[8px] bg-[#F8F8F7] border border-[#ECEEF1] text-[10px] text-[#344054] group/art hover:border-purple-300 transition"
               >
                 {/* Specific Blue Input Target Handle (Left) for THIS artefact */}
                 <Handle 
                   type="target" 
                   position={Position.Left} 
                   id={`in-${id}-${idx}`} 
-                  style={{ left: '-13px', top: '50%', transform: 'translateY(-50%)', background: '#3b82f6', width: '12px', height: '12px', border: '2px solid #0b0f19', zIndex: 30 }} 
+                  style={{ left: '-12px', top: '50%', transform: 'translateY(-50%)', background: '#3b82f6', width: '10px', height: '10px', border: '2px solid #ffffff', zIndex: 30 }} 
                   title={`Map upstream artefact as input to ${out}`}
                 />
 
                 <span className="truncate flex items-center pr-2">
-                  <i className="fas fa-file-lines text-[9px] text-indigo-400 mr-1.5 shrink-0"></i>
-                  <span className="truncate font-semibold text-white" title={out}>{out}</span>
+                  <i className="fas fa-file-lines text-[9px] text-[#7157F5] mr-1.5 shrink-0"></i>
+                  <span className="truncate font-medium text-[#17181C]" title={out}>{out}</span>
                 </span>
 
-                <div className="flex items-center space-x-1 shrink-0">
-                  <span className="text-[8px] font-mono text-blue-400 font-bold bg-blue-950/80 px-1 py-0.5 rounded border border-blue-800">
+                <div className="flex items-center gap-1 shrink-0">
+                  <span className="text-[8px] font-mono text-blue-700 font-bold bg-blue-50 px-1 py-0.2 rounded border border-blue-200">
                     IN
                   </span>
-                  <span className="text-[8px] font-mono text-emerald-400 font-bold bg-emerald-950/80 px-1 py-0.5 rounded border border-emerald-800">
+                  <span className="text-[8px] font-mono text-emerald-700 font-bold bg-emerald-50 px-1 py-0.2 rounded border border-emerald-200">
                     OUT
                   </span>
                 </div>
@@ -136,7 +136,7 @@ const AgentNode = ({ id, data }) => {
                   type="source" 
                   position={Position.Right} 
                   id={`out-${id}-${idx}`} 
-                  style={{ right: '-13px', top: '50%', transform: 'translateY(-50%)', background: '#10b981', width: '12px', height: '12px', border: '2px solid #0b0f19', zIndex: 30 }} 
+                  style={{ right: '-12px', top: '50%', transform: 'translateY(-50%)', background: '#10b981', width: '10px', height: '10px', border: '2px solid #ffffff', zIndex: 30 }} 
                   title={`Connect ${out} output to downstream artefact input`}
                 />
               </div>
@@ -210,15 +210,15 @@ const Sidebar = ({ nodes }) => {
   });
 
   return (
-    <div className="w-72 bg-[#0b0f19] border-r border-slate-800 flex flex-col h-full shrink-0 z-10 text-xs">
-      <div className="p-4 border-b border-slate-800 bg-slate-900/30 space-y-2">
-        <h3 className="text-sm font-bold text-white uppercase tracking-wider">102 Agent Palette</h3>
-        <p className="text-[11px] text-slate-400">Drag agents onto the canvas</p>
+    <div className="w-72 bg-white border-r border-[#ECEEF1] flex flex-col h-full shrink-0 z-10 text-xs">
+      <div className="p-4 border-b border-[#ECEEF1] bg-[#FAFAF9] space-y-2">
+        <h3 className="text-xs font-bold text-[#17181C] uppercase tracking-wider">102 Agent Palette</h3>
+        <p className="text-[11px] text-[#667085]">Drag agents onto the canvas</p>
 
         <select
           value={filterPersona}
           onChange={(e) => setFilterPersona(e.target.value)}
-          className="w-full bg-[#060913] border border-slate-800 rounded-lg p-2 text-white focus:outline-none focus:border-indigo-500 cursor-pointer"
+          className="w-full bg-white border border-[#ECEEF1] rounded-[8px] p-2 text-xs text-[#17181C] focus:outline-none focus:border-[#7157F5] cursor-pointer"
         >
           <option value="ALL">All 17 Personas Palette</option>
           {Array.from(new Set(INITIAL_102_AGENTS.map(a => a.persona))).map(p => (
@@ -229,25 +229,25 @@ const Sidebar = ({ nodes }) => {
 
       <div className="p-3 space-y-2 overflow-y-auto custom-scroll flex-1">
         {availableAgents.length === 0 ? (
-          <div className="text-slate-500 text-xs text-center py-4 italic">No unused agents match filter</div>
+          <div className="text-[#98A2B3] text-xs text-center py-4 italic">No unused agents match filter</div>
         ) : (
           availableAgents.map(agent => (
             <div 
               key={agent.id} 
-              className="p-2.5 bg-slate-900/60 border border-slate-700/60 rounded-xl cursor-grab hover:border-indigo-500/60 hover:bg-slate-800/80 transition flex items-center justify-between group"
+              className="p-2.5 bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] cursor-grab hover:border-purple-300 hover:bg-white transition flex items-center justify-between group shadow-2xs"
               onDragStart={(event) => onDragStart(event, 'agentNode', { id: agent.id, label: agent.name, persona: agent.persona, autonomy: agent.autonomy })}
               draggable
             >
-              <div className="flex items-center space-x-2.5 min-w-0">
-                <div className="w-7 h-7 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center shrink-0">
+              <div className="flex items-center gap-2 min-w-0">
+                <div className="w-7 h-7 rounded-[8px] bg-purple-50 text-purple-600 border border-purple-100 flex items-center justify-center shrink-0">
                   <i className="fas fa-robot text-xs"></i>
                 </div>
                 <div className="truncate min-w-0">
-                  <span className="text-[11px] font-bold text-slate-200 block truncate">{agent.name}</span>
-                  <span className="text-[9px] text-slate-500 truncate block">{agent.persona}</span>
+                  <span className="text-[11px] font-bold text-[#17181C] block truncate">{agent.name}</span>
+                  <span className="text-[9px] text-[#667085] truncate block">{agent.persona}</span>
                 </div>
               </div>
-              <i className="fas fa-grip-vertical text-slate-600 text-[10px] shrink-0 ml-1"></i>
+              <i className="fas fa-grip-vertical text-[#98A2B3] text-[10px] shrink-0 ml-1"></i>
             </div>
           ))
         )}
@@ -397,61 +397,67 @@ export default function AdminWorkflows() {
 
   if (!selectedProject) {
     return (
-      <div className="text-white h-full flex flex-col fade-in space-y-5 p-2">
-        <div className="flex justify-between items-start shrink-0">
+      <div className="fade-in space-y-5 max-w-7xl mx-auto pb-8">
+        <div className="bg-white border border-[#ECEEF1] rounded-[18px] p-5 shadow-2xs flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className="text-[28px] font-bold tracking-tight text-white flex items-center space-x-3">
-              <i className="fas fa-network-wired text-indigo-400"></i>
-              <span>Agent Workflow</span>
+            <h1 className="text-xl font-bold tracking-tight text-[#17181C] flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-[10px] bg-purple-50 text-purple-600 border border-purple-100 flex items-center justify-center text-sm shrink-0">
+                <i className="fas fa-network-wired"></i>
+              </div>
+              <span>Agent Orchestration Pipelines</span>
             </h1>
-            <p className="text-slate-400 mt-1 text-[14px]">Define the artifact generation pipeline across 102 persona agents.</p>
+            <p className="text-xs text-[#667085] mt-1">
+              Define interactive artifact generation pipelines connecting upstream specs to downstream tests and code.
+            </p>
           </div>
         </div>
 
-        <div className="bg-[#0b0f19] border border-slate-800/80 rounded-2xl overflow-hidden shadow-xl">
-          <div className="p-5 border-b border-slate-800/80 bg-slate-900/20">
-            <h3 className="text-base font-bold text-white mb-1">Project Workflow Pipelines</h3>
-            <p className="text-[12px] text-slate-400">Manage artifact generation pipelines per project.</p>
+        <div className="bg-white border border-[#ECEEF1] rounded-[18px] overflow-hidden shadow-2xs">
+          <div className="p-4 border-b border-[#ECEEF1] bg-[#FAFAF9] flex justify-between items-center">
+            <div>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-[#17181C]">Project Workflow Pipelines</h3>
+              <p className="text-[11px] text-[#667085]">Manage artifact generation pipelines per project.</p>
+            </div>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="bg-slate-900/40 border-b border-slate-800/80 text-[10px] uppercase tracking-wider text-slate-500 font-bold">
-                  <th className="py-4 px-6">Target Project</th>
-                  <th className="py-4 px-6">Pipeline Status</th>
-                  <th className="py-4 px-6 text-right">Actions</th>
+                <tr className="bg-[#F8F8F7] border-b border-[#ECEEF1] text-[10px] uppercase tracking-wider text-[#667085] font-bold">
+                  <th className="py-3 px-4">Target Project</th>
+                  <th className="py-3 px-4">Pipeline Status</th>
+                  <th className="py-3 px-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800/80 font-sans">
+              <tbody className="divide-y divide-[#ECEEF1] text-[#344054] font-sans">
                 {AVAILABLE_PROJECTS.map((project) => {
                   const isConfigured = !!projectMappings[project];
                   return (
-                    <tr key={project} className="hover:bg-slate-800/20 transition group">
-                      <td className="py-4 px-6">
-                        <span className="inline-block px-2.5 py-0.5 rounded border border-slate-700 bg-slate-800/50 text-slate-300 text-[11px] font-mono font-semibold">
-                          <i className="fas fa-cubes mr-1.5 text-slate-500"></i>
+                    <tr key={project} className="hover:bg-[#F8F8F7]/80 transition group">
+                      <td className="py-3.5 px-4 font-semibold text-[#17181C]">
+                        <span className="inline-block px-2.5 py-0.5 rounded-[6px] border border-[#ECEEF1] bg-[#F8F8F7] text-[#344054] text-[11px] font-semibold">
+                          <i className="fas fa-folder mr-1.5 text-amber-500"></i>
                           {project}
                         </span>
                       </td>
-                      <td className="py-4 px-6">
+                      <td className="py-3.5 px-4">
                         {isConfigured ? (
-                          <span className="inline-flex items-center space-x-1.5 text-emerald-400 text-[12px] font-semibold">
-                            <i className="fas fa-check-circle"></i>
+                          <span className="inline-flex items-center gap-1.5 text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-[6px] border border-emerald-200 text-xs font-semibold">
+                            <i className="fas fa-check-circle text-emerald-600"></i>
                             <span>Configured</span>
                           </span>
                         ) : (
-                          <span className="inline-flex items-center space-x-1.5 text-slate-500 text-[12px] italic">
-                            <i className="fas fa-exclamation-circle text-[10px]"></i>
+                          <span className="inline-flex items-center gap-1.5 text-[#98A2B3] text-xs italic">
+                            <i className="fas fa-circle-notch text-[10px]"></i>
                             <span>Not Configured</span>
                           </span>
                         )}
                       </td>
-                      <td className="py-4 px-6 text-right">
+                      <td className="py-3.5 px-4 text-right">
                         <button 
                           onClick={() => openCanvas(project)}
-                          className="bg-indigo-600/10 hover:bg-indigo-600/20 border border-indigo-500/20 text-indigo-400 hover:text-indigo-300 px-4 py-1.5 rounded-lg text-[12px] font-semibold transition flex items-center space-x-2 ml-auto cursor-pointer"
+                          className="bg-white hover:bg-purple-50 border border-[#ECEEF1] hover:border-purple-200 text-[#7157F5] px-3.5 py-1 rounded-[8px] text-xs font-semibold transition flex items-center gap-1.5 ml-auto cursor-pointer shadow-2xs"
                         >
-                          <i className={`fas ${isConfigured ? 'fa-edit' : 'fa-plus'}`}></i>
+                          <i className={`fas ${isConfigured ? 'fa-edit' : 'fa-plus'} text-[10px]`}></i>
                           <span>{isConfigured ? 'Edit Workflow' : 'Define Workflow'}</span>
                         </button>
                       </td>
@@ -467,30 +473,30 @@ export default function AdminWorkflows() {
   }
 
   return (
-    <div className="text-white h-full flex flex-col fade-in min-h-[600px] p-2 space-y-4">
+    <div className="h-full flex flex-col fade-in min-h-[600px] space-y-4">
       {/* Header */}
-      <div className="flex justify-between items-center shrink-0">
-        <div className="flex items-center space-x-3">
-          <button onClick={closeCanvas} className="text-slate-500 hover:text-white transition cursor-pointer text-lg">
+      <div className="bg-white border border-[#ECEEF1] rounded-[18px] p-4 shadow-2xs flex justify-between items-center shrink-0">
+        <div className="flex items-center gap-3">
+          <button onClick={closeCanvas} className="text-[#98A2B3] hover:text-[#17181C] transition cursor-pointer p-1">
             <i className="fas fa-arrow-left"></i>
           </button>
-          <h1 className="text-xl font-bold tracking-tight text-white flex items-center space-x-2">
+          <h1 className="text-base font-bold tracking-tight text-[#17181C] flex items-center gap-2">
             <span>{selectedProject} Workflow Canvas</span>
           </h1>
         </div>
-        <div className="flex space-x-3">
+        <div className="flex items-center gap-2">
           <button 
             onClick={saveWorkflow}
-            className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 px-4 rounded-xl transition flex items-center space-x-2 text-xs cursor-pointer shadow-lg"
+            className="bg-[#7157F5] hover:bg-[#5F46D8] text-white font-semibold py-1.5 px-4 rounded-[10px] transition flex items-center gap-1.5 text-xs cursor-pointer shadow-2xs"
           >
-            <i className="fas fa-save"></i>
+            <i className="fas fa-save text-[10px]"></i>
             <span>Save Workflow</span>
           </button>
         </div>
       </div>
 
       {/* Editor Area */}
-      <div className="flex-1 bg-[#060913] border border-slate-800 rounded-2xl overflow-hidden shadow-xl flex relative min-h-[500px]">
+      <div className="flex-1 bg-[#FAFAF9] border border-[#ECEEF1] rounded-[18px] overflow-hidden shadow-2xs flex relative min-h-[500px]">
         <ReactFlowProvider>
           <Sidebar nodes={nodes} />
           <div className="flex-1 h-full relative" ref={reactFlowWrapper}>
@@ -505,10 +511,10 @@ export default function AdminWorkflows() {
               onDragOver={onDragOver}
               nodeTypes={nodeTypes}
               fitView
-              className="bg-[#03050a]"
+              className="bg-[#FAFAF9]"
             >
-              <Background color="#334155" gap={20} size={1.5} />
-              <Controls className="bg-slate-900 border-slate-700 fill-slate-300" />
+              <Background color="#ECEEF1" gap={20} size={1.5} />
+              <Controls className="bg-white border-[#ECEEF1] fill-[#667085] shadow-xs" />
             </ReactFlow>
           </div>
         </ReactFlowProvider>
@@ -516,18 +522,19 @@ export default function AdminWorkflows() {
 
       {/* Cycle Detection Modal */}
       {cycleError && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="bg-[#0c1222] border border-rose-500/30 rounded-2xl w-full max-w-md p-6 shadow-2xl space-y-4 text-xs">
-            <h3 className="text-base font-bold text-white flex items-center text-rose-400">
-              <i className="fas fa-exclamation-triangle mr-2"></i> Cyclic Dependency Detected
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
+          <div className="bg-white border border-rose-200 rounded-[20px] w-full max-w-md p-6 shadow-2xl space-y-4 text-xs">
+            <h3 className="text-sm font-bold text-rose-600 flex items-center gap-2">
+              <i className="fas fa-exclamation-triangle"></i>
+              <span>Cyclic Dependency Detected</span>
             </h3>
-            <p className="text-slate-300">
+            <p className="text-[#475467]">
               Action blocked. Connecting this agent creates a cyclic loop where an agent output depends on itself.
             </p>
-            <div className="flex justify-end pt-2 border-t border-slate-800">
+            <div className="flex justify-end pt-2 border-t border-[#F2F4F7]">
               <button 
                 onClick={() => setCycleError(false)}
-                className="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg font-semibold cursor-pointer"
+                className="bg-[#7157F5] hover:bg-[#5F46D8] text-white px-4 py-2 rounded-[10px] font-semibold cursor-pointer shadow-2xs"
               >
                 Acknowledge
               </button>

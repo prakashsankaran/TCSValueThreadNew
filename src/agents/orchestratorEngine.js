@@ -76,8 +76,8 @@ export const orchestratorEngine = {
     const mode = orchestratorEngine.getMode(); // 'auto' | 'litellm' | 'gemini' | 'offline'
     const isStrictOpenSource = orchestratorEngine.getStrictOpenSource();
 
-    let primaryModel = 'gemini-2.5-pro';
-    let primaryProvider = 'Google Gemini 2.5 Pro High Intelligence Model';
+    let primaryModel = 'gemini-3.6-flash';
+    let primaryProvider = 'Google Gemini 3.6 Flash';
     let rationale = '';
 
     if (mode === 'offline') {
@@ -85,25 +85,25 @@ export const orchestratorEngine = {
       primaryProvider = 'Client Offline Synthesis Engine';
       rationale = 'User selected Offline Demo Mode in AI Router Settings.';
     } else if (mode === 'gemini') {
-      primaryModel = 'gemini-2.5-pro';
-      primaryProvider = 'Google AI Studio Direct API (Gemini 2.5 Pro)';
+      primaryModel = 'gemini-3.6-flash';
+      primaryProvider = 'Google AI Studio Direct API (Gemini 3.6 Flash)';
       rationale = 'User selected Google AI Studio Direct API in AI Router Settings.';
     } else if (mode === 'litellm') {
-      primaryModel = 'gemini-2.5-pro';
-      primaryProvider = 'Enterprise LiteLLM Gateway (Gemini 2.5 Pro High Intelligence)';
+      primaryModel = 'gemini-3.6-flash';
+      primaryProvider = 'Enterprise LiteLLM Gateway (Gemini 3.6 Flash)';
       rationale = 'User forced Enterprise LiteLLM Gateway in AI Router Settings.';
     } else {
       // AUTO Complexity Router Mode
-      primaryModel = 'gemini-2.5-pro';
-      primaryProvider = 'Google Gemini 2.5 Pro High Intelligence Model';
+      primaryModel = 'gemini-3.6-flash';
+      primaryProvider = 'Google Gemini 3.6 Flash High Performance Model';
       rationale = `Auto Complexity Router selected ${primaryProvider} based on complexity score ${score}/10 (${level}). High-performance reasoning enabled.`;
     }
 
     return {
       primaryModel,
       primaryProvider,
-      fallbackModel: 'gemini-2.5-pro',
-      fallbackProvider: 'Secondary Failover Gateway (Gemini 2.5 Pro)',
+      fallbackModel: 'gemini-3.5-flash',
+      fallbackProvider: 'Secondary Failover Gateway (Gemini 3.5 Flash)',
       isStrictOpenSource,
       mode,
       rationale

@@ -248,7 +248,7 @@ export default function SpecControlView() {
 
     // 1. If already full HTML document
     if (typeof content === 'string' && (content.includes('<!DOCTYPE html>') || content.includes('<html'))) {
-      return content;
+      return formatFSDDocument(content);
     }
 
     // 2. If User Stories backlog object or array
@@ -260,20 +260,20 @@ export default function SpecControlView() {
 <head>
   <meta charset="utf-8"/>
   <style>
-    body { font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #070a13; color: #cbd5e1; padding: 24px; margin: 0; line-height: 1.6; }
-    .header-banner { background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(16, 185, 129, 0.15)); border: 1px solid rgba(99, 102, 241, 0.35); padding: 20px; border-radius: 12px; margin-bottom: 24px; }
-    h1 { color: #ffffff; font-size: 20px; margin: 0 0 8px 0; font-weight: 800; }
-    .meta { font-size: 11px; color: #94a3b8; font-family: monospace; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #FFFFFF; color: #344054; padding: 24px; margin: 0; line-height: 1.6; }
+    .header-banner { background: #F8F8F7; border: 1px solid #ECEEF1; padding: 20px; border-radius: 12px; margin-bottom: 24px; }
+    h1 { color: #17181C; font-size: 20px; margin: 0 0 8px 0; font-weight: 800; border-bottom: 2px solid #7157F5; padding-bottom: 6px; }
+    .meta { font-size: 11px; color: #667085; font-family: monospace; }
     table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 12px; }
-    th { background: #0f172a; border-bottom: 1px solid #334155; padding: 12px 10px; text-align: left; color: #94a3b8; text-transform: uppercase; font-size: 10px; font-weight: 700; }
-    td { border-bottom: 1px solid #1e293b; padding: 12px 10px; vertical-align: top; }
-    tr:hover { background-color: rgba(30, 41, 59, 0.4); }
-    .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; font-family: monospace; text-transform: uppercase; }
-    .badge-high { background: rgba(225, 29, 72, 0.2); color: #fda4af; border: 1px solid rgba(225, 29, 72, 0.4); }
-    .badge-medium { background: rgba(245, 158, 11, 0.2); color: #fde68a; border: 1px solid rgba(245, 158, 11, 0.4); }
-    .badge-low { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.4); }
-    .story-id { color: #818cf8; font-weight: bold; font-family: monospace; }
-    .criteria-list { margin: 6px 0 0 0; padding-left: 16px; color: #94a3b8; font-size: 11px; }
+    th { background: #F8F8F7; border-bottom: 1px solid #ECEEF1; border-right: 1px solid #ECEEF1; padding: 10px 12px; text-align: left; color: #667085; text-transform: uppercase; font-size: 10px; font-weight: 700; }
+    td { border-bottom: 1px solid #ECEEF1; border-right: 1px solid #ECEEF1; padding: 10px 12px; vertical-align: top; }
+    tr:hover td { background-color: #FAFAF9; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 6px; font-size: 10px; font-weight: bold; font-family: monospace; text-transform: uppercase; }
+    .badge-high { background: #FFF1F2; color: #BE123C; border: 1px solid #FECDD3; }
+    .badge-medium { background: #FFFBEB; color: #B45309; border: 1px solid #FDE68A; }
+    .badge-low { background: #ECFDF5; color: #047857; border: 1px solid #A7F3D0; }
+    .story-id { color: #7157F5; font-weight: bold; font-family: monospace; }
+    .criteria-list { margin: 6px 0 0 0; padding-left: 16px; color: #475467; font-size: 11px; }
   </style>
 </head>
 <body>
@@ -290,14 +290,14 @@ export default function SpecControlView() {
         <tr>
           <td class="story-id">${s.id || s.issueType || 'US-100'}</td>
           <td>
-            <strong style="color:#ffffff; font-size:13px">${s.title || s.summary || 'User Story'}</strong>
-            <p style="margin:4px 0 0 0; font-size:11px; color:#cbd5e1">${s.description || `As a ${s.asA || 'User'}, I want to ${s.iWantTo || 'perform action'} so that ${s.soThat || 'achieve goal'}.`}</p>
+            <strong style="color:#17181C; font-size:13px">${s.title || s.summary || 'User Story'}</strong>
+            <p style="margin:4px 0 0 0; font-size:11px; color:#475467">${s.description || `As a ${s.asA || 'User'}, I want to ${s.iWantTo || 'perform action'} so that ${s.soThat || 'achieve goal'}.`}</p>
           </td>
           <td><span class="badge ${s.priority === 'High' ? 'badge-high' : s.priority === 'Medium' ? 'badge-medium' : 'badge-low'}">${s.priority || 'High'}</span></td>
-          <td style="font-weight:bold; color:#818cf8; font-family:monospace">${s.storyPoints || s.points || 3} pts</td>
+          <td style="font-weight:bold; color:#7157F5; font-family:monospace">${s.storyPoints || s.points || 3} pts</td>
           <td>
             ${Array.isArray(s.criteria) ? `<ul class="criteria-list">${s.criteria.map(c => `<li>${c}</li>`).join('')}</ul>` : ''}
-            ${s.techNotes ? `<div style="font-size:10px; color:#64748b; margin-top:6px; font-family:monospace">⚙️ ${s.techNotes}</div>` : ''}
+            ${s.techNotes ? `<div style="font-size:10px; color:#667085; margin-top:6px; font-family:monospace">⚙️ ${s.techNotes}</div>` : ''}
           </td>
         </tr>
       `).join('')}
@@ -313,9 +313,9 @@ export default function SpecControlView() {
   };
 
   return (
-    <div className="relative p-6 h-full flex flex-col space-y-5 custom-scroll overflow-y-auto">
+    <div className="relative p-6 h-full flex flex-col space-y-5 custom-scroll overflow-y-auto text-[#17181C]">
       {/* Tab Navigation */}
-      <div className="flex border-b border-slate-800 space-x-1">
+      <div className="flex border-b border-[#ECEEF1] space-x-1">
         {[
           { id: 'baselines', label: '📚 Spec Registry & Baselines' },
           { id: 'artifacts', label: '📦 Artifact Registry' },
@@ -324,10 +324,10 @@ export default function SpecControlView() {
           <button
             key={t.id}
             onClick={() => setActiveTab(t.id)}
-            className={`px-4 py-2.5 text-xs font-bold border-b-2 transition cursor-pointer flex items-center space-x-2 ${
+            className={`px-4 py-2.5 text-xs font-semibold border-b-2 transition cursor-pointer flex items-center space-x-2 ${
               activeTab === t.id
-                ? 'border-blue-500 text-blue-400 bg-blue-950/20'
-                : 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-900/40'
+                ? 'border-[#7157F5] text-[#5F46D8] bg-[#F4F1FF] font-bold rounded-t-[8px]'
+                : 'border-transparent text-[#667085] hover:text-[#17181C] hover:bg-[#F8F8F7]'
             }`}
           >
             <span>{t.label}</span>
@@ -337,10 +337,10 @@ export default function SpecControlView() {
 
       {/* Tab 1: Spec Registry & Baselines */}
       {activeTab === 'baselines' && (
-        <div className="flex-1 bg-slate-950/70 border border-slate-800 rounded-2xl overflow-hidden shadow-xl flex flex-col">
+        <div className="flex-1 bg-white border border-[#ECEEF1] rounded-[16px] overflow-hidden shadow-2xs flex flex-col">
           <div className="overflow-auto flex-1 custom-scroll">
             <table className="w-full text-left border-collapse text-xs">
-              <thead className="bg-slate-900 border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold text-[10px] sticky top-0">
+              <thead className="bg-[#FAFAF9] border-b border-[#ECEEF1] text-[#667085] uppercase tracking-wider font-semibold text-[10px] sticky top-0">
                 <tr>
                   <th className="p-3.5">Spec ID</th>
                   <th className="p-3.5">Specification Title</th>
@@ -353,13 +353,13 @@ export default function SpecControlView() {
                   <th className="p-3.5 text-right">Baseline Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800 text-slate-300 font-mono">
+              <tbody className="divide-y divide-[#ECEEF1] text-[#344054] font-mono">
                 {specBaselines.length === 0 ? (
                   <tr>
-                    <td colSpan="9" className="py-12 text-center text-slate-500 font-sans">
-                      <i className="fas fa-sitemap text-3xl mb-2 opacity-40 block"></i>
-                      <p className="font-semibold text-slate-400">No Specification Baselines Stored in Vector DB</p>
-                      <p className="text-xs text-slate-500 mt-1">Generate a new spec via Requirement to Spec agent and click "Save & Sync" to baseline your specifications.</p>
+                    <td colSpan="9" className="py-12 text-center text-[#667085] font-sans">
+                      <i className="fas fa-sitemap text-3xl mb-2 opacity-40 block text-[#98A2B3]"></i>
+                      <p className="font-semibold text-[#17181C]">No Specification Baselines Stored in Vector DB</p>
+                      <p className="text-xs text-[#667085] mt-1">Generate a new spec via Requirement to Spec agent and click "Save & Sync" to baseline your specifications.</p>
                     </td>
                   </tr>
                 ) : (
@@ -370,15 +370,15 @@ export default function SpecControlView() {
                     const driftDetails = spec.driftDetails || driftStatus.changeDetails;
 
                     return (
-                      <tr key={spec.specId + '-' + (spec.version || index)} className="hover:bg-slate-900/50 transition">
-                        <td className="p-3.5 text-indigo-400 font-bold">{spec.specId}</td>
-                        <td className="p-3.5 font-sans font-bold text-white">{spec.title}</td>
-                        <td className="p-3.5 font-sans text-indigo-300 font-medium">{spec.projectId || 'sdd-enterprise-dev'}</td>
-                        <td className="p-3.5 font-sans text-purple-300 font-medium">{spec.requirementId || 'REQ-001'}</td>
-                        <td className="p-3.5 font-bold text-white">{spec.version || 'v1.0.0'}</td>
-                        <td className="p-3.5 text-center text-emerald-400 font-bold">{spec.qualityScore || 99.0}%</td>
+                      <tr key={spec.specId + '-' + (spec.version || index)} className="hover:bg-[#FAFAF9] transition">
+                        <td className="p-3.5 text-[#5F46D8] font-bold">{spec.specId}</td>
+                        <td className="p-3.5 font-sans font-bold text-[#17181C]">{spec.title}</td>
+                        <td className="p-3.5 font-sans text-[#5F46D8] font-medium">{spec.projectId || 'sdd-enterprise-dev'}</td>
+                        <td className="p-3.5 font-sans text-purple-700 font-medium">{spec.requirementId || 'REQ-001'}</td>
+                        <td className="p-3.5 font-bold text-[#17181C]">{spec.version || 'v1.0.0'}</td>
+                        <td className="p-3.5 text-center text-emerald-700 font-bold">{spec.qualityScore || 99.0}%</td>
                         <td className="p-3.5 text-center font-sans">
-                          <span className="px-2 py-0.5 bg-slate-900 border border-slate-800 text-emerald-400 rounded text-[10px]">
+                          <span className="px-2 py-0.5 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-[6px] text-[10px]">
                             {spec.lintStatus || 'PASSED'}
                           </span>
                         </td>
@@ -386,14 +386,14 @@ export default function SpecControlView() {
                           {isDrifted ? (
                             <span 
                               title={driftDetails ? `Parent Change Request: ${driftDetails}` : 'Parent specification has pending drift modification requests'}
-                              className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap bg-amber-950/90 text-amber-300 border border-amber-500/60 shadow-sm cursor-help inline-flex items-center space-x-1"
+                              className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap bg-amber-50 text-amber-700 border border-amber-200 shadow-2xs cursor-help inline-flex items-center space-x-1"
                             >
-                              <i className="fas fa-exclamation-triangle text-amber-400 text-[9px] mr-1"></i>
+                              <i className="fas fa-exclamation-triangle text-amber-600 text-[9px] mr-1"></i>
                               <span>DRIFTED</span>
                             </span>
                           ) : (
-                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap bg-emerald-950/80 text-emerald-300 border border-emerald-500/60 shadow-sm inline-flex items-center space-x-1">
-                              <i className="fas fa-check-circle text-emerald-400 text-[9px] mr-1"></i>
+                            <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-2xs inline-flex items-center space-x-1">
+                              <i className="fas fa-check-circle text-emerald-600 text-[9px] mr-1"></i>
                               <span>FRESH</span>
                             </span>
                           )}
@@ -401,8 +401,8 @@ export default function SpecControlView() {
                         <td className="p-3.5 text-right font-sans">
                           <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap ${
                             isBaseline
-                              ? 'bg-emerald-950/60 text-emerald-300 border border-emerald-500/50 shadow-sm'
-                              : 'bg-slate-900 text-slate-400 border border-slate-700'
+                              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-2xs'
+                              : 'bg-[#FAFAF9] text-[#667085] border border-[#ECEEF1]'
                           }`}>
                             {isBaseline ? '⭐ Baseline' : 'Superseded'}
                           </span>
@@ -421,16 +421,16 @@ export default function SpecControlView() {
       {activeTab === 'artifacts' && (
         <div className="flex-1 flex flex-col space-y-4 min-h-0">
           {/* Filter Bar */}
-          <div className="bg-slate-900/60 border border-slate-800 rounded-xl p-3 flex flex-wrap items-center justify-between gap-3">
+          <div className="bg-white border border-[#ECEEF1] rounded-[14px] p-3 flex flex-wrap items-center justify-between gap-3 shadow-2xs">
             <div className="flex items-center space-x-2 flex-1 min-w-[240px]">
               <div className="relative flex-1">
-                <i className="fas fa-search absolute left-3 top-2.5 text-slate-500 text-xs"></i>
+                <i className="fas fa-search absolute left-3 top-2.5 text-[#98A2B3] text-xs"></i>
                 <input
                   type="text"
                   placeholder="Filter by Artifact ID, Title, Version, or Parent ID..."
                   value={artifactSearchQuery}
                   onChange={e => setArtifactSearchQuery(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 text-slate-200 text-xs pl-8 pr-3 py-1.5 rounded-lg focus:outline-none focus:border-indigo-500/50"
+                  className="w-full bg-[#FAFAF9] border border-[#ECEEF1] text-[#17181C] text-xs pl-8 pr-3 py-2 rounded-[8px] focus:outline-none focus:border-[#7157F5]"
                 />
               </div>
             </div>
@@ -439,7 +439,7 @@ export default function SpecControlView() {
               <select
                 value={artifactStageFilter}
                 onChange={e => setArtifactStageFilter(e.target.value)}
-                className="bg-slate-950 border border-slate-800 text-slate-300 text-xs px-2.5 py-1.5 rounded-lg focus:outline-none cursor-pointer"
+                className="bg-[#FAFAF9] border border-[#ECEEF1] text-[#344054] text-xs px-3 py-2 rounded-[8px] focus:outline-none cursor-pointer"
               >
                 <option value="ALL">All Artifact Types</option>
                 <option value="spec-to-story">Spec to Story</option>
@@ -456,7 +456,7 @@ export default function SpecControlView() {
               <select
                 value={artifactStatusFilter}
                 onChange={e => setArtifactStatusFilter(e.target.value)}
-                className="bg-slate-950 border border-slate-800 text-slate-300 text-xs px-2.5 py-1.5 rounded-lg focus:outline-none cursor-pointer"
+                className="bg-[#FAFAF9] border border-[#ECEEF1] text-[#344054] text-xs px-3 py-2 rounded-[8px] focus:outline-none cursor-pointer"
               >
                 <option value="ALL">All Statuses & Health</option>
                 <option value="BASELINE">⭐ Baseline Only</option>
@@ -468,10 +468,10 @@ export default function SpecControlView() {
           </div>
 
           {/* Artifacts Table */}
-          <div className="flex-1 bg-slate-950/70 border border-slate-800 rounded-2xl overflow-hidden shadow-xl flex flex-col">
+          <div className="flex-1 bg-white border border-[#ECEEF1] rounded-[16px] overflow-hidden shadow-2xs flex flex-col">
             <div className="overflow-auto flex-1 custom-scroll">
               <table className="w-full text-left border-collapse text-xs">
-                <thead className="bg-slate-900 border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold text-[10px] sticky top-0">
+                <thead className="bg-[#FAFAF9] border-b border-[#ECEEF1] text-[#667085] uppercase tracking-wider font-semibold text-[10px] sticky top-0">
                   <tr>
                     <th className="p-3.5">Artifact ID</th>
                     <th className="p-3.5">Artifact Title</th>
@@ -485,20 +485,20 @@ export default function SpecControlView() {
                     <th className="p-3.5 text-center">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800 text-slate-300 font-mono">
+                <tbody className="divide-y divide-[#ECEEF1] text-[#344054] font-mono">
                   {isLoadingArtifacts ? (
                     <tr>
-                      <td colSpan="10" className="py-12 text-center text-slate-400 font-sans">
-                        <i className="fas fa-circle-notch animate-spin text-indigo-400 text-2xl mb-2 block"></i>
+                      <td colSpan="10" className="py-12 text-center text-[#667085] font-sans">
+                        <i className="fas fa-circle-notch animate-spin text-[#7157F5] text-2xl mb-2 block"></i>
                         Loading generated artifacts registry...
                       </td>
                     </tr>
                   ) : filteredArtifacts.length === 0 ? (
                     <tr>
-                      <td colSpan="10" className="py-12 text-center text-slate-500 font-sans">
-                        <i className="fas fa-boxes text-3xl mb-2 opacity-40 block"></i>
-                        <p className="font-semibold text-slate-400">No Generated Artifacts Found</p>
-                        <p className="text-xs text-slate-500 mt-1">Compile artifacts from SDLC stage views to register generated versions.</p>
+                      <td colSpan="10" className="py-12 text-center text-[#667085] font-sans">
+                        <i className="fas fa-boxes text-3xl mb-2 opacity-40 block text-[#98A2B3]"></i>
+                        <p className="font-semibold text-[#17181C]">No Generated Artifacts Found</p>
+                        <p className="text-xs text-[#667085] mt-1">Compile artifacts from SDLC stage views to register generated versions.</p>
                       </td>
                     </tr>
                   ) : (
@@ -520,33 +520,33 @@ export default function SpecControlView() {
                       };
 
                       return (
-                        <tr key={art.id || idx} className="hover:bg-slate-900/50 transition">
-                          <td className="p-3.5 text-indigo-400 font-bold">{art.artefactId || art.id}</td>
-                          <td className="p-3.5 font-sans font-bold text-white">{art.title}</td>
+                        <tr key={art.id || idx} className="hover:bg-[#FAFAF9] transition">
+                          <td className="p-3.5 text-[#5F46D8] font-bold">{art.artefactId || art.id}</td>
+                          <td className="p-3.5 font-sans font-bold text-[#17181C]">{art.title}</td>
                           <td className="p-3.5 font-sans">
-                            <span className="px-2 py-0.5 bg-indigo-950/60 text-indigo-300 border border-indigo-800/60 rounded text-[10px] font-semibold">
+                            <span className="px-2 py-0.5 bg-[#F4F1FF] text-[#5F46D8] border border-[#E4DCFF] rounded-[6px] text-[10px] font-semibold">
                               {stageLabels[art.stageKey] || art.stageKey}
                             </span>
                           </td>
                           <td className="p-3.5 font-sans">
-                            <span className="px-2.5 py-1 bg-purple-950/70 text-purple-300 border border-purple-800/70 rounded-lg text-[10px] font-mono font-bold inline-flex items-center space-x-1.5 shadow-sm">
-                              <i className="fas fa-level-up-alt rotate-90 text-[9px] text-purple-400"></i>
+                            <span className="px-2.5 py-1 bg-purple-50 text-purple-700 border border-purple-200 rounded-[8px] text-[10px] font-mono font-bold inline-flex items-center space-x-1.5 shadow-2xs">
+                              <i className="fas fa-level-up-alt rotate-90 text-[9px] text-purple-600"></i>
                               <span>{parentId}</span>
-                              <span className="px-1.5 py-0.2 bg-purple-900/90 text-purple-200 border border-purple-700/60 rounded text-[9px] font-mono font-bold">
+                              <span className="px-1.5 py-0.2 bg-purple-100 text-purple-800 border border-purple-300 rounded text-[9px] font-mono font-bold">
                                 {parentVersion}
                               </span>
                             </span>
                           </td>
-                          <td className="p-3.5 font-sans text-slate-400">{art.projectId || 'sdd-enterprise-dev'}</td>
-                          <td className="p-3.5 font-bold text-white">{art.version || 'v1.0.0'}</td>
-                          <td className="p-3.5 font-sans text-slate-400 text-[11px]">
+                          <td className="p-3.5 font-sans text-[#667085]">{art.projectId || 'sdd-enterprise-dev'}</td>
+                          <td className="p-3.5 font-bold text-[#17181C]">{art.version || 'v1.0.0'}</td>
+                          <td className="p-3.5 font-sans text-[#667085] text-[11px]">
                             {art.updatedAt || art.createdAt ? (art.updatedAt || art.createdAt).split('T')[0] : 'N/A'}
                           </td>
                           <td className="p-3.5 text-center font-sans">
                             <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap inline-flex items-center space-x-1 ${
                               isBaseline
-                                ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/60 shadow-sm'
-                                : 'bg-slate-900 text-slate-400 border border-slate-700'
+                                ? 'bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-2xs'
+                                : 'bg-[#FAFAF9] text-[#667085] border border-[#ECEEF1]'
                             }`}>
                               <span>{isBaseline ? '⭐ Baseline' : 'Superseeded'}</span>
                             </span>
@@ -556,18 +556,18 @@ export default function SpecControlView() {
                               title={staleness.reason}
                               className={`px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap inline-flex items-center space-x-1 cursor-help ${
                                 staleness.label === 'SUPERSEDED' || staleness.isSuperseded
-                                  ? 'bg-slate-900 text-slate-400 border border-slate-700'
+                                  ? 'bg-[#FAFAF9] text-[#667085] border border-[#ECEEF1]'
                                   : staleness.isStale
-                                  ? 'bg-rose-950/80 text-rose-300 border border-rose-500/60 shadow-sm'
-                                  : 'bg-emerald-950/80 text-emerald-300 border border-emerald-500/60 shadow-sm'
+                                  ? 'bg-rose-50 text-rose-700 border border-rose-200 shadow-2xs'
+                                  : 'bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-2xs'
                               }`}
                             >
                               <i className={`fas ${
                                 staleness.label === 'SUPERSEDED' || staleness.isSuperseded
-                                  ? 'fa-history text-slate-500'
+                                  ? 'fa-history text-[#98A2B3]'
                                   : staleness.isStale
-                                  ? 'fa-exclamation-triangle text-rose-400'
-                                  : 'fa-check-circle text-emerald-400'
+                                  ? 'fa-exclamation-triangle text-rose-600'
+                                  : 'fa-check-circle text-emerald-600'
                               } text-[9px] mr-1`}></i>
                               <span>{staleness.label}</span>
                             </span>
@@ -576,7 +576,7 @@ export default function SpecControlView() {
                             <button
                               title="View Payload Document"
                               onClick={() => setSelectedArtifactModal({ ...art, parentArtefactId: parentId, parentArtefactVersion: parentVersion, staleness })}
-                              className="w-8 h-8 bg-slate-900 hover:bg-indigo-600 text-indigo-300 hover:text-white border border-slate-700 hover:border-indigo-500 rounded-lg transition cursor-pointer inline-flex items-center justify-center shadow-sm"
+                              className="w-8 h-8 bg-white hover:bg-[#F4F1FF] text-[#5F46D8] border border-[#ECEEF1] hover:border-[#E4DCFF] rounded-[8px] transition cursor-pointer inline-flex items-center justify-center shadow-2xs"
                             >
                               <i className="fas fa-eye text-xs"></i>
                             </button>
@@ -601,40 +601,40 @@ export default function SpecControlView() {
 
       {/* Target State Layer 4 Info & Telemetry Modal */}
       {isInfoModalOpen && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-[99999] p-4 animate-fade-in">
-          <div className="bg-[#0c1222] border border-slate-800 rounded-2xl max-w-3xl w-full p-6 shadow-2xl space-y-5 relative max-h-[90vh] overflow-y-auto custom-scroll text-left">
-            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500"></div>
+        <div className="fixed inset-0 bg-[#17181C]/70 backdrop-blur-md flex items-center justify-center z-[99999] p-4 animate-fade-in">
+          <div className="bg-white border border-[#ECEEF1] rounded-[20px] max-w-3xl w-full p-6 shadow-2xl space-y-5 relative max-h-[90vh] overflow-y-auto custom-scroll text-left text-[#17181C]">
+            <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-blue-500 via-[#7157F5] to-purple-500 rounded-t-[20px]"></div>
 
             {/* Header */}
-            <div className="flex justify-between items-start border-b border-slate-800 pb-4">
+            <div className="flex justify-between items-start border-b border-[#ECEEF1] pb-4">
               <div>
                 <div className="flex items-center space-x-2">
-                  <span className="px-2.5 py-0.5 bg-blue-500/10 text-blue-400 border border-blue-500/30 text-[10px] font-bold uppercase tracking-wider rounded-md">
+                  <span className="px-2.5 py-0.5 bg-[#F4F1FF] text-[#5F46D8] border border-[#E4DCFF] text-[10px] font-bold uppercase tracking-wider rounded-[6px]">
                     Target State Layer 4 of 6
                   </span>
-                  <span className="text-[10px] text-slate-500 font-mono">Document ID: SDD-REQ-L4-SAC</span>
+                  <span className="text-[10px] text-[#667085] font-mono">Document ID: SDD-REQ-L4-SAC</span>
                 </div>
-                <h2 className="text-xl font-black text-white mt-1.5 flex items-center space-x-2.5">
-                  <i className="fas fa-sitemap text-blue-400"></i>
+                <h2 className="text-xl font-bold text-[#17181C] mt-1.5 flex items-center space-x-2.5">
+                  <i className="fas fa-sitemap text-[#7157F5]"></i>
                   <span>Spec & Artifact Control Layer Control Center</span>
                 </h2>
-                <p className="text-xs text-slate-400 mt-1">
+                <p className="text-xs text-[#667085] mt-1">
                   Establishes approved specifications as the source of truth, enforcing immutable baselines and bidirectional artifact graphs.
                 </p>
               </div>
               <button 
                 onClick={() => setIsInfoModalOpen(false)} 
-                className="text-slate-400 hover:text-white transition cursor-pointer text-lg p-1"
+                className="text-[#98A2B3] hover:text-[#17181C] p-1 rounded-lg hover:bg-[#F8F8F7] transition cursor-pointer text-lg"
               >
                 <i className="fas fa-times"></i>
               </button>
             </div>
 
             {/* Architecture Overview */}
-            <div className="space-y-3 text-xs text-slate-300 font-sans">
-              <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2">
-                <h4 className="font-bold text-blue-400 uppercase text-[11px]">Layer 4 Foundational Objectives</h4>
-                <ul className="list-disc list-inside space-y-1 text-[11px] text-slate-400">
+            <div className="space-y-3 text-xs text-[#344054] font-sans">
+              <div className="bg-[#FAFAF9] p-4 rounded-[12px] border border-[#ECEEF1] space-y-2">
+                <h4 className="font-bold text-[#7157F5] uppercase text-[11px]">Layer 4 Foundational Objectives</h4>
+                <ul className="list-disc list-inside space-y-1 text-[11px] text-[#667085]">
                   <li><strong>Spec Registry (`SAC-FR-001`):</strong> Authoritative repository for machine-readable versioned specifications.</li>
                   <li><strong>Baseline Manager (`SAC-FR-012`):</strong> Locks approved specification baselines before downstream generation.</li>
                   <li><strong>Artifact Graph (`SAC-FR-015`):</strong> Bidirectional relationships (`derives-from`, `implements`, `tests`).</li>
@@ -644,10 +644,10 @@ export default function SpecControlView() {
               </div>
             </div>
 
-            <div className="flex justify-end pt-2 border-t border-slate-800">
+            <div className="flex justify-end pt-2 border-t border-[#ECEEF1]">
               <button
                 onClick={() => setIsInfoModalOpen(false)}
-                className="px-5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl transition cursor-pointer shadow-lg"
+                className="px-5 py-2 bg-[#17181C] hover:bg-[#292B30] text-white text-xs font-semibold rounded-[10px] transition cursor-pointer shadow-sm"
               >
                 Close Info Modal
               </button>
@@ -659,63 +659,63 @@ export default function SpecControlView() {
 
       {/* Artifact Payload Detail Modal */}
       {selectedArtifactModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-[99999] p-4 animate-fade-in">
-          <div className="bg-[#0c1222] border border-slate-800 rounded-2xl max-w-5xl w-full p-6 shadow-2xl space-y-4 relative h-[90vh] flex flex-col text-left">
-            <div className="flex justify-between items-start border-b border-slate-800 pb-3">
+        <div className="fixed inset-0 bg-[#17181C]/70 backdrop-blur-md flex items-center justify-center z-[99999] p-4 animate-fade-in">
+          <div className="bg-white border border-[#ECEEF1] rounded-[20px] max-w-5xl w-full p-6 shadow-2xl space-y-4 relative h-[90vh] flex flex-col text-left text-[#17181C]">
+            <div className="flex justify-between items-start border-b border-[#ECEEF1] pb-3">
               <div>
                 <div className="flex items-center space-x-2">
-                  <span className={`px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-md ${
-                    selectedArtifactModal.status === 'LATEST' ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-slate-800 text-slate-400 border border-slate-700'
+                  <span className={`px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-[6px] ${
+                    selectedArtifactModal.status === 'LATEST' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-[#FAFAF9] text-[#667085] border border-[#ECEEF1]'
                   }`}>
                     {selectedArtifactModal.status === 'LATEST' ? '⭐ Baseline Version' : 'Superseeded Version'}
                   </span>
-                  <span className="text-xs text-slate-400 font-mono">{selectedArtifactModal.version}</span>
+                  <span className="text-xs text-[#667085] font-mono">{selectedArtifactModal.version}</span>
                   {selectedArtifactModal.staleness && (
-                    <span className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded-md ${
-                      selectedArtifactModal.staleness.isStale ? 'bg-rose-950 text-rose-400 border border-rose-800' : 'bg-emerald-950 text-emerald-400 border border-emerald-800'
+                    <span className={`px-2 py-0.5 text-[10px] font-bold uppercase rounded-[6px] ${
+                      selectedArtifactModal.staleness.isStale ? 'bg-rose-50 text-rose-700 border border-rose-200' : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                     }`}>
                       {selectedArtifactModal.staleness.label}
                     </span>
                   )}
                 </div>
-                <h3 className="text-lg font-bold text-white mt-1">{selectedArtifactModal.title}</h3>
-                <p className="text-xs text-slate-400">
-                  ID: <span className="text-indigo-300 font-mono">{selectedArtifactModal.artefactId || selectedArtifactModal.id}</span> | 
-                  Stage: <span className="text-purple-300 font-mono">{selectedArtifactModal.stageKey}</span> | 
-                  Parent: <span className="text-purple-300 font-mono">{selectedArtifactModal.parentArtefactId} ({selectedArtifactModal.parentArtefactVersion || 'v1.0.0'})</span>
+                <h3 className="text-lg font-bold text-[#17181C] mt-1">{selectedArtifactModal.title}</h3>
+                <p className="text-xs text-[#667085]">
+                  ID: <span className="text-[#5F46D8] font-mono">{selectedArtifactModal.artefactId || selectedArtifactModal.id}</span> | 
+                  Stage: <span className="text-purple-700 font-mono">{selectedArtifactModal.stageKey}</span> | 
+                  Parent: <span className="text-purple-700 font-mono">{selectedArtifactModal.parentArtefactId} ({selectedArtifactModal.parentArtefactVersion || 'v1.0.0'})</span>
                 </p>
               </div>
 
               <div className="flex items-center space-x-3">
                 {/* View Mode Toggle Buttons */}
-                <div className="flex bg-slate-950 p-1 border border-slate-800 rounded-xl space-x-1">
+                <div className="flex bg-[#FAFAF9] p-1 border border-[#ECEEF1] rounded-[10px] space-x-1">
                   <button
                     onClick={() => setModalViewMode('formatted')}
-                    className={`px-3 py-1 text-xs font-bold rounded-lg transition cursor-pointer flex items-center space-x-1.5 ${
+                    className={`px-3 py-1 text-xs font-semibold rounded-[8px] transition cursor-pointer flex items-center space-x-1.5 ${
                       modalViewMode === 'formatted'
-                        ? 'bg-indigo-600 text-white shadow-md'
-                        : 'text-slate-400 hover:text-white'
+                        ? 'bg-white text-[#17181C] shadow-2xs font-bold border border-[#ECEEF1]'
+                        : 'text-[#667085] hover:text-[#17181C]'
                     }`}
                   >
-                    <i className="fas fa-file-alt"></i>
+                    <i className="fas fa-file-alt text-[#7157F5]"></i>
                     <span>Formatted Document</span>
                   </button>
                   <button
                     onClick={() => setModalViewMode('raw')}
-                    className={`px-3 py-1 text-xs font-bold rounded-lg transition cursor-pointer flex items-center space-x-1.5 ${
+                    className={`px-3 py-1 text-xs font-semibold rounded-[8px] transition cursor-pointer flex items-center space-x-1.5 ${
                       modalViewMode === 'raw'
-                        ? 'bg-indigo-600 text-white shadow-md'
-                        : 'text-slate-400 hover:text-white'
+                        ? 'bg-white text-[#17181C] shadow-2xs font-bold border border-[#ECEEF1]'
+                        : 'text-[#667085] hover:text-[#17181C]'
                     }`}
                   >
-                    <i className="fas fa-code"></i>
+                    <i className="fas fa-code text-[#7157F5]"></i>
                     <span>Raw JSON Payload</span>
                   </button>
                 </div>
 
                 <button 
                   onClick={() => setSelectedArtifactModal(null)} 
-                  className="text-slate-400 hover:text-white transition cursor-pointer text-lg p-1"
+                  className="text-[#98A2B3] hover:text-[#17181C] p-1 rounded-lg hover:bg-[#F8F8F7] transition cursor-pointer text-lg"
                 >
                   <i className="fas fa-times"></i>
                 </button>
@@ -724,28 +724,28 @@ export default function SpecControlView() {
 
             {/* Modal Body Container */}
             {modalViewMode === 'formatted' ? (
-              <div className="flex-1 overflow-hidden bg-[#070a13] border border-slate-800 rounded-xl">
+              <div className="flex-1 overflow-hidden bg-[#FAFAF9] border border-[#ECEEF1] rounded-[12px]">
                 <iframe
                   srcDoc={formatArtifactContentToHtml(selectedArtifactModal)}
-                  className="w-full h-full border-0 rounded-xl bg-[#070a13]"
+                  className="w-full h-full border-0 rounded-[12px] bg-white"
                   title={selectedArtifactModal.title}
                 />
               </div>
             ) : (
-              <div className="flex-1 overflow-auto bg-slate-950 p-4 rounded-xl border border-slate-800 custom-scroll font-mono text-xs text-slate-300 whitespace-pre-wrap">
+              <div className="flex-1 overflow-auto bg-[#FAFAF9] p-4 rounded-[12px] border border-[#ECEEF1] custom-scroll font-mono text-xs text-[#17181C] whitespace-pre-wrap">
                 {typeof selectedArtifactModal.content === 'object'
                   ? JSON.stringify(selectedArtifactModal.content, null, 2)
                   : selectedArtifactModal.content}
               </div>
             )}
 
-            <div className="flex justify-between items-center pt-2 border-t border-slate-800">
-              <span className="text-[11px] text-slate-500 font-mono">
+            <div className="flex justify-between items-center pt-2 border-t border-[#ECEEF1]">
+              <span className="text-[11px] text-[#667085] font-mono">
                 {selectedArtifactModal.staleness ? selectedArtifactModal.staleness.reason : 'Baseline document payload'}
               </span>
               <button
                 onClick={() => setSelectedArtifactModal(null)}
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold rounded-xl transition cursor-pointer"
+                className="px-4 py-2 bg-[#17181C] hover:bg-[#292B30] text-white text-xs font-semibold rounded-[10px] transition cursor-pointer"
               >
                 Close
               </button>

@@ -669,17 +669,17 @@ export default function RequirementToSpec() {
   const pendingDrifts = specDrifts.filter(d => d.status === 'DRIFTED');
 
   return (
-    <div className="text-white fade-in space-y-4 p-1 h-[calc(100vh-100px)] flex flex-col font-sans">
+    <div className="text-[#17181C] fade-in space-y-4 p-1 h-[calc(100vh-100px)] flex flex-col font-sans">
       {/* Reported Specification Drifts Alert Banner */}
       {pendingDrifts.length > 0 && (
-        <div className="p-3 px-4 rounded-xl border flex items-center justify-between shadow-lg transition shrink-0 bg-amber-950/80 border-amber-500/70 text-amber-200 animate-pulse">
+        <div className="p-3 px-4 rounded-[12px] border border-amber-300 bg-amber-50 text-amber-900 flex items-center justify-between shadow-2xs transition shrink-0 animate-pulse">
           <div className="flex items-center space-x-3 text-xs">
-            <i className="fas fa-exclamation-triangle text-amber-400 text-base"></i>
+            <i className="fas fa-exclamation-triangle text-amber-600 text-base"></i>
             <div>
-              <strong className="font-bold text-amber-300 text-xs sm:text-sm">
+              <strong className="font-bold text-amber-900 text-xs sm:text-sm">
                 ⚠️ {pendingDrifts.length} Reported Spec {pendingDrifts.length === 1 ? 'Drift' : 'Drifts'} Pending Review
               </strong>
-              <p className="text-[11px] text-slate-300 mt-0.5">
+              <p className="text-[11px] text-amber-700 mt-0.5">
                 Modifications requested in downstream views. Review and Accept/Reject to proceed with new specification compilation.
               </p>
             </div>
@@ -688,7 +688,7 @@ export default function RequirementToSpec() {
           <button
             type="button"
             onClick={() => setIsDriftModalOpen(true)}
-            className="px-4 py-2 text-xs font-extrabold rounded-xl transition cursor-pointer flex items-center space-x-2 shadow-md shrink-0 bg-amber-600 hover:bg-amber-500 text-white border border-amber-400/50"
+            className="px-4 py-2 text-xs font-semibold rounded-[10px] transition cursor-pointer flex items-center space-x-2 shadow-2xs shrink-0 bg-amber-600 hover:bg-amber-700 text-white"
           >
             <i className="fas fa-eye text-xs"></i>
             <span>Review Reported Drifts ({pendingDrifts.length})</span>
@@ -700,21 +700,21 @@ export default function RequirementToSpec() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 flex-1 min-h-0">
         
         {/* LEFT PANEL: SPECKIT COMMAND TERMINAL & INTERACTIVE CLARIFICATION */}
-        <div className="bg-[#0b0f19] border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-xl">
-          <div className="px-4 py-3 bg-slate-900/80 border-b border-slate-800 flex justify-between items-center shrink-0">
-            <div className="flex space-x-1 bg-slate-950 p-0.5 rounded-lg border border-slate-800">
+        <div className="bg-white border border-[#ECEEF1] rounded-[16px] flex flex-col overflow-hidden shadow-2xs">
+          <div className="px-4 py-3 bg-[#FAFAF9] border-b border-[#ECEEF1] flex justify-between items-center shrink-0">
+            <div className="flex space-x-1 bg-white p-0.5 rounded-[10px] border border-[#ECEEF1] shadow-2xs">
               <button
                 onClick={() => setActiveLeftTab('terminal')}
-                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition cursor-pointer ${
-                  activeLeftTab === 'terminal' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'
+                className={`px-3 py-1.5 rounded-[8px] text-xs font-semibold transition cursor-pointer ${
+                  activeLeftTab === 'terminal' ? 'bg-[#7157F5] text-white shadow-2xs' : 'text-[#667085] hover:text-[#17181C]'
                 }`}
               >
                 Spec Terminal
               </button>
               <button
                 onClick={() => setActiveLeftTab('logs')}
-                className={`px-3 py-1.5 rounded-md text-xs font-semibold transition cursor-pointer ${
-                  activeLeftTab === 'logs' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'
+                className={`px-3 py-1.5 rounded-[8px] text-xs font-semibold transition cursor-pointer ${
+                  activeLeftTab === 'logs' ? 'bg-[#7157F5] text-white shadow-2xs' : 'text-[#667085] hover:text-[#17181C]'
                 }`}
               >
                 Logs ({pageState?.logs?.length || 0})
@@ -722,22 +722,22 @@ export default function RequirementToSpec() {
             </div>
           </div>
 
-          <div className="flex-1 p-4 overflow-auto custom-scroll flex flex-col min-h-0 bg-[#060913]">
+          <div className="flex-1 p-4 overflow-auto custom-scroll flex flex-col min-h-0 bg-white">
             
             {/* SUB-TAB 1: TERMINAL & COMMAND CONTROLS */}
             {activeLeftTab === 'terminal' && (
               <div className="space-y-3 flex-1 flex flex-col min-h-0">
                 <div className="flex-1 flex flex-col min-h-0">
-                  <label className="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1.5 flex justify-between items-center shrink-0">
+                  <label className="block text-[11px] font-bold text-[#667085] uppercase tracking-wider mb-1.5 flex justify-between items-center shrink-0">
                     <span>Requirement & Feature Scope Input</span>
-                    <span className="text-[10px] text-indigo-400 font-mono">Select Generated Requirement.md</span>
+                    <span className="text-[10px] text-[#7157F5] font-mono font-bold">Select Generated Requirement.md</span>
                   </label>
 
                   {approvedRequirements.length > 0 && (
                     <select
                       value={selectedReqId}
                       onChange={(e) => handleSelectRequirement(e.target.value)}
-                      className="w-full bg-[#0c1222] border border-slate-800 rounded-xl px-3 py-1.5 text-xs text-indigo-300 font-medium focus:outline-none focus:border-indigo-500 cursor-pointer mb-2 shrink-0"
+                      className="w-full bg-[#FAFAF9] border border-[#ECEEF1] rounded-[10px] px-3 py-2 text-xs text-[#17181C] font-semibold focus:outline-none focus:border-[#7157F5] cursor-pointer mb-2 shrink-0 shadow-2xs"
                     >
                       {approvedRequirements.map((r) => (
                         <option key={r.ideaId} value={r.ideaId}>
@@ -750,70 +750,70 @@ export default function RequirementToSpec() {
                   <textarea
                     value={requirementInput}
                     onChange={(e) => setRequirementInput(e.target.value)}
-                    className="flex-1 min-h-[220px] w-full bg-[#0c1222] text-slate-200 border border-slate-800 rounded-xl p-3 text-xs font-mono focus:outline-none focus:border-indigo-500 custom-scroll resize-none leading-relaxed"
+                    className="flex-1 min-h-[220px] w-full bg-[#FAFAF9] text-[#17181C] border border-[#ECEEF1] rounded-[12px] p-3 text-xs font-mono focus:outline-none focus:border-[#7157F5] custom-scroll resize-none leading-relaxed shadow-2xs"
                     placeholder="Describe requirement..."
                   />
                 </div>
 
-                <div className="pt-2 border-t border-slate-800/80 space-y-2 shrink-0">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                <div className="pt-2 border-t border-[#ECEEF1] space-y-2 shrink-0">
+                  <span className="text-[10px] font-bold text-[#667085] uppercase tracking-wider block">
                     SpeckIt Phase Commands
                   </span>
                   
                   <div className="grid grid-cols-2 gap-1.5">
                     <button
                       onClick={() => handleRunCommand('/speckit.constitution')}
-                      className="py-1.5 px-2.5 bg-slate-900 hover:bg-indigo-950/60 border border-slate-800 hover:border-indigo-500/40 rounded-lg text-[11px] font-bold text-slate-300 hover:text-white transition flex items-center justify-between cursor-pointer"
+                      className="py-2 px-3 bg-[#FAFAF9] hover:bg-[#F4F1FF] border border-[#ECEEF1] hover:border-[#E4DCFF] rounded-[10px] text-[11px] font-semibold text-[#17181C] transition flex items-center justify-between cursor-pointer shadow-2xs"
                     >
                       <span>1. /speckit.constitution</span>
-                      <i className="fas fa-play text-[9px] text-indigo-400"></i>
+                      <i className="fas fa-play text-[9px] text-[#7157F5]"></i>
                     </button>
 
                     <button
                       onClick={() => handleRunCommand('/speckit.specify')}
-                      className="py-1.5 px-2.5 bg-slate-900 hover:bg-indigo-950/60 border border-slate-800 hover:border-indigo-500/40 rounded-lg text-[11px] font-bold text-slate-300 hover:text-white transition flex items-center justify-between cursor-pointer"
+                      className="py-2 px-3 bg-[#FAFAF9] hover:bg-[#F4F1FF] border border-[#ECEEF1] hover:border-[#E4DCFF] rounded-[10px] text-[11px] font-semibold text-[#17181C] transition flex items-center justify-between cursor-pointer shadow-2xs"
                     >
                       <span>2. /speckit.specify</span>
-                      <i className="fas fa-play text-[9px] text-indigo-400"></i>
+                      <i className="fas fa-play text-[9px] text-[#7157F5]"></i>
                     </button>
 
                     <button
                       onClick={() => handleRunCommand('/speckit.clarify')}
-                      className="py-1.5 px-2.5 bg-purple-950/50 hover:bg-purple-900/60 border border-purple-500/40 rounded-lg text-[11px] font-bold text-purple-300 hover:text-white transition flex items-center justify-between cursor-pointer"
+                      className="py-2 px-3 bg-[#F4F1FF] hover:bg-[#E4DCFF] border border-[#E4DCFF] rounded-[10px] text-[11px] font-bold text-[#5F46D8] transition flex items-center justify-between cursor-pointer shadow-2xs"
                     >
                       <span>3. /speckit.clarify</span>
-                      <i className="fas fa-question-circle text-[9px] text-purple-400"></i>
+                      <i className="fas fa-question-circle text-[9px] text-[#7157F5]"></i>
                     </button>
 
                     <button
                       onClick={() => handleRunCommand('/speckit.plan')}
-                      className="py-1.5 px-2.5 bg-slate-900 hover:bg-indigo-950/60 border border-slate-800 hover:border-indigo-500/40 rounded-lg text-[11px] font-bold text-slate-300 hover:text-white transition flex items-center justify-between cursor-pointer"
+                      className="py-2 px-3 bg-[#FAFAF9] hover:bg-[#F4F1FF] border border-[#ECEEF1] hover:border-[#E4DCFF] rounded-[10px] text-[11px] font-semibold text-[#17181C] transition flex items-center justify-between cursor-pointer shadow-2xs"
                     >
                       <span>4. /speckit.plan</span>
-                      <i className="fas fa-play text-[9px] text-indigo-400"></i>
+                      <i className="fas fa-play text-[9px] text-[#7157F5]"></i>
                     </button>
 
                     <button
                       onClick={() => handleRunCommand('/speckit.checklist')}
-                      className="py-1.5 px-2.5 bg-slate-900 hover:bg-indigo-950/60 border border-slate-800 hover:border-indigo-500/40 rounded-lg text-[11px] font-bold text-slate-300 hover:text-white transition flex items-center justify-between cursor-pointer"
+                      className="py-2 px-3 bg-[#FAFAF9] hover:bg-[#F4F1FF] border border-[#ECEEF1] hover:border-[#E4DCFF] rounded-[10px] text-[11px] font-semibold text-[#17181C] transition flex items-center justify-between cursor-pointer shadow-2xs"
                     >
                       <span>5. /speckit.checklist</span>
-                      <i className="fas fa-play text-[9px] text-indigo-400"></i>
+                      <i className="fas fa-play text-[9px] text-[#7157F5]"></i>
                     </button>
 
                     <button
                       onClick={() => handleRunCommand('/speckit.tasks')}
-                      className="py-1.5 px-2.5 bg-slate-900 hover:bg-indigo-950/60 border border-slate-800 hover:border-indigo-500/40 rounded-lg text-[11px] font-bold text-slate-300 hover:text-white transition flex items-center justify-between cursor-pointer"
+                      className="py-2 px-3 bg-[#FAFAF9] hover:bg-[#F4F1FF] border border-[#ECEEF1] hover:border-[#E4DCFF] rounded-[10px] text-[11px] font-semibold text-[#17181C] transition flex items-center justify-between cursor-pointer shadow-2xs"
                     >
                       <span>6. /speckit.tasks</span>
-                      <i className="fas fa-play text-[9px] text-indigo-400"></i>
+                      <i className="fas fa-play text-[9px] text-[#7157F5]"></i>
                     </button>
                   </div>
 
                   <button
                     onClick={() => handleRunCommand('/speckit.pipeline')}
                     disabled={pageState?.isLoading}
-                    className="w-full py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white text-xs font-bold rounded-xl shadow-lg transition flex items-center justify-center space-x-2 cursor-pointer mt-1"
+                    className="w-full py-2.5 bg-[#7157F5] hover:bg-[#5F46D8] text-white text-xs font-semibold rounded-[10px] shadow-2xs transition flex items-center justify-center gap-2 cursor-pointer mt-1"
                   >
                     <i className="fas fa-bolt text-amber-300"></i>
                     <span>Run Full 6-Phase SpeckIt Pipeline</span>
@@ -825,12 +825,12 @@ export default function RequirementToSpec() {
             {/* SUB-TAB 2: AMBIGUITY CLARIFICATION WIZARD */}
             {activeLeftTab === 'clarify' && (
               <div className="space-y-4 flex-1 flex flex-col">
-                <div className="bg-purple-950/20 border border-purple-800/40 p-3 rounded-xl">
+                <div className="bg-[#F4F1FF] border border-[#E4DCFF] p-3.5 rounded-[12px]">
                   <div className="flex justify-between items-center mb-1">
-                    <span className="text-[10px] font-bold text-purple-300 uppercase tracking-wider">Phase 3 Ambiguity Resolution</span>
-                    <span className="text-[10px] font-mono text-purple-400">Step {clarifyStepIdx + 1} of {clarificationQuestions.length}</span>
+                    <span className="text-[10px] font-bold text-[#5F46D8] uppercase tracking-wider">Phase 3 Ambiguity Resolution</span>
+                    <span className="text-[10px] font-mono text-[#7157F5] font-bold">Step {clarifyStepIdx + 1} of {clarificationQuestions.length}</span>
                   </div>
-                  <p className="text-xs text-slate-300 font-semibold">{clarificationQuestions[clarifyStepIdx]?.question}</p>
+                  <p className="text-xs text-[#17181C] font-semibold">{clarificationQuestions[clarifyStepIdx]?.question}</p>
                 </div>
 
                 <div className="space-y-2 flex-1">
@@ -838,9 +838,9 @@ export default function RequirementToSpec() {
                     <button
                       key={idx}
                       onClick={() => handleAnswerQuestion(clarificationQuestions[clarifyStepIdx], opt)}
-                      className="w-full p-3 bg-slate-900 hover:bg-purple-950/50 border border-slate-800 hover:border-purple-500/50 rounded-xl text-xs text-left text-slate-300 hover:text-white transition flex items-center space-x-3 cursor-pointer"
+                      className="w-full p-3 bg-white hover:bg-[#F4F1FF] border border-[#ECEEF1] hover:border-[#E4DCFF] rounded-[10px] text-xs text-left text-[#17181C] transition flex items-center space-x-3 cursor-pointer shadow-2xs"
                     >
-                      <span className="w-5 h-5 rounded-full bg-purple-950 text-purple-400 border border-purple-800 text-[10px] font-bold flex items-center justify-center shrink-0">
+                      <span className="w-5 h-5 rounded-full bg-[#F4F1FF] text-[#7157F5] border border-[#E4DCFF] text-[10px] font-bold flex items-center justify-center shrink-0">
                         {String.fromCharCode(65 + idx)}
                       </span>
                       <span>{opt}</span>
@@ -849,19 +849,19 @@ export default function RequirementToSpec() {
                 </div>
 
                 {userAnswers.length > 0 && (
-                  <div className="p-2.5 bg-emerald-950/30 border border-emerald-800/50 rounded-xl text-xs text-emerald-300 font-semibold flex items-center space-x-2">
-                    <i className="fas fa-check-circle"></i>
-                    <p className="text-xs text-slate-400">Answers folded back into baseline specification.</p>
+                  <div className="p-2.5 bg-emerald-50 border border-emerald-200 rounded-[10px] text-xs text-emerald-800 font-semibold flex items-center space-x-2">
+                    <i className="fas fa-check-circle text-emerald-600"></i>
+                    <p className="text-xs text-emerald-700">Answers folded back into baseline specification.</p>
                   </div>
                 )}
 
                 {/* Question Log */}
-                <div className="border-t border-slate-800 pt-2">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-2">Resolution Log</span>
+                <div className="border-t border-[#ECEEF1] pt-2">
+                  <span className="text-[10px] font-bold text-[#667085] uppercase tracking-wider block mb-2">Resolution Log</span>
                   <div className="max-h-28 overflow-auto custom-scroll space-y-1">
                     {userAnswers.map((a, i) => (
-                      <div key={i} className="text-[11px] text-slate-400 bg-slate-950 p-2 rounded border border-slate-800/60">
-                        <span className="text-purple-300 font-bold">[{a.questionId}]</span> {a.answer}
+                      <div key={i} className="text-[11px] text-[#344054] bg-[#FAFAF9] p-2 rounded-[8px] border border-[#ECEEF1]">
+                        <span className="text-[#7157F5] font-bold">[{a.questionId}]</span> {a.answer}
                       </div>
                     ))}
                   </div>
@@ -871,12 +871,12 @@ export default function RequirementToSpec() {
 
             {/* SUB-TAB 3: EXECUTION LOGS */}
             {activeLeftTab === 'logs' && (
-              <div className="font-mono text-xs text-slate-300 flex flex-col space-y-1">
+              <div className="font-mono text-xs text-[#344054] flex flex-col space-y-1 p-3 bg-[#FAFAF9] rounded-[10px] border border-[#ECEEF1] h-full overflow-y-auto">
                 {!pageState?.logs || pageState.logs.length === 0 ? (
-                  <div className="text-slate-500 italic p-4 text-center">No execution logs. Click a command to start.</div>
+                  <div className="text-[#667085] italic p-4 text-center">No execution logs. Click a command to start.</div>
                 ) : (
                   pageState.logs.map((log, idx) => (
-                    <div key={idx} className={log.includes('[Error]') ? 'text-rose-400' : log.includes('[Success]') ? 'text-emerald-400' : 'text-slate-400'}>
+                    <div key={idx} className={log.includes('[Error]') ? 'text-rose-600 font-semibold' : log.includes('[Success]') ? 'text-emerald-700 font-semibold' : 'text-[#344054]'}>
                       {log}
                     </div>
                   ))
@@ -887,14 +887,14 @@ export default function RequirementToSpec() {
         </div>
 
         {/* RIGHT PANEL: SPECKIT TAXONOMY ARTIFACT TREE & FILE INSPECTOR */}
-        <div className="bg-[#0b0f19] border border-slate-800 rounded-2xl flex flex-col overflow-hidden shadow-xl">
+        <div className="bg-white border border-[#ECEEF1] rounded-[16px] flex flex-col overflow-hidden shadow-2xs">
           
           {/* SpeckIt File Selector Bar */}
-          <div className="px-4 py-2.5 bg-slate-900/80 border-b border-slate-800 flex justify-between items-center overflow-x-auto custom-scroll">
+          <div className="px-4 py-2.5 bg-[#FAFAF9] border-b border-[#ECEEF1] flex justify-between items-center overflow-x-auto custom-scroll">
             <select
               value={activeFile || ''}
               onChange={(e) => setActiveFile(e.target.value)}
-              className="bg-[#060913] border border-slate-800 text-indigo-300 text-xs font-mono font-bold rounded-lg px-3 py-1.5 focus:outline-none focus:border-indigo-500 cursor-pointer min-w-[240px]"
+              className="bg-white border border-[#ECEEF1] text-[#17181C] text-xs font-mono font-semibold rounded-[8px] px-3 py-1.5 focus:outline-none focus:border-[#7157F5] cursor-pointer min-w-[240px] shadow-2xs"
             >
               {Object.keys(speckitFiles || {}).map((filePath) => {
                 let displayLabel = filePath;
@@ -916,7 +916,7 @@ export default function RequirementToSpec() {
 
             <div className="flex items-center space-x-2 shrink-0 ml-2">
               {syncSuccess && (
-                <span className="text-[11px] font-bold text-emerald-400 flex items-center space-x-1 animate-fade-in">
+                <span className="text-[11px] font-bold text-emerald-600 flex items-center space-x-1 animate-fade-in">
                   <i className="fas fa-check-circle text-[10px]"></i>
                   <span>Synced!</span>
                 </span>
@@ -924,7 +924,7 @@ export default function RequirementToSpec() {
               <button
                 onClick={handleSaveAndSync}
                 disabled={isSyncing}
-                className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-1.5 px-3 rounded-lg shadow transition flex items-center space-x-1.5 text-xs cursor-pointer"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-1.5 px-3 rounded-[8px] shadow-2xs transition flex items-center space-x-1.5 text-xs cursor-pointer"
               >
                 {isSyncing ? <i className="fas fa-circle-notch animate-spin text-[10px]"></i> : <i className="fas fa-cloud-upload-alt text-[10px]"></i>}
                 <span>Save & Sync</span>
@@ -932,7 +932,7 @@ export default function RequirementToSpec() {
 
               <button
                 onClick={() => markdownGenerator.download((activeFile || 'spec.md').split('/').pop(), currentFileContent)}
-                className="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 rounded-lg text-xs font-bold transition cursor-pointer flex items-center justify-center"
+                className="p-2 bg-white hover:bg-[#F8F8F7] text-[#344054] border border-[#ECEEF1] rounded-[8px] text-xs font-semibold transition cursor-pointer flex items-center justify-center shadow-2xs"
                 title="Download File"
               >
                 <i className="fas fa-download text-xs"></i>
@@ -941,26 +941,26 @@ export default function RequirementToSpec() {
           </div>
 
           {/* File Content Code Area */}
-          <div className="flex-1 p-4 overflow-auto custom-scroll bg-[#060913]">
+          <div className="flex-1 p-4 overflow-auto custom-scroll bg-[#FAFAF9]">
             {(!currentFileContent && !hasRunPipeline) && !pageState.isLoading ? (
               <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-4">
-                <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-2xl shadow-lg">
+                <div className="w-14 h-14 rounded-[14px] bg-[#F4F1FF] border border-[#E4DCFF] flex items-center justify-center text-[#7157F5] text-2xl shadow-2xs">
                   <i className="fas fa-bolt"></i>
                 </div>
                 <div>
-                  <h3 className="text-sm font-extrabold text-white">SpeckIt Specification Artifact Inspector</h3>
-                  <p className="text-xs text-slate-400 max-w-sm mt-1">
-                    Click <span className="text-indigo-300 font-bold">"Run Full 6-Phase SpeckIt Pipeline"</span> or execute a phase command on the left to generate live specification artifacts.
+                  <h3 className="text-sm font-bold text-[#17181C]">SpeckIt Specification Artifact Inspector</h3>
+                  <p className="text-xs text-[#667085] max-w-sm mt-1">
+                    Click <span className="text-[#5F46D8] font-bold">"Run Full 6-Phase SpeckIt Pipeline"</span> or execute a phase command on the left to generate live specification artifacts.
                   </p>
                 </div>
               </div>
             ) : pageState.isLoading ? (
               <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-3">
-                <div className="w-10 h-10 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-                <p className="text-xs font-bold text-indigo-300">Synthesizing SpeckIt Specification via OpenSource LLM...</p>
+                <div className="w-10 h-10 border-2 border-[#7157F5] border-t-transparent rounded-full animate-spin"></div>
+                <p className="text-xs font-semibold text-[#5F46D8]">Synthesizing SpeckIt Specification via OpenSource LLM...</p>
               </div>
             ) : (
-              <pre className="font-mono text-xs text-slate-200 whitespace-pre-wrap leading-relaxed">
+              <pre className="font-mono text-xs text-[#17181C] whitespace-pre-wrap leading-relaxed">
                 {currentFileContent}
               </pre>
             )}
@@ -972,37 +972,39 @@ export default function RequirementToSpec() {
 
       {/* Spec Drift Review & Approval Modal Window */}
       {isDriftModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-700/80 rounded-2xl max-w-3xl w-full p-6 shadow-2xl flex flex-col max-h-[85vh] space-y-4 animate-fade-in">
+        <div className="fixed inset-0 z-50 bg-[#17181C]/70 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-white border border-[#ECEEF1] rounded-[20px] max-w-3xl w-full p-6 shadow-2xl flex flex-col max-h-[85vh] space-y-4 animate-fade-in text-[#17181C]">
             {/* Modal Header */}
-            <div className="flex justify-between items-center border-b border-slate-800 pb-3 shrink-0">
+            <div className="flex justify-between items-center border-b border-[#ECEEF1] pb-3 shrink-0">
               <div className="flex items-center space-x-2.5">
-                <i className="fas fa-clipboard-check text-amber-400 text-xl"></i>
+                <div className="w-8 h-8 rounded-[8px] bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600">
+                  <i className="fas fa-clipboard-check text-base"></i>
+                </div>
                 <div>
-                  <h3 className="text-base font-extrabold text-white">Spec Drift Review & Approval Workbench</h3>
-                  <span className="text-[11px] text-slate-400 font-mono">SQLite Table: spec_drifts • Project: {activeProject}</span>
+                  <h3 className="text-base font-bold text-[#17181C]">Spec Drift Review & Approval Workbench</h3>
+                  <span className="text-[11px] text-[#667085] font-mono">SQLite Table: spec_drifts • Project: {activeProject}</span>
                 </div>
               </div>
               <button 
                 onClick={() => setIsDriftModalOpen(false)} 
-                className="text-slate-400 hover:text-white text-lg p-1 transition cursor-pointer"
+                className="text-[#98A2B3] hover:text-[#17181C] p-1 rounded-lg hover:bg-[#F8F8F7] transition cursor-pointer"
               >
-                <i className="fas fa-times"></i>
+                <i className="fas fa-times text-base"></i>
               </button>
             </div>
 
             {driftActionMessage && (
-              <div className="p-3 bg-indigo-950/90 border border-indigo-500/50 rounded-xl text-indigo-200 text-xs font-bold flex justify-between items-center shrink-0">
+              <div className="p-3 bg-[#F4F1FF] border border-[#E4DCFF] rounded-[10px] text-[#5F46D8] text-xs font-semibold flex justify-between items-center shrink-0">
                 <span>{driftActionMessage}</span>
-                <button onClick={() => setDriftActionMessage('')} className="text-indigo-400 hover:text-white text-xs">✕</button>
+                <button onClick={() => setDriftActionMessage('')} className="text-[#7157F5] hover:text-[#5F46D8] text-xs font-bold">✕</button>
               </div>
             )}
 
             {/* Drifts List */}
             <div className="flex-1 overflow-y-auto custom-scroll space-y-4 pr-1">
               {specDrifts.length === 0 ? (
-                <div className="text-center py-12 text-slate-500 text-xs">
-                  <i className="fas fa-check-circle text-3xl text-emerald-500/60 mb-2 block"></i>
+                <div className="text-center py-12 text-[#667085] text-xs">
+                  <i className="fas fa-check-circle text-3xl text-emerald-500 mb-2 block"></i>
                   No spec drifts reported for this project.
                 </div>
               ) : (
@@ -1011,26 +1013,26 @@ export default function RequirementToSpec() {
                   const isAccepted = drift.status === 'ACCEPTED';
 
                   return (
-                    <div key={drift.id} className="bg-slate-950 border border-slate-800/80 rounded-xl p-4 space-y-3 shadow-md">
+                    <div key={drift.id} className="bg-[#FAFAF9] border border-[#ECEEF1] rounded-[12px] p-4 space-y-3 shadow-2xs">
                       <div className="flex justify-between items-center">
                         <div className="flex items-center space-x-2">
-                          <span className="text-indigo-400 font-mono font-bold text-xs">Parent Artefact ID: {drift.parentArtefactId}</span>
-                          <span className="text-slate-600 text-[11px]">•</span>
-                          <span className="text-slate-400 text-xs font-medium">Raised by: <strong className="text-slate-200">{drift.raisedBy || 'Delivery Manager'}</strong></span>
-                          <span className="text-slate-600 text-[11px]">•</span>
-                          <span className="text-slate-500 text-[11px] font-mono">{drift.createdAt ? drift.createdAt.split('T')[0] : ''}</span>
+                          <span className="text-[#5F46D8] font-mono font-bold text-xs">Parent Artefact ID: {drift.parentArtefactId}</span>
+                          <span className="text-[#D0D5DD] text-[11px]">•</span>
+                          <span className="text-[#667085] text-xs font-medium">Raised by: <strong className="text-[#17181C]">{drift.raisedBy || 'Delivery Manager'}</strong></span>
+                          <span className="text-[#D0D5DD] text-[11px]">•</span>
+                          <span className="text-[#667085] text-[11px] font-mono">{drift.createdAt ? drift.createdAt.split('T')[0] : ''}</span>
                         </div>
-                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
-                          isPending ? 'bg-amber-950/90 text-amber-300 border border-amber-500/60' :
-                          isAccepted ? 'bg-emerald-950/90 text-emerald-300 border border-emerald-500/60' :
-                          'bg-rose-950/90 text-rose-300 border border-rose-500/60'
+                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                          isPending ? 'bg-amber-50 text-amber-700 border border-amber-200' :
+                          isAccepted ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' :
+                          'bg-rose-50 text-rose-700 border border-rose-200'
                         }`}>
                           {drift.status}
                         </span>
                       </div>
 
-                      <div className="p-3 bg-slate-900/90 rounded-lg border border-slate-800/80 text-xs text-slate-200 leading-relaxed font-sans">
-                        <strong className="text-amber-400 font-bold block mb-1">Drift Description:</strong>
+                      <div className="p-3 bg-white rounded-[10px] border border-[#ECEEF1] text-xs text-[#344054] leading-relaxed font-sans shadow-2xs">
+                        <strong className="text-amber-700 font-bold block mb-1">Drift Description:</strong>
                         {drift.driftDescription}
                       </div>
 
@@ -1041,14 +1043,14 @@ export default function RequirementToSpec() {
                             value={reviewerCommentInput}
                             onChange={e => setReviewerCommentInput(e.target.value)}
                             placeholder="Add reviewer comments (e.g. Approved for v2.0.0 specification compilation)..."
-                            className="w-full bg-slate-900 border border-slate-800 rounded-lg p-2.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
+                            className="w-full bg-white border border-[#ECEEF1] rounded-[8px] p-2.5 text-xs text-[#17181C] focus:outline-none focus:border-[#7157F5]"
                           />
                           <div className="flex justify-end items-center space-x-2">
                             <button
                               type="button"
                               onClick={() => handleReviewDrift(drift, 'REJECTED')}
                               disabled={reviewSubmittingId === drift.id}
-                              className="px-4 py-1.5 bg-rose-950 hover:bg-rose-900 text-rose-300 border border-rose-800 rounded-lg text-xs font-bold transition cursor-pointer flex items-center space-x-1.5"
+                              className="px-4 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-[8px] text-xs font-semibold transition cursor-pointer flex items-center space-x-1.5"
                             >
                               <i className="fas fa-times text-xs"></i>
                               <span>Reject Drift</span>
@@ -1057,7 +1059,7 @@ export default function RequirementToSpec() {
                               type="button"
                               onClick={() => handleReviewDrift(drift, 'ACCEPTED')}
                               disabled={reviewSubmittingId === drift.id}
-                              className="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition cursor-pointer flex items-center space-x-1.5 shadow-md"
+                              className="px-4 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-[8px] text-xs font-semibold transition cursor-pointer flex items-center space-x-1.5 shadow-2xs"
                             >
                               <i className="fas fa-check text-xs"></i>
                               <span>Accept Drift</span>
@@ -1065,7 +1067,7 @@ export default function RequirementToSpec() {
                           </div>
                         </div>
                       ) : (
-                        <div className="p-2.5 bg-slate-900/60 rounded-lg text-[11px] text-slate-400 space-y-1">
+                        <div className="p-2.5 bg-white rounded-[8px] border border-[#ECEEF1] text-[11px] text-[#667085] space-y-1">
                           <div><strong>Reviewed By:</strong> {drift.reviewedBy || 'Product Owner'} ({drift.reviewedAt ? drift.reviewedAt.split('T')[0] : 'Recent'})</div>
                           {drift.reviewerComments && <div><strong>Comments:</strong> {drift.reviewerComments}</div>}
                         </div>
@@ -1077,12 +1079,12 @@ export default function RequirementToSpec() {
             </div>
 
             {/* Modal Footer */}
-            <div className="flex justify-between items-center border-t border-slate-800 pt-3 shrink-0">
-              <span className="text-[11px] text-slate-500 font-mono">Persisted in SQLite spec_drifts table</span>
+            <div className="flex justify-between items-center border-t border-[#ECEEF1] pt-3 shrink-0">
+              <span className="text-[11px] text-[#667085] font-mono">Persisted in SQLite spec_drifts table</span>
               <button
                 type="button"
                 onClick={() => setIsDriftModalOpen(false)}
-                className="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-lg transition cursor-pointer"
+                className="px-4 py-1.5 bg-white hover:bg-[#F8F8F7] text-[#344054] border border-[#ECEEF1] text-xs font-semibold rounded-[8px] transition cursor-pointer"
               >
                 Close Workbench
               </button>

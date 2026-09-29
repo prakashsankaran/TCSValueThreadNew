@@ -237,21 +237,21 @@ export default function KnowledgeFabricView() {
   };
 
   return (
-    <div className="relative p-3 h-full flex flex-col space-y-4 custom-scroll overflow-y-auto bg-[#070a13] text-slate-200">
+    <div className="relative p-3 h-full flex flex-col space-y-4 custom-scroll overflow-y-auto text-[#17181C]">
       
       {/* ---------------------------------------------------- */}
       {/* TOP HEADER & ACTION CONTROLS                         */}
       {/* ---------------------------------------------------- */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0 bg-[#0b0f19] p-4 rounded-2xl border border-slate-800 shadow-xl shrink-0">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center space-y-4 md:space-y-0 bg-white p-4 rounded-[16px] border border-[#ECEEF1] shadow-2xs shrink-0">
         <div>
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white text-lg shadow-lg">
+            <div className="w-10 h-10 rounded-[12px] bg-[#F4F1FF] text-[#7157F5] border border-[#E4DCFF] flex items-center justify-center text-lg shadow-2xs">
               <i className="fas fa-brain"></i>
             </div>
             <div>
-              <h1 className="text-lg font-black text-white flex items-center space-x-2">
+              <h1 className="text-lg font-bold text-[#17181C] flex items-center space-x-2">
                 <span>Trust, Eval & Quality</span>
-                <span className="px-2.5 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/40 text-[10px] font-bold uppercase tracking-wider">
+                <span className="px-2.5 py-0.5 rounded-full bg-[#F4F1FF] text-[#5F46D8] border border-[#E4DCFF] text-[10px] font-bold uppercase tracking-wider">
                   Layer 3 Grounding Plane
                 </span>
               </h1>
@@ -262,16 +262,16 @@ export default function KnowledgeFabricView() {
         <div className="flex items-center space-x-2 shrink-0">
           <button
             onClick={() => setIsUploadModalOpen(true)}
-            className="px-3.5 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-xl text-xs font-bold transition flex items-center space-x-2 shadow-lg cursor-pointer animate-fade-in"
+            className="px-3.5 py-2 bg-[#17181C] hover:bg-[#292B30] text-white rounded-[10px] text-xs font-semibold transition flex items-center space-x-2 shadow-sm cursor-pointer animate-fade-in"
           >
-            <i className="fas fa-cloud-upload-alt"></i>
+            <i className="fas fa-cloud-upload-alt text-[#7157F5]"></i>
             <span>Upload Document</span>
           </button>
 
           <button
             onClick={handleRunScan}
             disabled={isCalculating}
-            className="px-3.5 py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-xl text-xs font-bold transition flex items-center space-x-2 shadow-lg cursor-pointer disabled:opacity-50"
+            className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-[10px] text-xs font-semibold transition flex items-center space-x-2 shadow-2xs cursor-pointer disabled:opacity-50"
           >
             {isCalculating ? <i className="fas fa-spinner animate-spin"></i> : <i className="fas fa-microchip"></i>}
             <span>{isCalculating ? 'Calculating Conformance...' : 'Run Conformance Scan'}</span>
@@ -284,43 +284,43 @@ export default function KnowledgeFabricView() {
       {/* ---------------------------------------------------- */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 shrink-0">
         
-        <div className="bg-[#0b0f19] p-2.5 px-3 rounded-xl border border-slate-800 flex items-center space-x-2.5 shadow-md relative overflow-hidden">
-          <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center text-sm shrink-0">
+        <div className="bg-white p-3 rounded-[12px] border border-[#ECEEF1] flex items-center space-x-3 shadow-2xs relative overflow-hidden">
+          <div className="w-8 h-8 rounded-[8px] bg-blue-50 border border-blue-200 text-blue-600 flex items-center justify-center text-sm shrink-0">
             <i className="fas fa-folder-open"></i>
           </div>
           <div className="min-w-0">
-            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider truncate">Grounding Documents</p>
-            <p className="text-xs sm:text-sm font-black text-white font-mono">{conformanceStats.totalDocs} <span className="text-[10px] font-normal text-blue-400 font-sans">Indexed</span></p>
+            <p className="text-[9px] font-bold text-[#667085] uppercase tracking-wider truncate">Grounding Documents</p>
+            <p className="text-xs sm:text-sm font-bold text-[#17181C] font-mono">{conformanceStats.totalDocs} <span className="text-[10px] font-normal text-blue-600 font-sans">Indexed</span></p>
           </div>
         </div>
 
-        <div className="bg-[#0b0f19] p-2.5 px-3 rounded-xl border border-slate-800 flex items-center space-x-2.5 shadow-md relative overflow-hidden">
-          <div className="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center text-sm shrink-0">
+        <div className="bg-white p-3 rounded-[12px] border border-[#ECEEF1] flex items-center space-x-3 shadow-2xs relative overflow-hidden">
+          <div className="w-8 h-8 rounded-[8px] bg-[#F4F1FF] border border-[#E4DCFF] text-[#7157F5] flex items-center justify-center text-sm shrink-0">
             <i className="fas fa-layer-group"></i>
           </div>
           <div className="min-w-0">
-            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider truncate">Vector Chunks (384-Dim)</p>
-            <p className="text-xs sm:text-sm font-black text-indigo-300 font-mono">{conformanceStats.totalChunks} <span className="text-[10px] font-normal text-indigo-400 font-sans">RAG</span></p>
+            <p className="text-[9px] font-bold text-[#667085] uppercase tracking-wider truncate">Vector Chunks (384-Dim)</p>
+            <p className="text-xs sm:text-sm font-bold text-[#5F46D8] font-mono">{conformanceStats.totalChunks} <span className="text-[10px] font-normal text-[#7157F5] font-sans">RAG</span></p>
           </div>
         </div>
 
-        <div className="bg-[#0b0f19] p-2.5 px-3 rounded-xl border border-slate-800 flex items-center space-x-2.5 shadow-md relative overflow-hidden">
-          <div className="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center text-sm shrink-0">
-            <i className="fas fa-shield-check"></i>
+        <div className="bg-white p-3 rounded-[12px] border border-[#ECEEF1] flex items-center space-x-3 shadow-2xs relative overflow-hidden">
+          <div className="w-8 h-8 rounded-[8px] bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center text-sm shrink-0">
+            <i className="fas fa-shield-alt"></i>
           </div>
           <div className="min-w-0">
-            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider truncate">Conformance Health Score</p>
-            <p className="text-xs sm:text-sm font-black text-emerald-400 font-mono">{conformanceStats.score}% <span className="text-[10px] text-emerald-300 font-sans font-normal">Aligned</span></p>
+            <p className="text-[9px] font-bold text-[#667085] uppercase tracking-wider truncate">Conformance Health</p>
+            <p className="text-xs sm:text-sm font-bold text-emerald-700 font-mono">{conformanceStats.score}% <span className="text-[10px] text-emerald-600 font-sans font-normal">Aligned</span></p>
           </div>
         </div>
 
-        <div className="bg-[#0b0f19] p-2.5 px-3 rounded-xl border border-slate-800 flex items-center space-x-2.5 shadow-md relative overflow-hidden">
-          <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 flex items-center justify-center text-sm shrink-0">
+        <div className="bg-white p-3 rounded-[12px] border border-[#ECEEF1] flex items-center space-x-3 shadow-2xs relative overflow-hidden">
+          <div className="w-8 h-8 rounded-[8px] bg-amber-50 border border-amber-200 text-amber-600 flex items-center justify-center text-sm shrink-0">
             <i className="fas fa-sliders-h"></i>
           </div>
           <div className="min-w-0">
-            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-wider truncate">Min Required Threshold</p>
-            <p className="text-xs sm:text-sm font-black text-amber-400 font-mono">{minConformanceScore}% <span className="text-[10px] text-slate-400 font-sans font-normal">Pass Gate</span></p>
+            <p className="text-[9px] font-bold text-[#667085] uppercase tracking-wider truncate">Min Required Threshold</p>
+            <p className="text-xs sm:text-sm font-bold text-amber-700 font-mono">{minConformanceScore}% <span className="text-[10px] text-[#667085] font-sans font-normal">Pass Gate</span></p>
           </div>
         </div>
 
@@ -329,52 +329,52 @@ export default function KnowledgeFabricView() {
       {/* ---------------------------------------------------- */}
       {/* NAVIGATION TABS BAR                                  */}
       {/* ---------------------------------------------------- */}
-      <div className="flex border-b border-slate-800 space-x-2 shrink-0">
+      <div className="flex border-b border-[#ECEEF1] space-x-2 shrink-0">
         <button
           onClick={() => setActiveTab('library')}
-          className={`px-4 py-2 text-xs font-bold rounded-t-xl transition flex items-center space-x-2 cursor-pointer ${
+          className={`px-4 py-2 text-xs font-semibold rounded-t-[8px] transition flex items-center space-x-2 cursor-pointer ${
             activeTab === 'library'
-              ? 'bg-indigo-600 text-white shadow-md'
-              : 'text-slate-400 hover:bg-slate-900 hover:text-slate-200'
+              ? 'bg-[#17181C] text-white shadow-2xs font-bold'
+              : 'text-[#667085] hover:bg-[#F8F8F7] hover:text-[#17181C]'
           }`}
         >
-          <i className="fas fa-book-open"></i>
+          <i className="fas fa-book-open text-[#7157F5]"></i>
           <span>1. Golden Datasets ({documents.length})</span>
         </button>
 
         <button
           onClick={() => setActiveTab('conformance')}
-          className={`px-4 py-2 text-xs font-bold rounded-t-xl transition flex items-center space-x-2 cursor-pointer ${
+          className={`px-4 py-2 text-xs font-semibold rounded-t-[8px] transition flex items-center space-x-2 cursor-pointer ${
             activeTab === 'conformance'
-              ? 'bg-indigo-600 text-white shadow-md'
-              : 'text-slate-400 hover:bg-slate-900 hover:text-slate-200'
+              ? 'bg-[#17181C] text-white shadow-2xs font-bold'
+              : 'text-[#667085] hover:bg-[#F8F8F7] hover:text-[#17181C]'
           }`}
         >
-          <i className="fas fa-chart-pie"></i>
+          <i className="fas fa-chart-pie text-[#7157F5]"></i>
           <span>2. Conformance Calculation Report</span>
         </button>
 
         <button
           onClick={() => setActiveTab('settings')}
-          className={`px-4 py-2 text-xs font-bold rounded-t-xl transition flex items-center space-x-2 cursor-pointer ${
+          className={`px-4 py-2 text-xs font-semibold rounded-t-[8px] transition flex items-center space-x-2 cursor-pointer ${
             activeTab === 'settings'
-              ? 'bg-indigo-600 text-white shadow-md'
-              : 'text-slate-400 hover:bg-slate-900 hover:text-slate-200'
+              ? 'bg-[#17181C] text-white shadow-2xs font-bold'
+              : 'text-[#667085] hover:bg-[#F8F8F7] hover:text-[#17181C]'
           }`}
         >
-          <i className="fas fa-cog"></i>
+          <i className="fas fa-cog text-[#7157F5]"></i>
           <span>3. RAG Rules & Threshold Config</span>
         </button>
 
         <button
           onClick={() => setActiveTab('drift')}
-          className={`px-4 py-2 text-xs font-bold rounded-t-xl transition flex items-center space-x-2 cursor-pointer ${
+          className={`px-4 py-2 text-xs font-semibold rounded-t-[8px] transition flex items-center space-x-2 cursor-pointer ${
             activeTab === 'drift'
-              ? 'bg-indigo-600 text-white shadow-md'
-              : 'text-slate-400 hover:bg-slate-900 hover:text-slate-200'
+              ? 'bg-[#17181C] text-white shadow-2xs font-bold'
+              : 'text-[#667085] hover:bg-[#F8F8F7] hover:text-[#17181C]'
           }`}
         >
-          <i className="fas fa-chart-line"></i>
+          <i className="fas fa-chart-line text-[#7157F5]"></i>
           <span>4. Drift Monitor</span>
         </button>
       </div>
@@ -386,58 +386,54 @@ export default function KnowledgeFabricView() {
         <div className="flex-1 flex flex-col space-y-4 min-h-0">
 
           {/* Document Table */}
-          <div className="flex-1 bg-[#0b0f19] border border-slate-800 rounded-2xl overflow-hidden shadow-2xl flex flex-col">
+          <div className="flex-1 bg-white border border-[#ECEEF1] rounded-[16px] overflow-hidden shadow-2xs flex flex-col">
             <div className="overflow-x-auto custom-scroll flex-1">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="bg-slate-950 border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold text-[10px]">
-                    <th className="p-3.5 border-r border-slate-800/60">Document Title & Filename</th>
-                    <th className="p-3.5 border-r border-slate-800/60">Category & Type</th>
-                    <th className="p-3.5 border-r border-slate-800/60">Size / Chunks</th>
-                    <th className="p-3.5 border-r border-slate-800/60">Uploaded By</th>
-                    <th className="p-3.5 border-r border-slate-800/60">RAG Status</th>
+                  <tr className="bg-[#FAFAF9] border-b border-[#ECEEF1] text-[#667085] uppercase tracking-wider font-semibold text-[10px]">
+                    <th className="p-3.5 border-r border-[#ECEEF1]">Document Title & Filename</th>
+                    <th className="p-3.5 border-r border-[#ECEEF1]">Category & Type</th>
+                    <th className="p-3.5 border-r border-[#ECEEF1]">Size / Chunks</th>
+                    <th className="p-3.5 border-r border-[#ECEEF1]">Uploaded By</th>
+                    <th className="p-3.5 border-r border-[#ECEEF1]">RAG Status</th>
                     <th className="p-3.5 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800/60 bg-[#070a13] text-slate-300">
+                <tbody className="divide-y divide-[#ECEEF1] text-[#344054]">
                   {filteredDocuments.map(doc => (
-                    <tr key={doc.id} className="hover:bg-slate-900/40 transition">
-                      <td className="p-3.5 border-r border-slate-800/60">
+                    <tr key={doc.id} className="hover:bg-[#FAFAF9] transition">
+                      <td className="p-3.5 border-r border-[#ECEEF1]">
                         <div className="flex items-center space-x-3">
-                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs shrink-0 ${
-                            getCategoryStyles(doc.category).bg
-                          }`}>
-                            <i className={`fas ${getCategoryStyles(doc.category).icon}`}></i>
+                          <div className="w-8 h-8 rounded-[8px] bg-[#F4F1FF] text-[#7157F5] border border-[#E4DCFF] flex items-center justify-center text-xs shrink-0">
+                            <i className="fas fa-file-alt"></i>
                           </div>
                           <div>
-                            <h4 className="font-bold text-white text-xs">{doc.title}</h4>
-                            <p className="text-[10px] font-mono text-slate-500 mt-0.5">{doc.filename}</p>
+                            <h4 className="font-semibold text-[#17181C] text-xs">{doc.title}</h4>
+                            <p className="text-[10px] font-mono text-[#667085] mt-0.5">{doc.filename}</p>
                           </div>
                         </div>
                       </td>
 
-                      <td className="p-3.5 border-r border-slate-800/60">
-                        <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-bold border uppercase tracking-wider ${
-                          getCategoryStyles(doc.category).badge
-                        }`}>
+                      <td className="p-3.5 border-r border-[#ECEEF1]">
+                        <span className="px-2.5 py-0.5 rounded-full text-[9px] font-bold border uppercase tracking-wider bg-[#F4F1FF] text-[#5F46D8] border-[#E4DCFF]">
                           {doc.category}
                         </span>
-                        <p className="text-[10px] text-slate-400 mt-1 font-mono">{doc.type}</p>
+                        <p className="text-[10px] text-[#667085] mt-1 font-mono">{doc.type}</p>
                       </td>
 
-                      <td className="p-3.5 border-r border-slate-800/60 font-mono">
-                        <p className="text-slate-200 font-bold">{doc.sizeKb} KB</p>
-                        <p className="text-[10px] text-indigo-400">{doc.chunksCount} Vector Chunks</p>
+                      <td className="p-3.5 border-r border-[#ECEEF1] font-mono">
+                        <p className="text-[#17181C] font-semibold">{doc.sizeKb} KB</p>
+                        <p className="text-[10px] text-[#7157F5]">{doc.chunksCount} Vector Chunks</p>
                       </td>
 
-                      <td className="p-3.5 border-r border-slate-800/60">
-                        <p className="text-slate-300 font-bold text-xs">{doc.uploadedBy}</p>
-                        <p className="text-[10px] text-slate-500 font-mono mt-0.5">{doc.uploadedAt}</p>
+                      <td className="p-3.5 border-r border-[#ECEEF1]">
+                        <p className="text-[#17181C] font-semibold text-xs">{doc.uploadedBy}</p>
+                        <p className="text-[10px] text-[#667085] font-mono mt-0.5">{doc.uploadedAt}</p>
                       </td>
 
-                      <td className="p-3.5 border-r border-slate-800/60">
-                        <span className="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[9px] font-bold flex items-center space-x-1 w-max">
-                          <i className="fas fa-check-circle"></i>
+                      <td className="p-3.5 border-r border-[#ECEEF1]">
+                        <span className="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[9px] font-bold flex items-center space-x-1 w-max">
+                          <i className="fas fa-check-circle text-emerald-600"></i>
                           <span>{doc.status}</span>
                         </span>
                       </td>
@@ -445,14 +441,14 @@ export default function KnowledgeFabricView() {
                       <td className="p-3.5 text-right space-x-2">
                         <button
                           onClick={() => setInspectDoc(doc)}
-                          className="px-2.5 py-1 bg-indigo-950/80 hover:bg-indigo-900 border border-indigo-500/40 text-indigo-300 hover:text-white rounded-lg text-xs font-bold transition cursor-pointer"
+                          className="px-2.5 py-1 bg-white hover:bg-[#F8F8F7] border border-[#ECEEF1] text-[#344054] rounded-[8px] text-xs font-semibold transition cursor-pointer shadow-2xs"
                         >
-                          <i className="fas fa-search-plus mr-1"></i>
+                          <i className="fas fa-search-plus mr-1 text-[#7157F5]"></i>
                           Inspect
                         </button>
                         <button
                           onClick={() => handleDeleteDoc(doc.id)}
-                          className="px-2.5 py-1 bg-red-950/80 hover:bg-red-900 border border-red-500/40 text-red-300 hover:text-white rounded-lg text-xs font-bold transition cursor-pointer"
+                          className="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-700 rounded-[8px] text-xs font-semibold transition cursor-pointer"
                         >
                           <i className="fas fa-trash-alt mr-1"></i>
                           Remove
@@ -475,17 +471,17 @@ export default function KnowledgeFabricView() {
         <div className="space-y-5">
           
           {/* Conformance Overview Banner */}
-          <div className="p-5 bg-gradient-to-r from-emerald-950/40 via-[#0b0f19] to-indigo-950/40 border border-emerald-500/40 rounded-2xl flex flex-col md:flex-row items-center justify-between shadow-xl space-y-4 md:space-y-0">
+          <div className="p-5 bg-white border border-[#ECEEF1] rounded-[16px] flex flex-col md:flex-row items-center justify-between shadow-2xs space-y-4 md:space-y-0">
             <div className="flex items-center space-x-4">
-              <div className="px-4 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-lg font-black shrink-0 font-mono">
+              <div className="px-4 h-14 rounded-[12px] bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center text-lg font-black shrink-0 font-mono">
                 {conformanceStats.score}%
               </div>
               <div>
-                <h3 className="text-sm font-black text-white uppercase tracking-wider flex items-center space-x-2">
+                <h3 className="text-sm font-bold text-[#17181C] uppercase tracking-wider flex items-center space-x-2">
                   <span>Baseline Conformance Verified</span>
-                  <i className="fas fa-check-circle text-emerald-400"></i>
+                  <i className="fas fa-check-circle text-emerald-600"></i>
                 </h3>
-                <p className="text-xs text-slate-400 mt-1">
+                <p className="text-xs text-[#667085] mt-1">
                   System Specification evaluated against {documents.length} Grounding Documents.
                 </p>
               </div>
@@ -494,7 +490,7 @@ export default function KnowledgeFabricView() {
             <button
               onClick={handleRunScan}
               disabled={isCalculating}
-              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold transition flex items-center space-x-2 shadow-lg cursor-pointer shrink-0"
+              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-[10px] text-xs font-semibold transition flex items-center space-x-2 shadow-2xs cursor-pointer shrink-0"
             >
               <i className="fas fa-redo"></i>
               <span>Re-Calculate Vector Score</span>
@@ -504,41 +500,41 @@ export default function KnowledgeFabricView() {
           {/* Dimension Breakdown Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             
-            <div className="p-4 bg-[#0b0f19] border border-slate-800 rounded-2xl space-y-3">
-              <div className="flex justify-between items-center text-xs font-bold text-amber-400">
+            <div className="p-4 bg-white border border-[#ECEEF1] rounded-[16px] space-y-3 shadow-2xs">
+              <div className="flex justify-between items-center text-xs font-bold text-amber-700">
                 <span className="uppercase tracking-wider">1. Policy & Governance</span>
                 <span className="font-mono text-sm">96.5%</span>
               </div>
-              <div className="w-full bg-slate-900 rounded-full h-2 overflow-hidden">
+              <div className="w-full bg-[#ECEEF1] rounded-full h-2 overflow-hidden">
                 <div className="bg-amber-500 h-full rounded-full" style={{ width: '96.5%' }}></div>
               </div>
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[11px] text-[#667085]">
                 Full alignment with Enterprise Security Policy v4.2 & PCI-DSS 365-day refund voucher limits.
               </p>
             </div>
 
-            <div className="p-4 bg-[#0b0f19] border border-slate-800 rounded-2xl space-y-3">
-              <div className="flex justify-between items-center text-xs font-bold text-blue-400">
+            <div className="p-4 bg-white border border-[#ECEEF1] rounded-[16px] space-y-3 shadow-2xs">
+              <div className="flex justify-between items-center text-xs font-bold text-blue-700">
                 <span className="uppercase tracking-wider">2. Architecture Blueprint</span>
                 <span className="font-mono text-sm">92.0%</span>
               </div>
-              <div className="w-full bg-slate-900 rounded-full h-2 overflow-hidden">
+              <div className="w-full bg-[#ECEEF1] rounded-full h-2 overflow-hidden">
                 <div className="bg-blue-500 h-full rounded-full" style={{ width: '92.0%' }}></div>
               </div>
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[11px] text-[#667085]">
                 Matches Return Tracker HLD microservice Kafka event channels and Redis cache structure.
               </p>
             </div>
 
-            <div className="p-4 bg-[#0b0f19] border border-slate-800 rounded-2xl space-y-3">
-              <div className="flex justify-between items-center text-xs font-bold text-indigo-400">
+            <div className="p-4 bg-white border border-[#ECEEF1] rounded-[16px] space-y-3 shadow-2xs">
+              <div className="flex justify-between items-center text-xs font-bold text-[#5F46D8]">
                 <span className="uppercase tracking-wider">3. Legacy API Interface</span>
                 <span className="font-mono text-sm">94.8%</span>
               </div>
-              <div className="w-full bg-slate-900 rounded-full h-2 overflow-hidden">
-                <div className="bg-indigo-500 h-full rounded-full" style={{ width: '94.8%' }}></div>
+              <div className="w-full bg-[#ECEEF1] rounded-full h-2 overflow-hidden">
+                <div className="bg-[#7157F5] h-full rounded-full" style={{ width: '94.8%' }}></div>
               </div>
-              <p className="text-[11px] text-slate-400">
+              <p className="text-[11px] text-[#667085]">
                 Compatible with OMS REST `/oms/v1/orders/{"{id}"}/cancel` schema payload requirements.
               </p>
             </div>
@@ -546,10 +542,10 @@ export default function KnowledgeFabricView() {
           </div>
 
           {/* Conformance Traceability Table */}
-          <div className="bg-[#0b0f19] border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
-            <div className="p-4 border-b border-slate-800 bg-slate-950/60">
-              <h4 className="text-xs font-black text-white uppercase tracking-wider flex items-center space-x-2">
-                <i className="fas fa-table text-indigo-400"></i>
+          <div className="bg-white border border-[#ECEEF1] rounded-[16px] overflow-hidden shadow-2xs">
+            <div className="p-4 border-b border-[#ECEEF1] bg-[#FAFAF9]">
+              <h4 className="text-xs font-bold text-[#17181C] uppercase tracking-wider flex items-center space-x-2">
+                <i className="fas fa-table text-[#7157F5]"></i>
                 <span>Specification Requirement vs. Policy Document Mapping</span>
               </h4>
             </div>
@@ -557,44 +553,44 @@ export default function KnowledgeFabricView() {
             <div className="overflow-x-auto custom-scroll">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="bg-slate-900 border-b border-slate-800 text-slate-400 uppercase tracking-wider text-[10px]">
-                    <th className="p-3 border-r border-slate-800">Spec Section</th>
-                    <th className="p-3 border-r border-slate-800">System Requirement Clause</th>
-                    <th className="p-3 border-r border-slate-800">Matched Policy Document</th>
-                    <th className="p-3 border-r border-slate-800">Cosine Score</th>
+                  <tr className="bg-[#FAFAF9] border-b border-[#ECEEF1] text-[#667085] uppercase tracking-wider text-[10px]">
+                    <th className="p-3 border-r border-[#ECEEF1]">Spec Section</th>
+                    <th className="p-3 border-r border-[#ECEEF1]">System Requirement Clause</th>
+                    <th className="p-3 border-r border-[#ECEEF1]">Matched Policy Document</th>
+                    <th className="p-3 border-r border-[#ECEEF1]">Cosine Score</th>
                     <th className="p-3">Compliance Gate Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800 bg-[#070a13] text-slate-300">
-                  <tr className="hover:bg-slate-900/30">
-                    <td className="p-3 border-r border-slate-800 font-bold text-indigo-400">SEC-01</td>
-                    <td className="p-3 border-r border-slate-800">RMA status query requires TLS 1.3 encryption & JWT auth token.</td>
-                    <td className="p-3 border-r border-slate-800 text-amber-300 font-medium">Enterprise Security & Data Privacy Policy</td>
-                    <td className="p-3 border-r border-slate-800 font-mono text-emerald-400 font-bold">0.9842</td>
+                <tbody className="divide-y divide-[#ECEEF1] text-[#344054]">
+                  <tr className="hover:bg-[#FAFAF9]">
+                    <td className="p-3 border-r border-[#ECEEF1] font-bold text-[#5F46D8]">SEC-01</td>
+                    <td className="p-3 border-r border-[#ECEEF1]">RMA status query requires TLS 1.3 encryption & JWT auth token.</td>
+                    <td className="p-3 border-r border-[#ECEEF1] text-amber-800 font-medium">Enterprise Security & Data Privacy Policy</td>
+                    <td className="p-3 border-r border-[#ECEEF1] font-mono text-emerald-700 font-bold">0.9842</td>
                     <td className="p-3">
-                      <span className="px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-bold border border-emerald-500/30">
+                      <span className="px-2.5 py-0.5 rounded-[6px] bg-emerald-50 text-emerald-700 text-[10px] font-bold border border-emerald-200">
                         PASSED
                       </span>
                     </td>
                   </tr>
-                  <tr className="hover:bg-slate-900/30">
-                    <td className="p-3 border-r border-slate-800 font-bold text-indigo-400">ARCH-04</td>
-                    <td className="p-3 border-r border-slate-800">Event bus publishes return.created payloads to Kafka cluster.</td>
-                    <td className="p-3 border-r border-slate-800 text-blue-300 font-medium">Return Tracker Microservice HLD Architecture</td>
-                    <td className="p-3 border-r border-slate-800 font-mono text-emerald-400 font-bold">0.9610</td>
+                  <tr className="hover:bg-[#FAFAF9]">
+                    <td className="p-3 border-r border-[#ECEEF1] font-bold text-[#5F46D8]">ARCH-04</td>
+                    <td className="p-3 border-r border-[#ECEEF1]">Event bus publishes return.created payloads to Kafka cluster.</td>
+                    <td className="p-3 border-r border-[#ECEEF1] text-blue-800 font-medium">Return Tracker Microservice HLD Architecture</td>
+                    <td className="p-3 border-r border-[#ECEEF1] font-mono text-emerald-700 font-bold">0.9610</td>
                     <td className="p-3">
-                      <span className="px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-bold border border-emerald-500/30">
+                      <span className="px-2.5 py-0.5 rounded-[6px] bg-emerald-50 text-emerald-700 text-[10px] font-bold border border-emerald-200">
                         PASSED
                       </span>
                     </td>
                   </tr>
-                  <tr className="hover:bg-slate-900/30">
-                    <td className="p-3 border-r border-slate-800 font-bold text-indigo-400">FIN-02</td>
-                    <td className="p-3 border-r border-slate-800">Instant store-credit voucher refund with 365-day expiry limit.</td>
-                    <td className="p-3 border-r border-slate-800 text-amber-300 font-medium">Global Payment & Refund Voucher Guidelines</td>
-                    <td className="p-3 border-r border-slate-800 font-mono text-emerald-400 font-bold">0.9415</td>
+                  <tr className="hover:bg-[#FAFAF9]">
+                    <td className="p-3 border-r border-[#ECEEF1] font-bold text-[#5F46D8]">FIN-02</td>
+                    <td className="p-3 border-r border-[#ECEEF1]">Instant store-credit voucher refund with 365-day expiry limit.</td>
+                    <td className="p-3 border-r border-[#ECEEF1] text-amber-800 font-medium">Global Payment & Refund Voucher Guidelines</td>
+                    <td className="p-3 border-r border-[#ECEEF1] font-mono text-emerald-700 font-bold">0.9415</td>
                     <td className="p-3">
-                      <span className="px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-bold border border-emerald-500/30">
+                      <span className="px-2.5 py-0.5 rounded-[6px] bg-emerald-50 text-emerald-700 text-[10px] font-bold border border-emerald-200">
                         PASSED
                       </span>
                     </td>
@@ -613,16 +609,16 @@ export default function KnowledgeFabricView() {
       {activeTab === 'settings' && (
         <div className="space-y-6 max-w-4xl">
           
-          <div className="p-5 bg-[#0b0f19] border border-slate-800 rounded-2xl space-y-4">
-            <h3 className="text-sm font-black text-white uppercase tracking-wider flex items-center space-x-2">
-              <i className="fas fa-sliders-h text-indigo-400"></i>
+          <div className="p-5 bg-white border border-[#ECEEF1] rounded-[16px] space-y-4 shadow-2xs">
+            <h3 className="text-sm font-bold text-[#17181C] uppercase tracking-wider flex items-center space-x-2">
+              <i className="fas fa-sliders-h text-[#7157F5]"></i>
               <span>Minimum Conformance Gate Threshold</span>
             </h3>
 
             <div className="space-y-2">
               <div className="flex justify-between items-center text-xs font-bold">
-                <span className="text-slate-300">Minimum Conformance Score (%):</span>
-                <span className="text-indigo-400 font-mono text-sm">{minConformanceScore}%</span>
+                <span className="text-[#344054]">Minimum Conformance Score (%):</span>
+                <span className="text-[#5F46D8] font-mono text-sm">{minConformanceScore}%</span>
               </div>
               <input
                 type="range"
@@ -630,39 +626,39 @@ export default function KnowledgeFabricView() {
                 max="99"
                 value={minConformanceScore}
                 onChange={(e) => setMinConformanceScore(Number(e.target.value))}
-                className="w-full accent-indigo-500 cursor-pointer"
+                className="w-full accent-[#7157F5] cursor-pointer"
               />
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-[#667085]">
                 Specifications scoring below this threshold during generation will trigger an automatic compliance block and alert Product Owner.
               </p>
             </div>
           </div>
 
-          <div className="p-5 bg-[#0b0f19] border border-slate-800 rounded-2xl space-y-4">
-            <h3 className="text-sm font-black text-white uppercase tracking-wider flex items-center space-x-2">
-              <i className="fas fa-microchip text-indigo-400"></i>
+          <div className="p-5 bg-white border border-[#ECEEF1] rounded-[16px] space-y-4 shadow-2xs">
+            <h3 className="text-sm font-bold text-[#17181C] uppercase tracking-wider flex items-center space-x-2">
+              <i className="fas fa-microchip text-[#7157F5]"></i>
               <span>SQLite Vector RAG Indexing Configuration</span>
             </h3>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
-              <div className="p-3 bg-slate-900 rounded-xl border border-slate-800">
-                <p className="text-slate-400 font-sans font-bold">Dense Embedding Model:</p>
-                <p className="text-indigo-300 font-bold mt-1">all-MiniLM-L6-v2 (384 Dimensions)</p>
+              <div className="p-3 bg-[#FAFAF9] rounded-[10px] border border-[#ECEEF1]">
+                <p className="text-[#667085] font-sans font-bold">Dense Embedding Model:</p>
+                <p className="text-[#5F46D8] font-bold mt-1">all-MiniLM-L6-v2 (384 Dimensions)</p>
               </div>
 
-              <div className="p-3 bg-slate-900 rounded-xl border border-slate-800">
-                <p className="text-slate-400 font-sans font-bold">Text Chunking Strategy:</p>
-                <p className="text-indigo-300 font-bold mt-1">512 Tokens with 64 Overlap</p>
+              <div className="p-3 bg-[#FAFAF9] rounded-[10px] border border-[#ECEEF1]">
+                <p className="text-[#667085] font-sans font-bold">Text Chunking Strategy:</p>
+                <p className="text-[#5F46D8] font-bold mt-1">512 Tokens with 64 Overlap</p>
               </div>
 
-              <div className="p-3 bg-slate-900 rounded-xl border border-slate-800">
-                <p className="text-slate-400 font-sans font-bold">Distance Metric:</p>
-                <p className="text-emerald-400 font-bold mt-1">Cosine Similarity Math</p>
+              <div className="p-3 bg-[#FAFAF9] rounded-[10px] border border-[#ECEEF1]">
+                <p className="text-[#667085] font-sans font-bold">Distance Metric:</p>
+                <p className="text-emerald-700 font-bold mt-1">Cosine Similarity Math</p>
               </div>
 
-              <div className="p-3 bg-slate-900 rounded-xl border border-slate-800">
-                <p className="text-slate-400 font-sans font-bold">Vector Storage Backend:</p>
-                <p className="text-emerald-400 font-bold mt-1">SQLite WAL embedded DB</p>
+              <div className="p-3 bg-[#FAFAF9] rounded-[10px] border border-[#ECEEF1]">
+                <p className="text-[#667085] font-sans font-bold">Vector Storage Backend:</p>
+                <p className="text-emerald-700 font-bold mt-1">SQLite WAL embedded DB</p>
               </div>
             </div>
           </div>
@@ -677,14 +673,14 @@ export default function KnowledgeFabricView() {
         <div className="space-y-6 max-w-5xl">
           
           {/* Drifted Specs Table */}
-          <div className="bg-[#0b0f19] border border-slate-800 rounded-2xl p-5 space-y-4">
-            <h4 className="text-xs font-bold text-slate-300 uppercase tracking-wider flex items-center">
+          <div className="bg-white border border-[#ECEEF1] rounded-[16px] p-5 space-y-4 shadow-2xs">
+            <h4 className="text-xs font-bold text-[#17181C] uppercase tracking-wider flex items-center">
               <i className="fas fa-exclamation-triangle text-amber-500 mr-2"></i> Drifted Specifications Registry
             </h4>
             
             <div className="overflow-x-auto custom-scroll">
               <table className="w-full text-left border-collapse text-xs">
-                <thead className="bg-slate-900 border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold text-[10px]">
+                <thead className="bg-[#FAFAF9] border-b border-[#ECEEF1] text-[#667085] uppercase tracking-wider font-semibold text-[10px]">
                   <tr>
                     <th className="p-3.5">Spec ID</th>
                     <th className="p-3.5">Specification Title</th>
@@ -698,13 +694,13 @@ export default function KnowledgeFabricView() {
                     <th className="p-3.5 text-right">Baseline Status</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800 text-slate-300 font-mono">
+                <tbody className="divide-y divide-[#ECEEF1] text-[#344054] font-mono">
                   {driftedSpecs.length === 0 ? (
                     <tr>
-                      <td colSpan="10" className="py-8 text-center text-slate-500 font-sans">
+                      <td colSpan="10" className="py-8 text-center text-[#667085] font-sans">
                         <i className="fas fa-check-circle text-2xl text-emerald-500 mb-2 block"></i>
-                        <p className="font-semibold text-slate-400">No Specifications are Currently Drifted</p>
-                        <p className="text-[10px] text-slate-500 mt-1">All specifications are perfectly aligned with RAG baselines.</p>
+                        <p className="font-semibold text-[#17181C]">No Specifications are Currently Drifted</p>
+                        <p className="text-[10px] text-[#667085] mt-1">All specifications are perfectly aligned with RAG baselines.</p>
                       </td>
                     </tr>
                   ) : (
@@ -715,15 +711,15 @@ export default function KnowledgeFabricView() {
                       const driftDetails = spec.driftDetails || driftStatus.changeDetails;
 
                       return (
-                        <tr key={spec.specId + '-' + (spec.version || index)} className="hover:bg-slate-900/50 transition">
-                          <td className="p-3.5 text-indigo-400 font-bold">{spec.specId}</td>
-                          <td className="p-3.5 font-sans font-bold text-white">{spec.title}</td>
-                          <td className="p-3.5 font-sans text-indigo-300 font-medium">{spec.projectId || 'sdd-enterprise-dev'}</td>
-                          <td className="p-3.5 font-sans text-purple-300 font-medium">{spec.requirementId || 'REQ-001'}</td>
-                          <td className="p-3.5 font-bold text-white">{spec.version || 'v1.0.0'}</td>
-                          <td className="p-3.5 text-center text-emerald-400 font-bold">{spec.qualityScore || 99.0}%</td>
+                        <tr key={spec.specId + '-' + (spec.version || index)} className="hover:bg-[#FAFAF9] transition">
+                          <td className="p-3.5 text-[#5F46D8] font-bold">{spec.specId}</td>
+                          <td className="p-3.5 font-sans font-bold text-[#17181C]">{spec.title}</td>
+                          <td className="p-3.5 font-sans text-[#5F46D8] font-medium">{spec.projectId || 'sdd-enterprise-dev'}</td>
+                          <td className="p-3.5 font-sans text-purple-700 font-medium">{spec.requirementId || 'REQ-001'}</td>
+                          <td className="p-3.5 font-bold text-[#17181C]">{spec.version || 'v1.0.0'}</td>
+                          <td className="p-3.5 text-center text-emerald-700 font-bold">{spec.qualityScore || 99.0}%</td>
                           <td className="p-3.5 text-center font-sans">
-                            <span className="px-2 py-0.5 bg-slate-900 border border-slate-800 text-emerald-400 rounded text-[10px]">
+                            <span className="px-2 py-0.5 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-[6px] text-[10px]">
                               {spec.lintStatus || 'PASSED'}
                             </span>
                           </td>
@@ -731,28 +727,28 @@ export default function KnowledgeFabricView() {
                             {isDrifted ? (
                               <span 
                                 title={driftDetails ? `Parent Change Request: ${driftDetails}` : 'Parent specification has pending drift modification requests'}
-                                className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap bg-amber-950/90 text-amber-300 border border-amber-500/60 shadow-sm cursor-help inline-flex items-center space-x-1"
+                                className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap bg-amber-50 text-amber-700 border border-amber-200 shadow-2xs cursor-help inline-flex items-center space-x-1"
                               >
-                                <i className="fas fa-exclamation-triangle text-amber-400 text-[9px] mr-1"></i>
+                                <i className="fas fa-exclamation-triangle text-amber-600 text-[9px] mr-1"></i>
                                 <span>DRIFTED</span>
                               </span>
                             ) : (
-                              <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap bg-slate-900/80 text-slate-400 border border-slate-800">
+                              <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap bg-[#FAFAF9] text-[#667085] border border-[#ECEEF1]">
                                 ALIGNED
                               </span>
                             )}
                           </td>
-                          <td className="p-3.5 text-slate-300 font-sans max-w-xs" style={{ whiteSpace: 'normal', wordBreak: 'break-all' }}>
+                          <td className="p-3.5 text-[#344054] font-sans max-w-xs" style={{ whiteSpace: 'normal', wordBreak: 'break-all' }}>
                             {driftDetails || "Parent specification has pending drift requests"}
                           </td>
                           <td className="p-3.5 text-right font-sans">
                             {isBaseline ? (
-                              <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap bg-emerald-950/80 text-emerald-300 border border-emerald-500/40 shadow-sm inline-flex items-center space-x-1">
-                                <i className="fas fa-star text-emerald-400 text-[9px] mr-1"></i>
+                              <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap bg-emerald-50 text-emerald-700 border border-emerald-200 shadow-2xs inline-flex items-center space-x-1">
+                                <i className="fas fa-star text-emerald-600 text-[9px] mr-1"></i>
                                 <span>BASELINE</span>
                               </span>
                             ) : (
-                              <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap bg-slate-900/80 text-slate-500 border border-transparent">
+                              <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider whitespace-nowrap bg-[#FAFAF9] text-[#98A2B3] border border-transparent">
                                 SUPERSEDED
                               </span>
                             )}
@@ -773,17 +769,17 @@ export default function KnowledgeFabricView() {
       {/* UPLOAD DOCUMENT MODAL                                */}
       {/* ---------------------------------------------------- */}
       {isUploadModalOpen && (
-        <div className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
-          <div className="bg-[#0b0f19] border border-slate-800 rounded-2xl w-full max-w-xl p-6 shadow-2xl space-y-4">
+        <div className="fixed inset-0 z-[9999] bg-[#17181C]/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
+          <div className="bg-white border border-[#ECEEF1] rounded-[20px] w-full max-w-xl p-6 shadow-2xl space-y-4 text-[#17181C]">
             
-            <div className="flex justify-between items-center pb-3 border-b border-slate-800">
-              <h3 className="text-sm font-black text-white uppercase tracking-wider flex items-center space-x-2">
-                <i className="fas fa-cloud-upload-alt text-indigo-400"></i>
+            <div className="flex justify-between items-center pb-3 border-b border-[#ECEEF1]">
+              <h3 className="text-sm font-bold text-[#17181C] uppercase tracking-wider flex items-center space-x-2">
+                <i className="fas fa-cloud-upload-alt text-[#7157F5]"></i>
                 <span>Upload Grounding & Policy Document</span>
               </h3>
               <button
                 onClick={() => setIsUploadModalOpen(false)}
-                className="text-slate-400 hover:text-white text-xs cursor-pointer"
+                className="text-[#98A2B3] hover:text-[#17181C] text-xs cursor-pointer p-1"
               >
                 <i className="fas fa-times"></i>
               </button>
@@ -791,23 +787,23 @@ export default function KnowledgeFabricView() {
 
             <form onSubmit={handleUploadSubmit} className="space-y-4 text-xs">
               <div>
-                <label className="block text-slate-400 font-bold mb-1">Document Title:</label>
+                <label className="block text-[#344054] font-bold mb-1">Document Title:</label>
                 <input
                   type="text"
                   required
                   placeholder="e.g. Enterprise Security & Compliance Standard 2026"
                   value={uploadTitle}
                   onChange={(e) => setUploadTitle(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-[#FAFAF9] border border-[#ECEEF1] rounded-[10px] px-3 py-2 text-[#17181C] focus:outline-none focus:border-[#7157F5]"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-400 font-bold mb-1">Document Category:</label>
+                <label className="block text-[#344054] font-bold mb-1">Document Category:</label>
                 <select
                   value={uploadCategory}
                   onChange={(e) => setUploadCategory(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-white focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-[#FAFAF9] border border-[#ECEEF1] rounded-[10px] px-3 py-2 text-[#17181C] focus:outline-none focus:border-[#7157F5]"
                 >
                   <option value="Business Requirements">Business Requirements</option>
                   <option value="Functional Specification">Functional Specification</option>
@@ -821,40 +817,40 @@ export default function KnowledgeFabricView() {
               </div>
 
               <div>
-                <label className="block text-slate-400 font-bold mb-1">Upload File (PDF, MD, PNG, JSON):</label>
+                <label className="block text-[#344054] font-bold mb-1">Upload File (PDF, MD, PNG, JSON):</label>
                 <input
                   type="file"
                   onChange={handleFileChange}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-slate-300 text-xs focus:outline-none focus:border-indigo-500"
+                  className="w-full bg-[#FAFAF9] border border-[#ECEEF1] rounded-[10px] px-3 py-2 text-[#344054] text-xs focus:outline-none focus:border-[#7157F5]"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-400 font-bold mb-1">Document Content / Text Extract:</label>
+                <label className="block text-[#344054] font-bold mb-1">Document Content / Text Extract:</label>
                 <textarea
                   required
                   rows={4}
                   placeholder="Paste policy rules, architecture guidelines, or specification text here..."
                   value={uploadContent}
                   onChange={(e) => setUploadContent(e.target.value)}
-                  className="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-white focus:outline-none focus:border-indigo-500 font-mono text-xs"
+                  className="w-full bg-[#FAFAF9] border border-[#ECEEF1] rounded-[10px] p-3 text-[#17181C] focus:outline-none focus:border-[#7157F5] font-mono text-xs"
                 />
               </div>
 
-              <div className="flex justify-end space-x-3 pt-3 border-t border-slate-800">
+              <div className="flex justify-end space-x-3 pt-3 border-t border-[#ECEEF1]">
                 <button
                   type="button"
                   onClick={() => setIsUploadModalOpen(false)}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-bold transition cursor-pointer"
+                  className="px-4 py-2 bg-white hover:bg-[#F8F8F7] text-[#344054] border border-[#ECEEF1] rounded-[10px] font-semibold transition cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isUploading}
-                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-bold transition cursor-pointer shadow-lg flex items-center space-x-2"
+                  className="px-4 py-2 bg-[#17181C] hover:bg-[#292B30] text-white rounded-[10px] font-semibold transition cursor-pointer shadow-sm flex items-center space-x-2"
                 >
-                  {isUploading ? <i className="fas fa-spinner animate-spin"></i> : <i className="fas fa-check"></i>}
+                  {isUploading ? <i className="fas fa-spinner animate-spin"></i> : <i className="fas fa-check text-[#7157F5]"></i>}
                   <span>{isUploading ? 'Vectorizing Document...' : 'Upload & Vector Index'}</span>
                 </button>
               </div>
@@ -868,25 +864,25 @@ export default function KnowledgeFabricView() {
       {/* INSPECT DOCUMENT MODAL                               */}
       {/* ---------------------------------------------------- */}
       {inspectDoc && (
-        <div className="fixed inset-0 z-[9999] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
-          <div className="bg-[#0b0f19] border border-slate-800 rounded-2xl w-full max-w-2xl p-6 shadow-2xl space-y-4">
-            <div className="flex justify-between items-start pb-3 border-b border-slate-800">
+        <div className="fixed inset-0 z-[9999] bg-[#17181C]/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
+          <div className="bg-white border border-[#ECEEF1] rounded-[20px] w-full max-w-2xl p-6 shadow-2xl space-y-4 text-[#17181C]">
+            <div className="flex justify-between items-start pb-3 border-b border-[#ECEEF1]">
               <div>
-                <h3 className="text-sm font-black text-white">{inspectDoc.title}</h3>
-                <p className="text-[10px] font-mono text-indigo-400 mt-0.5">{inspectDoc.filename} | Category: {inspectDoc.category}</p>
+                <h3 className="text-sm font-bold text-[#17181C]">{inspectDoc.title}</h3>
+                <p className="text-[10px] font-mono text-[#5F46D8] mt-0.5">{inspectDoc.filename} | Category: {inspectDoc.category}</p>
               </div>
-              <button onClick={() => setInspectDoc(null)} className="text-slate-400 hover:text-white text-xs cursor-pointer">
+              <button onClick={() => setInspectDoc(null)} className="text-[#98A2B3] hover:text-[#17181C] text-xs cursor-pointer p-1">
                 <i className="fas fa-times"></i>
               </button>
             </div>
 
-            <div className="p-4 bg-slate-950 rounded-xl border border-slate-900 text-xs font-mono text-slate-300 max-h-60 overflow-y-auto custom-scroll leading-relaxed">
+            <div className="p-4 bg-[#FAFAF9] rounded-[12px] border border-[#ECEEF1] text-xs font-mono text-[#17181C] max-h-60 overflow-y-auto custom-scroll leading-relaxed">
               {inspectDoc.content}
             </div>
 
-            <div className="flex justify-between items-center text-[10px] text-slate-400 pt-2 border-t border-slate-800">
-              <span>Uploaded by: <strong className="text-slate-200">{inspectDoc.uploadedBy}</strong> ({inspectDoc.uploadedAt})</span>
-              <button onClick={() => setInspectDoc(null)} className="px-3 py-1.5 bg-slate-800 text-white rounded-lg font-bold cursor-pointer">
+            <div className="flex justify-between items-center text-[10px] text-[#667085] pt-2 border-t border-[#ECEEF1]">
+              <span>Uploaded by: <strong className="text-[#17181C]">{inspectDoc.uploadedBy}</strong> ({inspectDoc.uploadedAt})</span>
+              <button onClick={() => setInspectDoc(null)} className="px-3 py-1.5 bg-[#17181C] text-white rounded-[8px] font-semibold cursor-pointer">
                 Close
               </button>
             </div>

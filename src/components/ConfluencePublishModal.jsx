@@ -78,15 +78,15 @@ export const ConfluencePublishModal = ({ isOpen, onClose, stageType, onSuccess, 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center z-50 animate-fade-in">
-      <div className="glass-panel max-w-md w-full mx-4 p-6 rounded-2xl border border-slate-800 shadow-2xl space-y-4">
+    <div className="fixed inset-0 bg-black/40 backdrop-blur-xs flex items-center justify-center z-50 animate-fade-in p-4">
+      <div className="bg-white max-w-md w-full p-6 rounded-[20px] border border-[#ECEEF1] shadow-2xl space-y-4">
         
         {/* Header */}
-        <div className="flex justify-between items-center border-b border-slate-850 pb-3">
-          <h3 className="text-sm font-bold text-slate-200 flex items-center">
-            <i className="fab fa-confluence mr-2 text-indigo-400"></i> Publish to Confluence
+        <div className="flex justify-between items-center border-b border-[#ECEEF1] pb-3">
+          <h3 className="text-sm font-bold text-[#17181C] flex items-center gap-2">
+            <i className="fab fa-confluence text-[#7157F5]"></i> Publish to Confluence
           </h3>
-          <button onClick={onClose} className="text-slate-400 hover:text-white transition cursor-pointer">
+          <button onClick={onClose} className="text-[#667085] hover:text-[#17181C] transition cursor-pointer p-1 rounded-lg hover:bg-[#F8F8F7]">
             <i className="fas fa-times"></i>
           </button>
         </div>
@@ -94,24 +94,24 @@ export const ConfluencePublishModal = ({ isOpen, onClose, stageType, onSuccess, 
         {resultUrl ? (
           /* Success Screen */
           <div className="space-y-4 text-center py-2 animate-fade-in">
-            <div className="w-12 h-12 bg-green-500/10 text-green-400 rounded-full flex items-center justify-center mx-auto text-xl">
+            <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-xl border border-emerald-200 shadow-2xs">
               <i className="fas fa-check-circle"></i>
             </div>
             <div className="space-y-1">
-              <p className="text-xs font-bold text-slate-200">Document Published Successfully!</p>
-              <p className="text-[10px] text-slate-500">Your spec page was pushed to workspace space [{spaceKey}]</p>
+              <p className="text-sm font-bold text-[#17181C]">Document Published Successfully!</p>
+              <p className="text-xs text-[#667085]">Your spec page was pushed to workspace space [{spaceKey}]</p>
             </div>
             <a 
               href={resultUrl} 
               target="_blank" 
               rel="noopener noreferrer"
-              className="inline-block w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-lg transition duration-150 text-center shadow-lg border border-indigo-500/30"
+              className="inline-block w-full py-2 bg-[#7157F5] hover:bg-[#5F46D8] text-white text-xs font-semibold rounded-[8px] transition text-center shadow-2xs"
             >
               Open Confluence Page <i className="fas fa-external-link-alt ml-1"></i>
             </a>
             <button 
               onClick={() => { setResultUrl(''); onClose(); }}
-              className="w-full py-2 bg-slate-800 hover:bg-slate-750 text-slate-300 text-xs font-bold rounded-lg transition cursor-pointer"
+              className="w-full py-2 bg-[#F8F8F7] hover:bg-white text-[#344054] text-xs font-semibold rounded-[8px] border border-[#ECEEF1] transition cursor-pointer shadow-2xs"
             >
               Close
             </button>
@@ -122,16 +122,16 @@ export const ConfluencePublishModal = ({ isOpen, onClose, stageType, onSuccess, 
             
             {/* Choose Account */}
             <div className="space-y-1.5">
-              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Choose Authenticated Account</label>
+              <label className="block text-[10px] font-bold text-[#667085] uppercase tracking-wider">Choose Authenticated Account</label>
               <div className="relative">
                 <select 
                   value={selectedAccount}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-indigo-500 text-slate-250 font-semibold appearance-none"
+                  className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[8px] px-3 py-2 text-xs text-[#17181C] font-semibold appearance-none"
                   disabled
                 >
                   <option value="prakash.s89@gmail.com">prakash.s89@gmail.com (Atlassian Cloud)</option>
                 </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[#667085]">
                   <i className="fas fa-chevron-down text-xs"></i>
                 </div>
               </div>
@@ -139,10 +139,10 @@ export const ConfluencePublishModal = ({ isOpen, onClose, stageType, onSuccess, 
 
             {/* Space Key Selector */}
             <div className="space-y-1.5">
-              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Confluence Space</label>
+              <label className="block text-[10px] font-bold text-[#667085] uppercase tracking-wider">Confluence Space</label>
               {isLoadingSpaces ? (
-                <div className="text-xs text-slate-500 flex items-center space-x-1.5 py-2">
-                  <i className="fas fa-circle-notch animate-spin"></i>
+                <div className="text-xs text-[#667085] flex items-center gap-1.5 py-2">
+                  <i className="fas fa-circle-notch animate-spin text-[#7157F5]"></i>
                   <span>Retrieving workspaces...</span>
                 </div>
               ) : spaces.length === 0 ? (
@@ -151,14 +151,14 @@ export const ConfluencePublishModal = ({ isOpen, onClose, stageType, onSuccess, 
                   value={spaceKey}
                   onChange={(e) => setSpaceKey(e.target.value.toUpperCase())}
                   placeholder="E.g. SDD" 
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-indigo-500 text-slate-350 font-mono"
+                  className="w-full bg-white border border-[#ECEEF1] rounded-[8px] px-3 py-2 text-xs focus:outline-none focus:border-[#7157F5] text-[#17181C] font-mono"
                 />
               ) : (
                 <div className="relative">
                   <select 
                     value={spaceKey}
                     onChange={(e) => setSpaceKey(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-indigo-500 text-slate-250 font-semibold appearance-none font-mono"
+                    className="w-full bg-white border border-[#ECEEF1] rounded-[8px] px-3 py-2 text-xs focus:outline-none focus:border-[#7157F5] text-[#17181C] font-semibold appearance-none font-mono"
                   >
                     {spaces.map(space => (
                       <option key={space.id || space.key} value={space.key}>
@@ -166,7 +166,7 @@ export const ConfluencePublishModal = ({ isOpen, onClose, stageType, onSuccess, 
                       </option>
                     ))}
                   </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-500">
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-[#667085]">
                     <i className="fas fa-chevron-down text-xs"></i>
                   </div>
                 </div>
@@ -175,29 +175,29 @@ export const ConfluencePublishModal = ({ isOpen, onClose, stageType, onSuccess, 
 
             {/* Parent Page ID */}
             <div className="space-y-1.5">
-              <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider">Parent Page ID (Optional)</label>
+              <label className="block text-[10px] font-bold text-[#667085] uppercase tracking-wider">Parent Page ID (Optional)</label>
               <input 
                 type="text" 
                 value={parentPageId}
                 onChange={(e) => setParentPageId(e.target.value)}
                 placeholder="Leave blank for Root space page" 
-                className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-indigo-500 text-slate-300 font-mono"
+                className="w-full bg-white border border-[#ECEEF1] rounded-[8px] px-3 py-2 text-xs focus:outline-none focus:border-[#7157F5] text-[#17181C] font-mono"
               />
             </div>
 
             {/* Action Buttons */}
-            <div className="flex space-x-2 pt-2 justify-end border-t border-slate-850">
+            <div className="flex gap-2 pt-2 justify-end border-t border-[#ECEEF1]">
               <button 
                 onClick={onClose}
                 disabled={isPublishing}
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-lg transition cursor-pointer"
+                className="px-4 py-2 bg-[#F8F8F7] hover:bg-white text-[#344054] text-xs font-semibold rounded-[8px] border border-[#ECEEF1] transition cursor-pointer shadow-2xs"
               >
                 Cancel
               </button>
               <button 
                 onClick={handlePublish}
                 disabled={isPublishing || !spaceKey}
-                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-lg shadow-lg border border-indigo-500/30 transition flex items-center space-x-1.5 cursor-pointer"
+                className="px-4 py-2 bg-[#7157F5] hover:bg-[#5F46D8] text-white text-xs font-semibold rounded-[8px] shadow-2xs transition flex items-center gap-1.5 cursor-pointer"
               >
                 {isPublishing ? (
                   <>
@@ -219,3 +219,4 @@ export const ConfluencePublishModal = ({ isOpen, onClose, stageType, onSuccess, 
     </div>
   );
 };
+

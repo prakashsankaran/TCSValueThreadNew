@@ -239,17 +239,37 @@ export default function AdminAgents() {
   });
 
   return (
-    <div className="text-white fade-in p-2 space-y-4 font-sans">
+    <div className="fade-in space-y-5 max-w-7xl mx-auto pb-8">
       
-      {/* TOP CONTROL CONTAINER: 2 CLEAN ROWS (NO SCROLLBAR) */}
-      <div className="bg-[#0b0f19] border border-slate-800 rounded-2xl p-4 space-y-3 shadow-lg">
+      {/* Header */}
+      <div className="bg-white border border-[#ECEEF1] rounded-[18px] p-5 shadow-2xs flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-xl font-bold tracking-tight text-[#17181C] flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-[10px] bg-purple-50 text-purple-600 border border-purple-100 flex items-center justify-center text-sm shrink-0">
+              <i className="fas fa-robot"></i>
+            </div>
+            <span>Agent Registry & Capability Fleet</span>
+          </h1>
+          <p className="text-xs text-[#667085] mt-1">
+            Browse and govern 55 Primary Agents, 47 Sub-agents, and 53 Shared SDLC capabilities.
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="px-3 py-1 bg-purple-50 text-purple-700 border border-purple-200 text-xs font-semibold rounded-[8px]">
+            102 Total Governed Agents
+          </span>
+        </div>
+      </div>
+
+      {/* TOP CONTROL CONTAINER */}
+      <div className="bg-white border border-[#ECEEF1] rounded-[18px] p-4 space-y-3 shadow-2xs">
         
         {/* ROW 1: EQUAL 3-COLUMN TABS */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-[#060913] p-1.5 rounded-xl border border-slate-800 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-[#F8F8F7] p-1.5 rounded-[12px] border border-[#ECEEF1] w-full">
           <button
             onClick={() => setActiveTab('primary')}
-            className={`py-2 px-3 rounded-lg text-xs font-bold transition cursor-pointer flex items-center justify-center space-x-2 ${
-              activeTab === 'primary' ? 'bg-purple-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'
+            className={`py-2 px-3 rounded-[10px] text-xs font-bold transition cursor-pointer flex items-center justify-center gap-2 ${
+              activeTab === 'primary' ? 'bg-[#7157F5] text-white shadow-2xs' : 'text-[#667085] hover:text-[#17181C] hover:bg-white/50'
             }`}
           >
             <i className="fas fa-user-gear"></i>
@@ -258,18 +278,18 @@ export default function AdminAgents() {
 
           <button
             onClick={() => setActiveTab('subagents')}
-            className={`py-2 px-3 rounded-lg text-xs font-bold transition cursor-pointer flex items-center justify-center space-x-2 ${
-              activeTab === 'subagents' ? 'bg-purple-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'
+            className={`py-2 px-3 rounded-[10px] text-xs font-bold transition cursor-pointer flex items-center justify-center gap-2 ${
+              activeTab === 'subagents' ? 'bg-[#7157F5] text-white shadow-2xs' : 'text-[#667085] hover:text-[#17181C] hover:bg-white/50'
             }`}
           >
-            <i className="fas fa-sitemap text-purple-300"></i>
+            <i className="fas fa-sitemap"></i>
             <span>Sub-agents ({subagents.length})</span>
           </button>
 
           <button
             onClick={() => setActiveTab('capabilities')}
-            className={`py-2 px-3 rounded-lg text-xs font-bold transition cursor-pointer flex items-center justify-center space-x-2 ${
-              activeTab === 'capabilities' ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-400 hover:text-white'
+            className={`py-2 px-3 rounded-[10px] text-xs font-bold transition cursor-pointer flex items-center justify-center gap-2 ${
+              activeTab === 'capabilities' ? 'bg-[#7157F5] text-white shadow-2xs' : 'text-[#667085] hover:text-[#17181C] hover:bg-white/50'
             }`}
           >
             <i className="fas fa-cubes"></i>
@@ -281,22 +301,22 @@ export default function AdminAgents() {
         <div className="flex flex-col sm:flex-row justify-between items-center gap-3 pt-1">
           {/* Search Bar */}
           <div className="w-full sm:flex-1 relative">
-            <i className="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i>
+            <i className="fas fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-[#98A2B3] text-xs"></i>
             <input 
               type="text" 
               placeholder="Search agents by name, ID, parent, or description..." 
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-[#060913] border border-slate-800 rounded-xl py-2 pl-9 pr-4 text-xs text-white focus:outline-none focus:border-purple-500 transition"
+              className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] py-2 pl-9 pr-4 text-xs text-[#17181C] placeholder-[#98A2B3] focus:outline-none focus:border-[#7157F5] focus:bg-white transition"
             />
           </div>
 
-          <div className="w-full sm:w-auto flex items-center space-x-2 shrink-0">
-            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 hidden sm:inline">Filter Status:</span>
+          <div className="w-full sm:w-auto flex items-center gap-2 shrink-0">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#667085] hidden sm:inline">Filter Status:</span>
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="w-full sm:w-auto bg-[#060913] border border-slate-800 text-xs font-bold rounded-xl px-3 py-2 text-white focus:outline-none focus:border-purple-500 cursor-pointer min-w-[160px]"
+              className="w-full sm:w-auto bg-[#F8F8F7] border border-[#ECEEF1] text-xs font-semibold rounded-[10px] px-3 py-2 text-[#17181C] focus:outline-none focus:border-[#7157F5] cursor-pointer min-w-[160px]"
             >
               {activeTab === 'primary' && (
                 <>
@@ -327,10 +347,10 @@ export default function AdminAgents() {
 
       {/* TAB 1: PRIMARY AGENTS (55) */}
       {activeTab === 'primary' && (
-        <div className="bg-[#0b0f19] border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+        <div className="bg-white border border-[#ECEEF1] rounded-[18px] overflow-hidden shadow-2xs">
           <div className="overflow-x-auto custom-scroll">
             <table className="w-full text-left border-collapse text-xs">
-              <thead className="bg-slate-900 border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold text-[10px] sticky top-0 z-20">
+              <thead className="bg-[#F8F8F7] border-b border-[#ECEEF1] text-[#667085] uppercase tracking-wider font-bold text-[10px] sticky top-0 z-20">
                 <tr>
                   <th className="p-3.5">Agent ID & Primary Agent Name</th>
                   <th className="p-3.5 text-center">Status</th>
@@ -338,41 +358,41 @@ export default function AdminAgents() {
                   <th className="p-3.5">Main Output</th>
                   <th className="p-3.5">Related Sub-agents</th>
                   <th className="p-3.5">Shared SDD Capabilities</th>
-                  <th className="p-3.5 text-right sticky right-0 bg-slate-900 z-30 shadow-md">Actions</th>
+                  <th className="p-3.5 text-right sticky right-0 bg-[#F8F8F7] z-30 shadow-2xs">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800 text-slate-300 font-sans">
+              <tbody className="divide-y divide-[#ECEEF1] text-[#344054] font-sans">
                 {filteredPrimary.map((agent) => (
-                  <tr key={agent.id} className="hover:bg-slate-900/50 transition">
-                    <td className="p-3.5 font-bold text-white min-w-[200px]">
-                      <span className="text-purple-300 block">{agent.name}</span>
-                      <span className="text-[10px] font-mono text-slate-500">{agent.id}</span>
+                  <tr key={agent.id} className="hover:bg-[#F8F8F7]/80 transition">
+                    <td className="p-3.5 font-bold text-[#17181C] min-w-[200px]">
+                      <span className="text-[#17181C] block">{agent.name}</span>
+                      <span className="text-[10px] font-mono text-purple-600 bg-purple-50 px-1.5 py-0.2 rounded border border-purple-200 inline-block mt-0.5">{agent.id}</span>
                       {agent.originalName && agent.originalName !== agent.name && (
-                        <span className="text-[9px] text-slate-500 block italic">({agent.originalName})</span>
+                        <span className="text-[10px] text-[#98A2B3] block italic mt-0.5">({agent.originalName})</span>
                       )}
                     </td>
                     <td className="p-3.5 text-center">
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
                         agent.status === 'Enabled'
-                          ? 'bg-emerald-950/60 text-emerald-400 border border-emerald-800'
-                          : 'bg-slate-900 text-slate-500 border border-slate-800'
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                          : 'bg-slate-100 text-slate-500 border-slate-200'
                       }`}>
                         {agent.status}
                       </span>
                     </td>
-                    <td className="p-3.5 text-slate-300 max-w-[260px] leading-relaxed">
+                    <td className="p-3.5 text-[#475467] max-w-[260px] leading-relaxed">
                       {agent.responsibility}
                     </td>
-                    <td className="p-3.5 text-slate-400 font-mono text-[11px] max-w-[200px]">
+                    <td className="p-3.5 text-[#667085] text-[11px] max-w-[200px]">
                       {agent.mainOutput}
                     </td>
                     <td className="p-3.5 min-w-[180px]">
                       {agent.subagents.length === 0 ? (
-                        <span className="text-slate-600 text-[11px] italic">None</span>
+                        <span className="text-[#98A2B3] text-[11px] italic">None</span>
                       ) : (
                         <div className="flex flex-wrap gap-1">
                           {agent.subagents.map((s, i) => (
-                            <span key={i} className="px-2 py-0.5 rounded bg-purple-950/60 text-purple-300 border border-purple-800 text-[10px] font-bold">
+                            <span key={i} className="px-2 py-0.5 rounded-[6px] bg-purple-50 text-purple-700 border border-purple-200 text-[10px] font-bold">
                               {s}
                             </span>
                           ))}
@@ -382,17 +402,17 @@ export default function AdminAgents() {
                     <td className="p-3.5 min-w-[220px]">
                       <div className="flex flex-wrap gap-1">
                         {agent.capabilities.map((c, i) => (
-                          <span key={i} className="px-2 py-0.5 rounded bg-indigo-950/40 text-indigo-300 border border-indigo-800/60 text-[10px]">
+                          <span key={i} className="px-2 py-0.5 rounded-[6px] bg-[#F8F8F7] text-[#344054] border border-[#ECEEF1] text-[10px]">
                             {c}
                           </span>
                         ))}
                       </div>
                     </td>
-                    <td className="p-3.5 text-right font-mono sticky right-0 bg-[#0b0f19] z-10 border-l border-slate-800/80">
+                    <td className="p-3.5 text-right sticky right-0 bg-white z-10 border-l border-[#ECEEF1]">
                       <button
                         onClick={() => openEditModal('primary', agent)}
                         title="Edit Agent"
-                        className="w-8 h-8 rounded-lg bg-slate-800/80 hover:bg-purple-600 text-purple-400 hover:text-white border border-slate-700 hover:border-purple-500 transition cursor-pointer flex items-center justify-center ml-auto shadow-sm"
+                        className="w-7 h-7 rounded-[8px] bg-white hover:bg-purple-50 text-[#7157F5] border border-[#ECEEF1] hover:border-purple-300 transition cursor-pointer flex items-center justify-center ml-auto shadow-2xs"
                       >
                         <i className="fas fa-pen-to-square text-xs"></i>
                       </button>
@@ -407,48 +427,48 @@ export default function AdminAgents() {
 
       {/* TAB 2: SUB-AGENTS (47) */}
       {activeTab === 'subagents' && (
-        <div className="bg-[#0b0f19] border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+        <div className="bg-white border border-[#ECEEF1] rounded-[18px] overflow-hidden shadow-2xs">
           <div className="overflow-x-auto custom-scroll">
             <table className="w-full text-left border-collapse text-xs">
-              <thead className="bg-slate-900 border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold text-[10px] sticky top-0 z-20">
+              <thead className="bg-[#F8F8F7] border-b border-[#ECEEF1] text-[#667085] uppercase tracking-wider font-bold text-[10px] sticky top-0 z-20">
                 <tr>
                   <th className="p-3.5">Sub-agent ID & Name</th>
                   <th className="p-3.5 text-center">Status</th>
                   <th className="p-3.5">Parent Primary Agent Binding</th>
                   <th className="p-3.5">Specialized Functional Boundary</th>
-                  <th className="p-3.5 text-right sticky right-0 bg-slate-900 z-30 shadow-md">Actions</th>
+                  <th className="p-3.5 text-right sticky right-0 bg-[#F8F8F7] z-30 shadow-2xs">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800 text-slate-300 font-sans">
+              <tbody className="divide-y divide-[#ECEEF1] text-[#344054] font-sans">
                 {filteredSubagents.map((sub) => (
-                  <tr key={sub.id} className="hover:bg-slate-900/50 transition">
-                    <td className="p-3.5 font-bold text-white min-w-[220px]">
-                      <span className="text-purple-300 block">{sub.name}</span>
-                      <span className="text-[10px] font-mono text-slate-500">{sub.id}</span>
+                  <tr key={sub.id} className="hover:bg-[#F8F8F7]/80 transition">
+                    <td className="p-3.5 font-bold text-[#17181C] min-w-[220px]">
+                      <span className="text-[#17181C] block">{sub.name}</span>
+                      <span className="text-[10px] font-mono text-purple-600 bg-purple-50 px-1.5 py-0.2 rounded border border-purple-200 inline-block mt-0.5">{sub.id}</span>
                     </td>
                     <td className="p-3.5 text-center">
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
                         sub.status === 'Enabled'
-                          ? 'bg-emerald-950/60 text-emerald-400 border border-emerald-800'
-                          : 'bg-slate-900 text-slate-500 border border-slate-800'
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                          : 'bg-slate-100 text-slate-500 border-slate-200'
                       }`}>
                         {sub.status || 'Disabled'}
                       </span>
                     </td>
                     <td className="p-3.5">
-                      <span className="px-2.5 py-1 rounded-xl bg-indigo-950/60 text-indigo-300 border border-indigo-800 text-xs font-bold inline-block">
-                        <i className="fas fa-link text-[10px] mr-1.5 text-indigo-400"></i>
+                      <span className="px-2.5 py-1 rounded-[8px] bg-purple-50 text-purple-700 border border-purple-200 text-xs font-bold inline-block">
+                        <i className="fas fa-link text-[10px] mr-1.5 text-purple-500"></i>
                         {sub.parent}
                       </span>
                     </td>
-                    <td className="p-3.5 text-slate-300 leading-relaxed max-w-[400px]">
+                    <td className="p-3.5 text-[#475467] leading-relaxed max-w-[400px]">
                       {sub.boundary}
                     </td>
-                    <td className="p-3.5 text-right font-mono sticky right-0 bg-[#0b0f19] z-10 border-l border-slate-800/80">
+                    <td className="p-3.5 text-right sticky right-0 bg-white z-10 border-l border-[#ECEEF1]">
                       <button
                         onClick={() => openEditModal('subagent', sub)}
                         title="Edit Sub-agent"
-                        className="w-8 h-8 rounded-lg bg-slate-800/80 hover:bg-purple-600 text-purple-400 hover:text-white border border-slate-700 hover:border-purple-500 transition cursor-pointer flex items-center justify-center ml-auto shadow-sm"
+                        className="w-7 h-7 rounded-[8px] bg-white hover:bg-purple-50 text-[#7157F5] border border-[#ECEEF1] hover:border-purple-300 transition cursor-pointer flex items-center justify-center ml-auto shadow-2xs"
                       >
                         <i className="fas fa-pen-to-square text-xs"></i>
                       </button>
@@ -463,50 +483,50 @@ export default function AdminAgents() {
 
       {/* TAB 3: SHARED CAPABILITIES (53) */}
       {activeTab === 'capabilities' && (
-        <div className="bg-[#0b0f19] border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+        <div className="bg-white border border-[#ECEEF1] rounded-[18px] overflow-hidden shadow-2xs">
           <div className="overflow-x-auto custom-scroll">
             <table className="w-full text-left border-collapse text-xs">
-              <thead className="bg-slate-900 border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold text-[10px] sticky top-0 z-20">
+              <thead className="bg-[#F8F8F7] border-b border-[#ECEEF1] text-[#667085] uppercase tracking-wider font-bold text-[10px] sticky top-0 z-20">
                 <tr>
                   <th className="p-3.5">Capability Name</th>
                   <th className="p-3.5 text-center">Status</th>
                   <th className="p-3.5">Category Type</th>
                   <th className="p-3.5">Capability Purpose & Description</th>
-                  <th className="p-3.5 text-right sticky right-0 bg-slate-900 z-30 shadow-md">Actions</th>
+                  <th className="p-3.5 text-right sticky right-0 bg-[#F8F8F7] z-30 shadow-2xs">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800 text-slate-300 font-sans">
+              <tbody className="divide-y divide-[#ECEEF1] text-[#344054] font-sans">
                 {filteredCapabilities.map((cap, i) => (
-                  <tr key={i} className="hover:bg-slate-900/50 transition">
-                    <td className="p-3.5 font-bold text-white font-mono text-indigo-300 min-w-[220px]">
+                  <tr key={i} className="hover:bg-[#F8F8F7]/80 transition">
+                    <td className="p-3.5 font-bold text-[#17181C] min-w-[220px]">
                       {cap.name}
                     </td>
                     <td className="p-3.5 text-center">
-                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                      <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
                         cap.status === 'Enabled'
-                          ? 'bg-emerald-950/60 text-emerald-400 border border-emerald-800'
-                          : 'bg-slate-900 text-slate-500 border border-slate-800'
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                          : 'bg-slate-100 text-slate-500 border-slate-200'
                       }`}>
                         {cap.status || 'Disabled'}
                       </span>
                     </td>
                     <td className="p-3.5">
-                      <span className={`px-2.5 py-0.5 rounded text-[10px] font-bold ${
-                        cap.category === 'Shared Agent' ? 'bg-purple-950/60 text-purple-300 border border-purple-800' :
-                        cap.category === 'Governance Control' ? 'bg-amber-950/60 text-amber-300 border border-amber-800' :
-                        'bg-slate-900 text-slate-300 border border-slate-800'
+                      <span className={`px-2.5 py-0.5 rounded-[6px] text-[10px] font-bold border ${
+                        cap.category === 'Shared Agent' ? 'bg-purple-50 text-purple-700 border-purple-200' :
+                        cap.category === 'Governance Control' ? 'bg-amber-50 text-amber-700 border-amber-200' :
+                        'bg-[#F8F8F7] text-[#475467] border-[#ECEEF1]'
                       }`}>
                         {cap.category}
                       </span>
                     </td>
-                    <td className="p-3.5 text-slate-300 leading-relaxed">
+                    <td className="p-3.5 text-[#475467] leading-relaxed">
                       {cap.desc}
                     </td>
-                    <td className="p-3.5 text-right font-mono sticky right-0 bg-[#0b0f19] z-10 border-l border-slate-800/80">
+                    <td className="p-3.5 text-right sticky right-0 bg-white z-10 border-l border-[#ECEEF1]">
                       <button
                         onClick={() => openEditModal('capability', cap)}
                         title="Edit Capability"
-                        className="w-8 h-8 rounded-lg bg-slate-800/80 hover:bg-purple-600 text-purple-400 hover:text-white border border-slate-700 hover:border-purple-500 transition cursor-pointer flex items-center justify-center ml-auto shadow-sm"
+                        className="w-7 h-7 rounded-[8px] bg-white hover:bg-purple-50 text-[#7157F5] border border-[#ECEEF1] hover:border-purple-300 transition cursor-pointer flex items-center justify-center ml-auto shadow-2xs"
                       >
                         <i className="fas fa-pen-to-square text-xs"></i>
                       </button>
@@ -521,16 +541,16 @@ export default function AdminAgents() {
 
       {/* EDIT MODAL DIALOG */}
       {editingItem && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#0b0f19] border border-slate-800 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl p-5 space-y-4 fade-in">
-            <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-              <h3 className="text-sm font-bold text-white flex items-center space-x-2">
-                <i className="fas fa-pen-to-square text-purple-400"></i>
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-[#ECEEF1] rounded-[20px] w-full max-w-lg overflow-hidden shadow-2xl p-5 space-y-4 fade-in">
+            <div className="flex justify-between items-center border-b border-[#F2F4F7] pb-3">
+              <h3 className="text-sm font-bold text-[#17181C] flex items-center gap-2">
+                <i className="fas fa-pen-to-square text-[#7157F5]"></i>
                 <span>Edit {editingItem.type.toUpperCase()} Record</span>
               </h3>
               <button 
                 onClick={() => setEditingItem(null)}
-                className="text-slate-400 hover:text-white transition cursor-pointer"
+                className="text-[#98A2B3] hover:text-[#17181C] transition cursor-pointer p-1"
               >
                 <i className="fas fa-times"></i>
               </button>
@@ -538,21 +558,21 @@ export default function AdminAgents() {
 
             <div className="space-y-3 text-xs">
               <div>
-                <label className="block text-slate-400 font-semibold mb-1">Name</label>
+                <label className="block font-semibold text-[#344054] mb-1">Name</label>
                 <input 
                   type="text"
                   value={editFormData.name || ''}
                   onChange={(e) => setEditFormData({ ...editFormData, name: e.target.value })}
-                  className="w-full bg-[#060913] border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-purple-500"
+                  className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] p-2.5 text-[#17181C] focus:outline-none focus:border-[#7157F5] focus:bg-white"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-400 font-semibold mb-1">Status</label>
+                <label className="block font-semibold text-[#344054] mb-1">Status</label>
                 <select
                   value={editFormData.status || 'Disabled'}
                   onChange={(e) => setEditFormData({ ...editFormData, status: e.target.value })}
-                  className="w-full bg-[#060913] border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-purple-500 cursor-pointer"
+                  className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] p-2.5 text-[#17181C] focus:outline-none focus:border-[#7157F5] cursor-pointer"
                 >
                   <option value="Enabled">Enabled</option>
                   <option value="Disabled">Disabled</option>
@@ -562,21 +582,21 @@ export default function AdminAgents() {
               {editingItem.type === 'primary' && (
                 <>
                   <div>
-                    <label className="block text-slate-400 font-semibold mb-1">Primary Responsibility</label>
+                    <label className="block font-semibold text-[#344054] mb-1">Primary Responsibility</label>
                     <textarea 
                       rows="3"
                       value={editFormData.responsibility || ''}
                       onChange={(e) => setEditFormData({ ...editFormData, responsibility: e.target.value })}
-                      className="w-full bg-[#060913] border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-purple-500 resize-none"
+                      className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] p-2.5 text-[#17181C] focus:outline-none focus:border-[#7157F5] focus:bg-white resize-none"
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-400 font-semibold mb-1">Main Output</label>
+                    <label className="block font-semibold text-[#344054] mb-1">Main Output</label>
                     <input 
                       type="text"
                       value={editFormData.mainOutput || ''}
                       onChange={(e) => setEditFormData({ ...editFormData, mainOutput: e.target.value })}
-                      className="w-full bg-[#060913] border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-purple-500"
+                      className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] p-2.5 text-[#17181C] focus:outline-none focus:border-[#7157F5] focus:bg-white"
                     />
                   </div>
                 </>
@@ -585,21 +605,21 @@ export default function AdminAgents() {
               {editingItem.type === 'subagent' && (
                 <>
                   <div>
-                    <label className="block text-slate-400 font-semibold mb-1">Parent Primary Agent Binding</label>
+                    <label className="block font-semibold text-[#344054] mb-1">Parent Primary Agent Binding</label>
                     <input 
                       type="text"
                       value={editFormData.parent || ''}
                       onChange={(e) => setEditFormData({ ...editFormData, parent: e.target.value })}
-                      className="w-full bg-[#060913] border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-purple-500"
+                      className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] p-2.5 text-[#17181C] focus:outline-none focus:border-[#7157F5] focus:bg-white"
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-400 font-semibold mb-1">Specialized Functional Boundary</label>
+                    <label className="block font-semibold text-[#344054] mb-1">Specialized Functional Boundary</label>
                     <textarea 
                       rows="3"
                       value={editFormData.boundary || ''}
                       onChange={(e) => setEditFormData({ ...editFormData, boundary: e.target.value })}
-                      className="w-full bg-[#060913] border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-purple-500 resize-none"
+                      className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] p-2.5 text-[#17181C] focus:outline-none focus:border-[#7157F5] focus:bg-white resize-none"
                     />
                   </div>
                 </>
@@ -608,37 +628,37 @@ export default function AdminAgents() {
               {editingItem.type === 'capability' && (
                 <>
                   <div>
-                    <label className="block text-slate-400 font-semibold mb-1">Category Type</label>
+                    <label className="block font-semibold text-[#344054] mb-1">Category Type</label>
                     <input 
                       type="text"
                       value={editFormData.category || ''}
                       onChange={(e) => setEditFormData({ ...editFormData, category: e.target.value })}
-                      className="w-full bg-[#060913] border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-purple-500"
+                      className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] p-2.5 text-[#17181C] focus:outline-none focus:border-[#7157F5] focus:bg-white"
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-400 font-semibold mb-1">Capability Description</label>
+                    <label className="block font-semibold text-[#344054] mb-1">Capability Description</label>
                     <textarea 
                       rows="3"
                       value={editFormData.desc || ''}
                       onChange={(e) => setEditFormData({ ...editFormData, desc: e.target.value })}
-                      className="w-full bg-[#060913] border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-purple-500 resize-none"
+                      className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] p-2.5 text-[#17181C] focus:outline-none focus:border-[#7157F5] focus:bg-white resize-none"
                     />
                   </div>
                 </>
               )}
             </div>
 
-            <div className="pt-3 border-t border-slate-800 flex justify-end space-x-2">
+            <div className="pt-3 border-t border-[#ECEEF1] flex justify-end gap-2">
               <button
                 onClick={() => setEditingItem(null)}
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl transition cursor-pointer"
+                className="px-4 py-2 rounded-[10px] text-xs font-semibold text-[#667085] hover:bg-[#F8F8F7] border border-transparent cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveEdit}
-                className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-xl shadow transition cursor-pointer"
+                className="bg-[#7157F5] hover:bg-[#5F46D8] text-white px-4 py-2 rounded-[10px] text-xs font-semibold shadow-2xs transition cursor-pointer"
               >
                 Save Changes
               </button>

@@ -60,7 +60,7 @@ export const PageProvider = ({ children }) => {
     }
   });
 
-  const setProjectMode = (mode) => {
+  const setProjectMode = useCallback((mode) => {
     setProjectModeState(mode);
     localStorage.setItem('projectMode', mode);
     fetch('http://localhost:7001/api/brownfield/mode', {
@@ -68,7 +68,7 @@ export const PageProvider = ({ children }) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ mode })
     }).catch(err => console.log('Backend server not running; using local projectMode state persistence.'));
-  };
+  }, []);
 
   const [pages, setPages] = useState(() => {
     const state = {};

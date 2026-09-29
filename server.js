@@ -13,6 +13,22 @@ import { invokeModelAdapter } from './server/layer0/engineRegistry.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Load .env if present
+const envPath = path.join(__dirname, '.env');
+if (fs.existsSync(envPath)) {
+  const envContent = fs.readFileSync(envPath, 'utf8');
+  for (const line of envContent.split('\n')) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) continue;
+    const eqIdx = trimmed.indexOf('=');
+    if (eqIdx !== -1) {
+      const key = trimmed.slice(0, eqIdx).trim();
+      const val = trimmed.slice(eqIdx + 1).trim();
+      process.env[key] = val;
+    }
+  }
+}
+
 const PORT = 7001;
 
 // In-memory & JSON file persistence
@@ -948,7 +964,7 @@ Perform conformance validation and output the compliance findings JSON.`;
   if (pathname === '/api/chat/completions' && req.method === 'POST') {
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
     const body = await parseBody(req);
-    const model = body.model || process.env.ENTERPRISE_LLM_MODEL || 'gemini-2.5-pro';
+    let requestedModel = body.model || process.env.ENTERPRISE_LLM_MODEL || 'gemini-3.6-flash';
     const messages = body.messages || [];
 
     const apiKey = process.env.GEMINI_API_KEY || '';
@@ -964,26 +980,56 @@ Perform conformance validation and output the compliance findings JSON.`;
       contents.push({ role: 'user', parts: [{ text: combined }] });
     }
 
-    try {
-      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents, generationConfig: { temperature: body.temperature || 0.2, maxOutputTokens: body.maxOutputTokens || 8192 } })
-      });
+    // List of supported production models in priority order
+    const candidateModels = [
+      requestedModel.replace(/^models\//, ''),
+      'gemini-3.6-flash',
+      'gemini-3.5-flash',
+      'gemini-3.1-flash-lite',
+      'gemini-3.1-pro-preview'
+    ].filter((m, idx, arr) => arr.indexOf(m) === idx && !m.includes('2.5-') && !m.includes('2.0-') && !m.includes('1.5-'));
 
-      if (!response.ok) {
-        const errText = await response.text();
-        return sendJSON(res, response.status, { error: `Google Gemini returned ${response.status}: ${errText}` });
-      }
-
-      const data = await response.json();
-      const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || null;
-      // Return a Chat-compat response shape (choices[].message.content)
-      return sendJSON(res, 200, { choices: [{ message: { content: text } }], raw: data });
-    } catch (err) {
-      return sendJSON(res, 500, { error: err.message });
+    // If requested model was legacy 2.5/2.0/1.5, ensure modern flash is primary
+    if (candidateModels.length === 0 || requestedModel.includes('2.5-') || requestedModel.includes('2.0-')) {
+      candidateModels.unshift('gemini-3.6-flash', 'gemini-3.5-flash');
     }
+
+    let lastError = null;
+    for (const model of candidateModels) {
+      try {
+        const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents,
+            generationConfig: {
+              temperature: body.temperature || 0.2,
+              maxOutputTokens: body.maxOutputTokens || 8192
+            }
+          })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || null;
+          if (text) {
+            return sendJSON(res, 200, {
+              choices: [{ message: { content: text } }],
+              model,
+              raw: data
+            });
+          }
+        } else {
+          const errText = await response.text();
+          lastError = `Google Gemini (${model}) returned ${response.status}: ${errText}`;
+        }
+      } catch (err) {
+        lastError = err.message;
+      }
+    }
+
+    return sendJSON(res, 500, { error: lastError || 'All candidate Gemini models failed to respond.' });
   }
 
   // POST /api/layer0/ideas/:id/re-evaluate

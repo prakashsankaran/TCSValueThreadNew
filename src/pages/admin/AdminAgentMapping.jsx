@@ -181,73 +181,80 @@ export default function AdminAgentMapping() {
   };
 
   return (
-    <div className="text-white fade-in p-2 space-y-5 font-sans">
+    <div className="fade-in space-y-5 max-w-7xl mx-auto pb-8">
       
       {/* Header Controls */}
-      <div className="bg-[#0b0f19] border border-slate-800 rounded-2xl p-3.5 flex flex-col sm:flex-row justify-between items-center shadow-lg gap-3">
-        <div className="flex items-center space-x-2.5">
-          <div className="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400 font-bold text-sm">
-            <i className="fas fa-sitemap"></i>
+      <div className="bg-white border border-[#ECEEF1] rounded-[18px] p-5 shadow-2xs flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div className="flex items-center gap-2.5">
+          <div className="w-8 h-8 rounded-[10px] bg-pink-50 text-pink-600 border border-pink-100 flex items-center justify-center text-sm shrink-0">
+            <i className="fas fa-project-diagram"></i>
           </div>
-          <h1 className="text-base font-bold text-white tracking-tight">Agent Mapping Matrix</h1>
+          <div>
+            <h1 className="text-xl font-bold tracking-tight text-[#17181C]">Agent Mapping Matrix</h1>
+            <p className="text-xs text-[#667085] mt-0.5">Control which SDLC roles have authorization to invoke specific intelligence agents.</p>
+          </div>
         </div>
 
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center gap-2 flex-wrap">
           {/* View Mode Toggle */}
-          <div className="flex space-x-1 bg-[#060913] p-1 rounded-xl border border-slate-800">
+          <div className="flex bg-[#F8F8F7] p-1 rounded-[10px] border border-[#ECEEF1]">
             <button
               onClick={() => setViewMode('by_persona')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer flex items-center space-x-1.5 ${
-                viewMode === 'by_persona' ? 'bg-purple-600 text-white shadow' : 'text-slate-400 hover:text-white'
+              className={`px-3 py-1.5 rounded-[8px] text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 ${
+                viewMode === 'by_persona' ? 'bg-[#7157F5] text-white shadow-2xs' : 'text-[#667085] hover:text-[#17181C]'
               }`}
             >
-              <i className="fas fa-user-gear"></i>
+              <i className="fas fa-user-gear text-[10px]"></i>
               <span>Personas → Agents</span>
             </button>
             <button
               onClick={() => setViewMode('by_agent')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer flex items-center space-x-1.5 ${
-                viewMode === 'by_agent' ? 'bg-purple-600 text-white shadow' : 'text-slate-400 hover:text-white'
+              className={`px-3 py-1.5 rounded-[8px] text-xs font-semibold transition cursor-pointer flex items-center gap-1.5 ${
+                viewMode === 'by_agent' ? 'bg-[#7157F5] text-white shadow-2xs' : 'text-[#667085] hover:text-[#17181C]'
               }`}
             >
-              <i className="fas fa-robot"></i>
+              <i className="fas fa-robot text-[10px]"></i>
               <span>Agents → Personas</span>
             </button>
           </div>
 
           <button
             onClick={handleOpenCreateNew}
-            className="px-4 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold rounded-xl text-xs shadow-lg transition cursor-pointer flex items-center space-x-1.5"
+            className="px-3.5 py-2 bg-[#7157F5] hover:bg-[#5F46D8] text-white font-semibold rounded-[10px] text-xs shadow-2xs transition cursor-pointer flex items-center gap-1.5"
           >
-            <i className="fas fa-plus text-xs"></i>
-            <span>Create New Mapping</span>
+            <i className="fas fa-plus text-[10px]"></i>
+            <span>Create Mapping</span>
           </button>
         </div>
       </div>
 
       {/* VIEW MODE 1: PERSONAS MAPPED AGAINST AGENTS */}
       {viewMode === 'by_persona' && (
-        <div className="bg-[#0b0f19] border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+        <div className="bg-white border border-[#ECEEF1] rounded-[18px] overflow-hidden shadow-2xs">
           <div className="overflow-x-auto custom-scroll">
             <table className="w-full text-left border-collapse text-xs">
-              <thead className="bg-slate-900 border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold text-[10px] sticky top-0 z-20">
+              <thead className="bg-[#F8F8F7] border-b border-[#ECEEF1] text-[#667085] uppercase tracking-wider font-bold text-[10px] sticky top-0 z-20">
                 <tr>
                   <th className="p-3.5">Target Persona Name</th>
                   <th className="p-3.5">Assigned Primary & Bounded Agents</th>
                   <th className="p-3.5 text-center">Agent Count</th>
-                  <th className="p-3.5 text-right sticky right-0 bg-slate-900 z-30 shadow-md">Actions</th>
+                  <th className="p-3.5 text-right sticky right-0 bg-[#F8F8F7] z-30 shadow-2xs">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800 text-slate-300 font-sans">
+              <tbody className="divide-y divide-[#ECEEF1] text-[#344054] font-sans">
                 {availablePersonas.map((persona) => {
                   const assignedAgents = personaMappingMap[persona] || [];
                   const isSuperAdminPersona = persona === 'Platform Admin';
 
                   return (
-                    <tr key={persona} className="hover:bg-slate-900/50 transition">
-                      <td className="p-3.5 font-bold text-white min-w-[200px]">
-                        <span className="text-indigo-300 flex items-center space-x-2">
-                          <i className={`fas ${isSuperAdminPersona ? 'fa-user-shield text-amber-400' : 'fa-user-tag text-indigo-400'} text-xs`}></i>
+                    <tr key={persona} className="hover:bg-[#F8F8F7]/80 transition">
+                      <td className="p-3.5 font-bold text-[#17181C] min-w-[200px]">
+                        <span className="flex items-center gap-2">
+                          <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold shrink-0 ${
+                            isSuperAdminPersona ? 'bg-amber-100 text-amber-800' : 'bg-purple-100 text-purple-700'
+                          }`}>
+                            <i className={`fas ${isSuperAdminPersona ? 'fa-shield-alt' : 'fa-user-tag'}`}></i>
+                          </div>
                           <span>{persona}</span>
                         </span>
                       </td>
@@ -255,25 +262,25 @@ export default function AdminAgentMapping() {
                         {assignedAgents.length > 0 ? (
                           <div className="flex flex-wrap gap-1.5">
                             {assignedAgents.map((agentName, i) => (
-                              <span key={i} className="px-2.5 py-0.5 rounded-lg bg-purple-950/50 text-purple-300 border border-purple-800 text-[10px] font-bold">
+                              <span key={i} className="px-2.5 py-0.5 rounded-[6px] bg-purple-50 text-purple-700 border border-purple-200 text-[10px] font-bold">
                                 {agentName}
                               </span>
                             ))}
                           </div>
                         ) : (
-                          <span className="text-slate-500 italic text-[11px]">No specific agents assigned</span>
+                          <span className="text-[#98A2B3] italic text-[11px]">No specific agents assigned</span>
                         )}
                       </td>
                       <td className="p-3.5 text-center">
-                        <span className="px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-300 font-mono font-bold text-[10px]">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#F8F8F7] border border-[#ECEEF1] text-[#344054] font-mono font-bold text-[10px]">
                           {assignedAgents.length}
                         </span>
                       </td>
-                      <td className="p-3.5 text-right font-mono sticky right-0 bg-[#0b0f19] z-10 border-l border-slate-800/80">
+                      <td className="p-3.5 text-right sticky right-0 bg-white z-10 border-l border-[#ECEEF1]">
                         <button
                           onClick={() => handleOpenEditPersona(persona)}
                           title="Edit Agent Mappings for Persona"
-                          className="w-8 h-8 rounded-lg bg-slate-800/80 hover:bg-purple-600 text-purple-400 hover:text-white border border-slate-700 hover:border-purple-500 transition cursor-pointer flex items-center justify-center ml-auto shadow-sm"
+                          className="w-7 h-7 rounded-[8px] bg-white hover:bg-purple-50 text-[#7157F5] border border-[#ECEEF1] hover:border-purple-300 transition cursor-pointer flex items-center justify-center ml-auto shadow-2xs"
                         >
                           <i className="fas fa-pen-to-square text-xs"></i>
                         </button>
@@ -289,61 +296,61 @@ export default function AdminAgentMapping() {
 
       {/* VIEW MODE 2: AGENTS MAPPED AGAINST PERSONAS */}
       {viewMode === 'by_agent' && (
-        <div className="bg-[#0b0f19] border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+        <div className="bg-white border border-[#ECEEF1] rounded-[18px] overflow-hidden shadow-2xs">
           <div className="overflow-x-auto custom-scroll">
             <table className="w-full text-left border-collapse text-xs">
-              <thead className="bg-slate-900 border-b border-slate-800 text-slate-400 uppercase tracking-wider font-semibold text-[10px] sticky top-0 z-20">
+              <thead className="bg-[#F8F8F7] border-b border-[#ECEEF1] text-[#667085] uppercase tracking-wider font-bold text-[10px] sticky top-0 z-20">
                 <tr>
                   <th className="p-3.5">Primary Agent & ID</th>
                   <th className="p-3.5">Assigned Execution Personas</th>
                   <th className="p-3.5">Operational Boundary & Notes</th>
-                  <th className="p-3.5 text-right sticky right-0 bg-slate-900 z-30 shadow-md">Actions</th>
+                  <th className="p-3.5 text-right sticky right-0 bg-[#F8F8F7] z-30 shadow-2xs">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800 text-slate-300 font-sans">
+              <tbody className="divide-y divide-[#ECEEF1] text-[#344054] font-sans">
                 {enabledPrimaryAgents.map((agent) => {
                   const item = agentMappingMap[agent.name] || { personas: [], notes: '' };
                   const isAllNonAdmin = item.personas.length >= 15;
                   const isSuperAdmin = item.personas.includes('Platform Admin');
 
                   return (
-                    <tr key={agent.id} className="hover:bg-slate-900/50 transition">
-                      <td className="p-3.5 font-bold text-white min-w-[200px]">
-                        <span className="text-purple-300 block">{agent.name}</span>
-                        <span className="text-[10px] font-mono text-slate-500">{agent.id}</span>
+                    <tr key={agent.id} className="hover:bg-[#F8F8F7]/80 transition">
+                      <td className="p-3.5 font-bold text-[#17181C] min-w-[200px]">
+                        <span className="block text-[#17181C]">{agent.name}</span>
+                        <span className="text-[10px] font-mono text-purple-600 bg-purple-50 px-1.5 py-0.2 rounded border border-purple-200 inline-block mt-0.5">{agent.id}</span>
                       </td>
                       <td className="p-3.5 min-w-[320px]">
                         {isAllNonAdmin ? (
-                          <span className="px-3 py-1 rounded-xl bg-purple-950/60 text-purple-300 border border-purple-800 font-bold text-[11px] inline-flex items-center space-x-1.5">
-                            <i className="fas fa-users text-purple-400"></i>
+                          <span className="px-2.5 py-0.5 rounded-[6px] bg-purple-50 text-purple-700 border border-purple-200 font-bold text-[11px] inline-flex items-center gap-1.5">
+                            <i className="fas fa-users text-purple-500"></i>
                             <span>All Personas (16 Non-Super-Admin Roles)</span>
                           </span>
                         ) : isSuperAdmin ? (
-                          <span className="px-3 py-1 rounded-xl bg-amber-950/60 text-amber-300 border border-amber-800 font-bold text-[11px] inline-flex items-center space-x-1.5">
-                            <i className="fas fa-user-shield text-amber-400"></i>
+                          <span className="px-2.5 py-0.5 rounded-[6px] bg-amber-50 text-amber-700 border border-amber-200 font-bold text-[11px] inline-flex items-center gap-1.5">
+                            <i className="fas fa-user-shield text-amber-600"></i>
                             <span>Super Admin Only (Platform Admin)</span>
                           </span>
                         ) : item.personas.length > 0 ? (
                           <div className="flex flex-wrap gap-1.5">
                             {item.personas.map((persona, i) => (
-                              <span key={i} className="px-2.5 py-1 rounded-lg bg-indigo-950/60 text-indigo-300 border border-indigo-800 font-bold text-[11px] inline-flex items-center space-x-1">
-                                <i className="fas fa-user-tag text-[9px] text-indigo-400"></i>
+                              <span key={i} className="px-2.5 py-0.5 rounded-[6px] bg-indigo-50 text-indigo-700 border border-indigo-200 font-semibold text-[11px] inline-flex items-center gap-1">
+                                <i className="fas fa-user-tag text-[9px] text-indigo-500"></i>
                                 <span>{persona}</span>
                               </span>
                             ))}
                           </div>
                         ) : (
-                          <span className="text-slate-500 italic text-[11px]">Unmapped</span>
+                          <span className="text-[#98A2B3] italic text-[11px]">Unmapped</span>
                         )}
                       </td>
-                      <td className="p-3.5 text-slate-400 max-w-[280px] leading-relaxed">
+                      <td className="p-3.5 text-[#667085] max-w-[280px] leading-relaxed">
                         {item.notes || agent.responsibility}
                       </td>
-                      <td className="p-3.5 text-right font-mono sticky right-0 bg-[#0b0f19] z-10 border-l border-slate-800/80">
+                      <td className="p-3.5 text-right sticky right-0 bg-white z-10 border-l border-[#ECEEF1]">
                         <button
                           onClick={() => handleOpenEditAgent(agent.name)}
                           title="Edit Persona Mappings"
-                          className="w-8 h-8 rounded-lg bg-slate-800/80 hover:bg-purple-600 text-purple-400 hover:text-white border border-slate-700 hover:border-purple-500 transition cursor-pointer flex items-center justify-center ml-auto shadow-sm"
+                          className="w-7 h-7 rounded-[8px] bg-white hover:bg-purple-50 text-[#7157F5] border border-[#ECEEF1] hover:border-purple-300 transition cursor-pointer flex items-center justify-center ml-auto shadow-2xs"
                         >
                           <i className="fas fa-pen-to-square text-xs"></i>
                         </button>
@@ -359,12 +366,12 @@ export default function AdminAgentMapping() {
 
       {/* CREATE / EDIT MAPPING MODAL DIALOG */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-[#0b0f19] border border-slate-800 rounded-2xl w-full max-w-xl overflow-hidden shadow-2xl p-5 space-y-4 fade-in">
-            <div className="flex justify-between items-center border-b border-slate-800 pb-3">
+        <div className="fixed inset-0 bg-black/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+          <div className="bg-white border border-[#ECEEF1] rounded-[20px] w-full max-w-xl overflow-hidden shadow-2xl p-5 space-y-4 fade-in">
+            <div className="flex justify-between items-center border-b border-[#F2F4F7] pb-3">
               <div>
-                <h3 className="text-sm font-bold text-white flex items-center space-x-2">
-                  <i className="fas fa-link text-purple-400"></i>
+                <h3 className="text-sm font-bold text-[#17181C] flex items-center gap-2">
+                  <i className="fas fa-link text-[#7157F5]"></i>
                   <span>
                     {modalMode === 'create_new' 
                       ? 'Create New Agent Persona Mapping' 
@@ -374,28 +381,28 @@ export default function AdminAgentMapping() {
                   </span>
                 </h3>
                 {modalMode === 'edit_agent' && (
-                  <p className="text-[11px] text-purple-300 font-bold mt-0.5">{modalTargetAgent}</p>
+                  <p className="text-[11px] text-[#7157F5] font-bold mt-0.5">{modalTargetAgent}</p>
                 )}
                 {modalMode === 'edit_persona' && (
-                  <p className="text-[11px] text-indigo-300 font-bold mt-0.5">{modalTargetPersona}</p>
+                  <p className="text-[11px] text-purple-700 font-bold mt-0.5">{modalTargetPersona}</p>
                 )}
               </div>
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="text-slate-400 hover:text-white transition cursor-pointer"
+                className="text-[#98A2B3] hover:text-[#17181C] transition cursor-pointer p-1"
               >
                 <i className="fas fa-times"></i>
               </button>
             </div>
 
             <div className="space-y-3 text-xs">
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-400 font-semibold mb-1">Target Project</label>
+                  <label className="block font-semibold text-[#344054] mb-1">Target Project</label>
                   <select
                     value={selectedProject}
                     onChange={(e) => setSelectedProject(e.target.value)}
-                    className="w-full bg-[#060913] border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-purple-500 cursor-pointer"
+                    className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] p-2.5 text-[#17181C] focus:outline-none focus:border-[#7157F5] cursor-pointer"
                   >
                     {availableProjects.map(p => (
                       <option key={p} value={p}>{p}</option>
@@ -405,11 +412,11 @@ export default function AdminAgentMapping() {
 
                 {modalMode === 'create_new' && (
                   <div>
-                    <label className="block text-slate-400 font-semibold mb-1">Target Persona</label>
+                    <label className="block font-semibold text-[#344054] mb-1">Target Persona</label>
                     <select
                       value={modalTargetPersona}
                       onChange={(e) => setModalTargetPersona(e.target.value)}
-                      className="w-full bg-[#060913] border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-purple-500 cursor-pointer"
+                      className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] p-2.5 text-[#17181C] focus:outline-none focus:border-[#7157F5] cursor-pointer"
                     >
                       {availablePersonas.map(p => (
                         <option key={p} value={p}>{p}</option>
@@ -420,13 +427,13 @@ export default function AdminAgentMapping() {
               </div>
 
               <div>
-                <label className="block text-slate-400 font-semibold mb-1">Operational Notes / Special Condition</label>
+                <label className="block font-semibold text-[#344054] mb-1">Operational Notes / Special Condition</label>
                 <input 
                   type="text"
                   value={mappingNotes}
                   onChange={(e) => setMappingNotes(e.target.value)}
                   placeholder="e.g. Brownfield projects focus"
-                  className="w-full bg-[#060913] border border-slate-800 rounded-xl p-2.5 text-white focus:outline-none focus:border-purple-500"
+                  className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] p-2.5 text-[#17181C] focus:outline-none focus:border-[#7157F5] focus:bg-white"
                 />
               </div>
 
@@ -434,24 +441,24 @@ export default function AdminAgentMapping() {
               {modalMode === 'edit_agent' && (
                 <div>
                   <div className="flex justify-between items-center mb-1.5">
-                    <label className="block text-slate-400 font-semibold">Select Executing Personas ({selectedPersonas.length})</label>
+                    <label className="block font-semibold text-[#344054]">Select Executing Personas ({selectedPersonas.length})</label>
                     <div className="space-x-2">
                       <button
                         onClick={() => setSelectedPersonas([...availablePersonas.filter(p => p !== 'Platform Admin')])}
-                        className="text-[10px] font-bold text-purple-400 hover:text-purple-300"
+                        className="text-[10px] font-bold text-[#7157F5] hover:underline"
                       >
                         Select All (Non-Admin)
                       </button>
                       <button
                         onClick={() => setSelectedPersonas([])}
-                        className="text-[10px] font-bold text-slate-500 hover:text-slate-400"
+                        className="text-[10px] font-bold text-[#98A2B3] hover:text-[#667085]"
                       >
                         Clear All
                       </button>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2 bg-[#060913] p-3 rounded-xl border border-slate-800 max-h-56 overflow-y-auto custom-scroll">
+                  <div className="grid grid-cols-2 gap-2 bg-[#F8F8F7] p-3 rounded-[12px] border border-[#ECEEF1] max-h-56 overflow-y-auto custom-scroll">
                     {availablePersonas.map((persona) => {
                       const isSelected = selectedPersonas.includes(persona);
                       return (
@@ -459,14 +466,14 @@ export default function AdminAgentMapping() {
                           key={persona}
                           type="button"
                           onClick={() => togglePersonaSelection(persona)}
-                          className={`p-2 rounded-lg font-bold border text-left flex items-center justify-between cursor-pointer transition text-xs ${
+                          className={`p-2 rounded-[8px] font-semibold border text-left flex items-center justify-between cursor-pointer transition text-xs ${
                             isSelected
-                              ? 'bg-purple-950/60 border-purple-500/60 text-purple-200'
-                              : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+                              ? 'bg-purple-50 border-purple-300 text-purple-800 shadow-2xs'
+                              : 'bg-white border-[#ECEEF1] text-[#667085] hover:border-[#D0D5DD]'
                           }`}
                         >
                           <span className="truncate">{persona}</span>
-                          {isSelected && <i className="fas fa-check text-purple-400 text-xs"></i>}
+                          {isSelected && <i className="fas fa-check text-purple-600 text-xs"></i>}
                         </button>
                       );
                     })}
@@ -478,24 +485,24 @@ export default function AdminAgentMapping() {
               {(modalMode === 'create_new' || modalMode === 'edit_persona') && (
                 <div>
                   <div className="flex justify-between items-center mb-1.5">
-                    <label className="block text-slate-400 font-semibold">Select Primary Agents to Assign ({selectedAgents.length})</label>
+                    <label className="block font-semibold text-[#344054]">Select Primary Agents to Assign ({selectedAgents.length})</label>
                     <div className="space-x-2">
                       <button
                         onClick={() => setSelectedAgents(enabledPrimaryAgents.map(a => a.name))}
-                        className="text-[10px] font-bold text-purple-400 hover:text-purple-300"
+                        className="text-[10px] font-bold text-[#7157F5] hover:underline"
                       >
                         Select All 15 Enabled
                       </button>
                       <button
                         onClick={() => setSelectedAgents([])}
-                        className="text-[10px] font-bold text-slate-500 hover:text-slate-400"
+                        className="text-[10px] font-bold text-[#98A2B3] hover:text-[#667085]"
                       >
                         Clear All
                       </button>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2 bg-[#060913] p-3 rounded-xl border border-slate-800 max-h-56 overflow-y-auto custom-scroll">
+                  <div className="grid grid-cols-2 gap-2 bg-[#F8F8F7] p-3 rounded-[12px] border border-[#ECEEF1] max-h-56 overflow-y-auto custom-scroll">
                     {enabledPrimaryAgents.map((agent) => {
                       const isSelected = selectedAgents.includes(agent.name);
                       return (
@@ -503,14 +510,14 @@ export default function AdminAgentMapping() {
                           key={agent.id}
                           type="button"
                           onClick={() => toggleAgentSelection(agent.name)}
-                          className={`p-2 rounded-lg font-bold border text-left flex items-center justify-between cursor-pointer transition text-xs ${
+                          className={`p-2 rounded-[8px] font-semibold border text-left flex items-center justify-between cursor-pointer transition text-xs ${
                             isSelected
-                              ? 'bg-purple-950/60 border-purple-500/60 text-purple-200'
-                              : 'bg-slate-900 border-slate-800 text-slate-400 hover:text-slate-200'
+                              ? 'bg-purple-50 border-purple-300 text-purple-800 shadow-2xs'
+                              : 'bg-white border-[#ECEEF1] text-[#667085] hover:border-[#D0D5DD]'
                           }`}
                         >
                           <span className="truncate">{agent.name}</span>
-                          {isSelected && <i className="fas fa-check text-purple-400 text-xs"></i>}
+                          {isSelected && <i className="fas fa-check text-purple-600 text-xs"></i>}
                         </button>
                       );
                     })}
@@ -519,18 +526,18 @@ export default function AdminAgentMapping() {
               )}
             </div>
 
-            <div className="pt-3 border-t border-slate-800 flex justify-end space-x-2">
+            <div className="pt-3 border-t border-[#ECEEF1] flex justify-end gap-2">
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold rounded-xl transition cursor-pointer"
+                className="px-4 py-2 rounded-[10px] text-xs font-semibold text-[#667085] hover:bg-[#F8F8F7] border border-transparent cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={handleSaveModal}
-                className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold rounded-xl shadow transition cursor-pointer flex items-center space-x-1.5"
+                className="bg-[#7157F5] hover:bg-[#5F46D8] text-white px-4 py-2 rounded-[10px] text-xs font-semibold shadow-2xs transition cursor-pointer flex items-center gap-1.5"
               >
-                <i className="fas fa-save"></i>
+                <i className="fas fa-save text-[10px]"></i>
                 <span>Save Mapping</span>
               </button>
             </div>

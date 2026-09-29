@@ -64,15 +64,7 @@ export default function Login() {
     if (e) e.preventDefault();
     if (!selectedUser) return;
     localStorage.setItem('activeUserId', selectedUser.id);
-    
-    const pAccess = selectedUser.projectAccess || [];
-    const isPlatformAdmin = selectedUser.isSuperAdmin || pAccess.some(p => p.personas && (p.personas.includes('Platform Admin') || p.personas.includes('Super Admin') || p.personas.includes('Admin')));
-    
-    if (isPlatformAdmin) {
-      navigate('/admin/dashboard');
-    } else {
-      navigate('/spec-to-story');
-    }
+    navigate('/');
   };
 
   const handleUserChange = (e) => {
@@ -83,131 +75,153 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#060913] text-[#f8fafc] font-sans relative overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-[#FAFAF9] text-[#17181C] font-sans relative overflow-hidden select-none">
       
-      {/* Background ambient glow effects */}
-      <div className="absolute top-[20%] left-[10%] w-[40%] h-[40%] bg-indigo-500/5 rounded-full blur-[100px] pointer-events-none"></div>
-      <div className="absolute bottom-[20%] right-[10%] w-[40%] h-[40%] bg-purple-500/5 rounded-full blur-[100px] pointer-events-none"></div>
+      {/* Background subtle radial glow */}
+      <div 
+        className="absolute inset-0 pointer-events-none -z-10"
+        style={{
+          background: `
+            radial-gradient(circle at 60% 30%, rgba(113, 87, 245, 0.06) 0%, transparent 50%),
+            radial-gradient(circle at 30% 70%, rgba(22, 184, 166, 0.04) 0%, transparent 45%)
+          `
+        }}
+      />
 
       {/* Top Header */}
-      <header className="absolute top-0 w-full flex justify-between items-center px-8 py-5 z-20 pointer-events-none">
-        <div className="flex items-center space-x-3 pointer-events-auto">
-          <div className="w-9 h-9 rounded-[10px] bg-gradient-to-br from-[#6366f1] to-[#a855f7] flex items-center justify-center text-white shadow-[0_4px_15px_rgba(99,102,241,0.3)]">
-            <i className="fas fa-gem text-base"></i>
-          </div>
-          
-          <div className="flex flex-col">
-            <span className="text-[20px] font-bold tracking-tight bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent leading-tight">TCS ValueThread</span>
-            <span className="text-[10px] text-[#6366f1] font-semibold tracking-wider uppercase">Intelligent SDLC Workspace</span>
-          </div>
+      <header className="w-full flex justify-between items-center px-6 lg:px-12 py-4 border-b border-[#ECEEF1] bg-white/80 backdrop-blur-md">
+        <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/')} title="TCS ValueThread Home">
+          <img
+            src="/branding/tcs-valuethread-header-logo.png"
+            alt="TCS ValueThread"
+            className="h-9 md:h-10 w-auto object-contain transition-transform hover:scale-[1.02]"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = "/branding/tcs-valuethread-full-logo-tagline.png";
+            }}
+          />
         </div>
 
         {/* ACTIVE USER Dropdown in Top Header */}
-        <div className="flex items-center space-x-3 pointer-events-auto">
-          <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">ACTIVE USER:</span>
+        <div className="flex items-center gap-3">
+          <span className="text-[11px] font-bold text-[#667085] uppercase tracking-wider hidden sm:inline">Active Persona:</span>
           <div className="relative">
             <select 
               value={selectedUserId || ''}
               onChange={handleUserChange}
-              className="appearance-none bg-[#0c1222] border border-slate-800 text-slate-300 text-[13px] font-semibold rounded-lg pl-3 pr-8 py-2 focus:outline-none focus:border-indigo-500 transition-colors cursor-pointer min-w-[240px]"
+              className="appearance-none bg-white border border-[#ECEEF1] hover:border-[#D0D5DD] text-[#344054] text-xs font-semibold rounded-[10px] pl-3 pr-8 py-2 focus:outline-none focus:border-[#7157F5] transition-colors cursor-pointer min-w-[220px] shadow-2xs"
             >
-              {users.map(user => (
-                <option key={user.id} value={user.id}>
-                  {user.name.split(' (')[0]} ({getPrimaryPersona(user)})
+              {users.map(u => (
+                <option key={u.id} value={u.id}>
+                  {u.name} — {getPrimaryPersona(u)}
                 </option>
               ))}
             </select>
-            <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500">
-              <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <polyline points="6 9 12 15 18 9" />
-              </svg>
+            <div className="absolute inset-y-0 right-0 flex items-center px-2.5 pointer-events-none text-[#98A2B3]">
+              <i className="fas fa-chevron-down text-[10px]"></i>
             </div>
           </div>
         </div>
       </header>
 
       {/* Main Login Workspace Area */}
-      <main className="flex-1 flex items-center justify-center p-4 z-10 mt-12">
-        <div className="bg-[#0c1222]/90 backdrop-blur-xl border border-slate-800/80 rounded-2xl p-10 max-w-[440px] w-full shadow-2xl relative">
+      <main className="flex-1 flex items-center justify-center p-4 z-10 my-8">
+        <div className="bg-white border border-[#ECEEF1] rounded-[20px] p-8 sm:p-10 max-w-[440px] w-full shadow-md relative">
           
-          <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-500 rounded-t-2xl"></div>
+          <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-[#7157F5] via-[#5F46D8] to-[#16B8A6] rounded-t-[20px]"></div>
 
-          <div className="text-center mb-8">
-            <h2 className="text-[28px] font-bold text-white mb-2 tracking-tight">Welcome Back</h2>
-            <p className="text-slate-400 text-[14px]">Enter your credentials to access TCS ValueThread</p>
+          <div className="text-center mb-7">
+            <img 
+              src="/branding/tcs-valuethread-symbol-simple.png" 
+              alt="TCS ValueThread Emblem" 
+              className="w-12 h-12 rounded-[14px] mx-auto mb-3 shadow-2xs object-contain p-1 border border-[#ECEEF1] bg-[#F4F1FF]"
+              onError={(e) => {
+                e.currentTarget.onerror = null;
+                e.currentTarget.src = "/branding/tcs-valuethread-app-icon-256.png";
+              }}
+            />
+            <h2 className="text-2xl font-bold text-[#17181C] mb-1 tracking-tight">Enterprise Sign In</h2>
+            <p className="text-[#667085] text-xs">Authenticate into TCS ValueThread Workspace</p>
           </div>
 
-          <form onSubmit={handleLogin} className="space-y-5">
+          <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-[13px] font-medium text-slate-400 mb-2">Username / Email</label>
+              <label className="block text-xs font-semibold text-[#344054] mb-1.5">User Email / SSO ID</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                  <svg className="w-[18px] h-[18px] text-slate-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path>
-                  </svg>
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#98A2B3]">
+                  <i className="fas fa-user text-xs"></i>
                 </div>
                 <input 
                   type="text" 
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-[#060913]/70 border border-slate-800 rounded-lg py-2.5 pl-10 pr-4 text-[15px] text-white focus:outline-none focus:border-indigo-500 focus:bg-[#060913]/90 transition-all placeholder-slate-600 font-mono"
-                  placeholder="name@company.com"
+                  className="w-full bg-[#FAFAF9] border border-[#ECEEF1] rounded-[10px] py-2.5 pl-9 pr-4 text-xs font-medium text-[#17181C] focus:outline-none focus:border-[#7157F5] focus:bg-white transition-all placeholder-[#98A2B3]"
+                  placeholder="name@tcs.com"
                   required
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-[13px] font-medium text-slate-400 mb-2">Password</label>
+              <label className="block text-xs font-semibold text-[#344054] mb-1.5">Password</label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-                  <svg className="w-[18px] h-[18px] text-slate-500" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-                  </svg>
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-[#98A2B3]">
+                  <i className="fas fa-lock text-xs"></i>
                 </div>
                 <input 
                   type="password" 
-                  className="w-full bg-[#060913]/70 border border-slate-800 rounded-lg py-2.5 pl-10 pr-4 text-[15px] text-white focus:outline-none focus:border-indigo-500 focus:bg-[#060913]/90 transition-all placeholder-slate-600 tracking-wider"
+                  className="w-full bg-[#FAFAF9] border border-[#ECEEF1] rounded-[10px] py-2.5 pl-9 pr-4 text-xs font-medium text-[#17181C] focus:outline-none focus:border-[#7157F5] focus:bg-white transition-all placeholder-[#98A2B3]"
                   placeholder="••••••••"
                   defaultValue="password123"
                   required
                 />
               </div>
-              <div className="flex justify-end mt-2">
-                <a href="#" className="text-[13px] text-[#6366f1] hover:text-indigo-400 transition-colors">Forgot password?</a>
+              <div className="flex justify-end mt-1.5">
+                <a href="#" className="text-[11px] font-semibold text-[#7157F5] hover:text-[#5F46D8] transition-colors">Forgot password?</a>
               </div>
             </div>
 
-            <button type="submit" className="w-full mt-2 bg-gradient-to-r from-[#6366f1] to-[#4f46e5] hover:opacity-90 text-white font-semibold py-3 rounded-xl shadow-[0_4px_15px_rgba(99,102,241,0.3)] transition-all text-[15px] cursor-pointer">
-              Authenticate Workspace
+            <button 
+              type="submit" 
+              className="w-full mt-2 bg-[#17181C] hover:bg-[#292B30] active:bg-[#000000] text-white font-semibold py-2.5 rounded-[12px] shadow-sm transition-all text-xs cursor-pointer flex items-center justify-center gap-2"
+            >
+              <span>Access ValueThread</span>
+              <i className="fas fa-arrow-right text-[10px]"></i>
             </button>
           </form>
 
-          <div className="flex items-center my-6">
-            <div className="flex-grow border-t border-slate-800/80"></div>
-            <span className="px-3 text-[10px] uppercase font-semibold tracking-wider text-slate-500">or login with SSO</span>
-            <div className="flex-grow border-t border-slate-800/80"></div>
+          <div className="flex items-center my-5">
+            <div className="flex-grow border-t border-[#ECEEF1]"></div>
+            <span className="px-3 text-[10px] uppercase font-bold tracking-wider text-[#98A2B3]">or Single Sign-On</span>
+            <div className="flex-grow border-t border-[#ECEEF1]"></div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <button type="button" onClick={() => handleLogin()} className="flex items-center justify-center space-x-2 bg-slate-800/30 hover:bg-slate-800/60 border border-slate-800 hover:border-slate-700 transition-all py-2.5 rounded-xl text-[13px] font-semibold text-slate-300 cursor-pointer">
-              <svg viewBox="0 0 24 24" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+          <div className="grid grid-cols-2 gap-2.5">
+            <button 
+              type="button" 
+              onClick={() => handleLogin()} 
+              className="flex items-center justify-center gap-2 bg-white hover:bg-[#F8F8F7] border border-[#ECEEF1] hover:border-[#D0D5DD] transition-all py-2 rounded-[10px] text-xs font-semibold text-[#344054] cursor-pointer shadow-2xs"
+            >
+              <svg viewBox="0 0 24 24" width="14" height="14" xmlns="http://www.w3.org/2000/svg">
                 <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
                 <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
                 <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
               </svg>
-              <span>Google</span>
+              <span>Google SSO</span>
             </button>
-            <button type="button" onClick={() => handleLogin()} className="flex items-center justify-center space-x-2 bg-slate-800/30 hover:bg-slate-800/60 border border-slate-800 hover:border-slate-700 transition-all py-2.5 rounded-xl text-[13px] font-semibold text-slate-300 cursor-pointer">
-              <svg viewBox="0 0 23 23" width="14" height="14" xmlns="http://www.w3.org/2000/svg">
+            <button 
+              type="button" 
+              onClick={() => handleLogin()} 
+              className="flex items-center justify-center gap-2 bg-white hover:bg-[#F8F8F7] border border-[#ECEEF1] hover:border-[#D0D5DD] transition-all py-2 rounded-[10px] text-xs font-semibold text-[#344054] cursor-pointer shadow-2xs"
+            >
+              <svg viewBox="0 0 23 23" width="13" height="13" xmlns="http://www.w3.org/2000/svg">
                 <rect fill="#F25022" x="0" y="0" width="11" height="11"/>
                 <rect fill="#7FBA00" x="12" y="0" width="11" height="11"/>
                 <rect fill="#00A4EF" x="0" y="12" width="11" height="11"/>
                 <rect fill="#FFB900" x="12" y="12" width="11" height="11"/>
               </svg>
-              <span>Microsoft</span>
+              <span>Microsoft SSO</span>
             </button>
           </div>
 

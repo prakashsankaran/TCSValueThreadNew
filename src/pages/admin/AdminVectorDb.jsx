@@ -69,15 +69,49 @@ export default function AdminVectorDb() {
   ];
 
   return (
-    <div className="text-white fade-in space-y-4 font-mono text-xs p-1">
+    <div className="fade-in space-y-5 max-w-7xl mx-auto pb-8">
+      
+      {/* Header */}
+      <div className="bg-white border border-[#ECEEF1] rounded-[18px] p-5 shadow-2xs flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <div>
+          <h1 className="text-xl font-bold tracking-tight text-[#17181C] flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-[10px] bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center text-sm shrink-0">
+              <i className="fas fa-database"></i>
+            </div>
+            <span>Vector Store & Semantic Index Explorer</span>
+          </h1>
+          <p className="text-xs text-[#667085] mt-1">
+            Browse ChromaDB vector embeddings, examine 384-D vector payloads, and execute live cosine similarity queries.
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleRefresh}
+            disabled={isRefreshing}
+            className="bg-white hover:bg-[#F8F8F7] text-[#344054] border border-[#ECEEF1] font-semibold py-2 px-3 rounded-[10px] shadow-2xs transition flex items-center gap-1.5 text-xs cursor-pointer"
+            title="Refresh Vector Points from ChromaDB"
+          >
+            <i className={`fas fa-sync-alt text-[10px] text-[#7157F5] ${isRefreshing ? 'animate-spin' : ''}`}></i>
+            <span>Refresh Data</span>
+          </button>
+          <button
+            onClick={() => setIsAddModalOpen(true)}
+            className="bg-[#7157F5] hover:bg-[#5F46D8] text-white font-semibold py-2 px-3.5 rounded-[10px] shadow-2xs transition flex items-center gap-1.5 text-xs cursor-pointer"
+          >
+            <i className="fas fa-plus text-[10px]"></i>
+            <span>Upsert Point</span>
+          </button>
+        </div>
+      </div>
+
       {/* Main 2-Column Explorer View */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
         
         {/* Left Column: Collections Tree Sidebar */}
-        <div className="lg:col-span-1 bg-[#0b0f19] border border-slate-800 rounded-2xl p-4 space-y-4 shadow-xl">
-          <div className="flex justify-between items-center border-b border-slate-800 pb-2">
-            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider font-sans flex items-center space-x-1.5">
-              <i className="fas fa-cubes text-purple-400"></i>
+        <div className="lg:col-span-1 bg-white border border-[#ECEEF1] rounded-[18px] p-4 space-y-4 shadow-2xs">
+          <div className="flex justify-between items-center border-b border-[#F2F4F7] pb-3">
+            <span className="text-xs font-bold text-[#17181C] uppercase tracking-wider flex items-center gap-2">
+              <i className="fas fa-cubes text-[#7157F5]"></i>
               <span>Collections ({collectionsList.length})</span>
             </span>
           </div>
@@ -87,19 +121,19 @@ export default function AdminVectorDb() {
               <button
                 key={col.name}
                 onClick={() => setSelectedCollection(col.name)}
-                className={`w-full text-left p-3 rounded-xl border transition cursor-pointer flex flex-col space-y-1 ${
+                className={`w-full text-left p-3 rounded-[12px] border transition cursor-pointer flex flex-col space-y-1 ${
                   selectedCollection === col.name
-                    ? 'bg-purple-950/40 border-purple-500/50 text-white'
-                    : 'bg-[#060913]/60 border-slate-800 text-slate-400 hover:bg-slate-900/60'
+                    ? 'bg-purple-50 border-purple-300 text-[#17181C] shadow-2xs'
+                    : 'bg-[#F8F8F7] border-[#ECEEF1] text-[#667085] hover:bg-white hover:border-[#D0D5DD]'
                 }`}
               >
                 <div className="flex justify-between items-center">
-                  <span className="font-bold text-xs truncate text-purple-300">{col.name}</span>
-                  <span className="px-1.5 py-0.5 rounded bg-slate-800 text-[10px] text-slate-300 font-mono">
+                  <span className={`font-bold text-xs truncate ${selectedCollection === col.name ? 'text-purple-800' : 'text-[#17181C]'}`}>{col.name}</span>
+                  <span className="px-1.5 py-0.5 rounded bg-white border border-[#ECEEF1] text-[10px] text-[#344054] font-mono">
                     {col.name === 'frugalforge_artifacts' ? artefacts.length : col.pointsCount} pts
                   </span>
                 </div>
-                <div className="flex items-center space-x-2 text-[10px] text-slate-500">
+                <div className="flex items-center gap-2 text-[10px] text-[#667085]">
                   <span>Size: {col.dimension}-D</span>
                   <span>•</span>
                   <span>Dist: {col.distance}</span>
@@ -109,15 +143,15 @@ export default function AdminVectorDb() {
           </div>
 
           {/* Selected Collection Metadata Tree */}
-          <div className="pt-2 border-t border-slate-800 space-y-2">
-            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block font-sans">
+          <div className="pt-3 border-t border-[#F2F4F7] space-y-2">
+            <span className="text-[10px] font-bold text-[#667085] uppercase tracking-wider block font-sans">
               Collection Schema Info
             </span>
-            <pre className="bg-[#060913] border border-slate-800/80 rounded-xl p-3 text-[10px] text-emerald-400 overflow-x-auto custom-scroll">
+            <pre className="bg-[#17181C] text-emerald-400 border border-slate-800 rounded-[12px] p-3 text-[10px] overflow-x-auto custom-scroll">
 {JSON.stringify({
   collection: selectedCollection,
   engine: "ChromaDB",
-  status: "green",
+  status: "active",
   vectors_count: artefacts.length,
   config: {
     params: {
@@ -130,66 +164,48 @@ export default function AdminVectorDb() {
         </div>
 
         {/* Right Main Explorer: Point & Payload JSON Inspector */}
-        <div className="lg:col-span-3 bg-[#0b0f19] border border-slate-800 rounded-2xl p-4 space-y-4 shadow-xl flex flex-col">
+        <div className="lg:col-span-3 bg-white border border-[#ECEEF1] rounded-[18px] p-5 space-y-4 shadow-2xs flex flex-col">
           
           {/* Explorer Sub-Tabs */}
-          <div className="flex justify-between items-center border-b border-slate-800 pb-3">
-            <div className="flex space-x-2">
+          <div className="flex justify-between items-center border-b border-[#F2F4F7] pb-3 flex-wrap gap-2">
+            <div className="flex bg-[#F8F8F7] p-1 rounded-[10px] border border-[#ECEEF1]">
               <button
                 onClick={() => setActiveTab('points')}
-                className={`px-4 py-1.5 rounded-xl font-bold text-xs transition cursor-pointer flex items-center space-x-2 font-sans ${
+                className={`px-3.5 py-1.5 rounded-[8px] font-semibold text-xs transition cursor-pointer flex items-center gap-1.5 ${
                   activeTab === 'points'
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-slate-900 text-slate-400 hover:text-white'
+                    ? 'bg-[#7157F5] text-white shadow-2xs'
+                    : 'text-[#667085] hover:text-[#17181C]'
                 }`}
               >
-                <i className="fas fa-stream"></i>
+                <i className="fas fa-stream text-[10px]"></i>
                 <span>Raw Vector Points ({artefacts.length})</span>
               </button>
 
               <button
                 onClick={() => setActiveTab('search')}
-                className={`px-4 py-1.5 rounded-xl font-bold text-xs transition cursor-pointer flex items-center space-x-2 font-sans ${
+                className={`px-3.5 py-1.5 rounded-[8px] font-semibold text-xs transition cursor-pointer flex items-center gap-1.5 ${
                   activeTab === 'search'
-                    ? 'bg-purple-600 text-white'
-                    : 'bg-slate-900 text-slate-400 hover:text-white'
+                    ? 'bg-[#7157F5] text-white shadow-2xs'
+                    : 'text-[#667085] hover:text-[#17181C]'
                 }`}
               >
-                <i className="fas fa-terminal"></i>
+                <i className="fas fa-terminal text-[10px]"></i>
                 <span>Vector Query Console</span>
               </button>
             </div>
 
-            <div className="flex items-center space-x-2">
-              <span className="text-[11px] text-slate-500 hidden sm:inline mr-1">
-                Format: <span className="text-purple-400 font-bold">JSON Payload</span>
-              </span>
-              <button
-                onClick={handleRefresh}
-                disabled={isRefreshing}
-                className="bg-slate-800 hover:bg-slate-700 text-indigo-300 border border-slate-700 font-bold py-1.5 px-3 rounded-xl shadow transition flex items-center space-x-1.5 text-[11px] cursor-pointer font-sans"
-                title="Refresh Vector Points from ChromaDB"
-              >
-                <i className={`fas fa-sync-alt text-[10px] ${isRefreshing ? 'animate-spin text-purple-400' : ''}`}></i>
-                <span>Refresh Data</span>
-              </button>
-              <button
-                onClick={() => setIsAddModalOpen(true)}
-                className="bg-purple-600 hover:bg-purple-500 text-white font-bold py-1.5 px-3.5 rounded-xl shadow transition flex items-center space-x-1.5 text-[11px] cursor-pointer font-sans"
-              >
-                <i className="fas fa-plus text-[10px]"></i>
-                <span>Upsert Point</span>
-              </button>
-            </div>
+            <span className="text-xs text-[#667085] hidden sm:inline">
+              Payload: <span className="text-[#7157F5] font-semibold">Normalized JSON</span>
+            </span>
           </div>
 
           {/* TAB 1: RAW VECTOR POINTS (JSON TREE VIEWER) */}
           {activeTab === 'points' && (
             <div className="space-y-4 flex-1">
               {artefacts.length === 0 ? (
-                <div className="text-center py-12 text-slate-500">
-                  <i className="fas fa-box-open text-3xl mb-2 opacity-40"></i>
-                  <p>No vector points indexed in collection "{selectedCollection}".</p>
+                <div className="text-center py-12 text-[#667085]">
+                  <i className="fas fa-box-open text-3xl mb-2 text-[#98A2B3]"></i>
+                  <p className="text-xs">No vector points indexed in collection "{selectedCollection}".</p>
                 </div>
               ) : (
                 artefacts.map((art, idx) => {
@@ -210,38 +226,38 @@ export default function AdminVectorDb() {
                   };
 
                   return (
-                    <div key={art.id || idx} className="bg-[#060913] border border-slate-800 rounded-xl overflow-hidden shadow">
+                    <div key={art.id || idx} className="bg-[#F8F8F7] border border-[#ECEEF1] rounded-[14px] overflow-hidden shadow-2xs">
                       {/* Point Header Bar */}
-                      <div className="bg-slate-900/60 p-3 flex justify-between items-center border-b border-slate-800">
-                        <div className="flex items-center space-x-3">
-                          <span className="px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono font-bold text-[10px] border border-purple-500/30">
+                      <div className="bg-white p-3 flex justify-between items-center border-b border-[#ECEEF1]">
+                        <div className="flex items-center gap-2.5">
+                          <span className="px-2 py-0.5 rounded-[6px] bg-purple-50 text-purple-700 font-mono font-bold text-[10px] border border-purple-200">
                             Point #{idx + 1}
                           </span>
-                          <span className="font-bold text-white font-sans text-xs">{art.title}</span>
-                          <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[10px]">
+                          <span className="font-bold text-[#17181C] text-xs">{art.title}</span>
+                          <span className="px-2 py-0.5 rounded-[6px] bg-[#F8F8F7] text-[#667085] text-[10px] border border-[#ECEEF1]">
                             {art.artefactType}
                           </span>
                         </div>
 
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center gap-2">
                           <button
                             onClick={() => setExpandedPointId(isExpanded ? null : art.id)}
-                            className="bg-slate-800 hover:bg-slate-700 text-purple-300 px-2.5 py-1 rounded text-[10px] font-bold transition cursor-pointer"
+                            className="bg-white hover:bg-[#F8F8F7] border border-[#ECEEF1] text-[#7157F5] px-2.5 py-1 rounded-[6px] text-[10px] font-semibold transition cursor-pointer shadow-2xs"
                           >
                             {isExpanded ? 'Collapse Vector Array' : 'Expand Full Vector Array'}
                           </button>
                           <button
                             onClick={() => handleDelete(art.id)}
-                            className="bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 px-2 py-1 rounded text-[10px] transition cursor-pointer"
+                            className="w-6 h-6 rounded-[6px] bg-white hover:bg-rose-50 border border-[#ECEEF1] hover:border-rose-200 text-rose-600 flex items-center justify-center transition cursor-pointer shadow-2xs"
                             title="Delete Point"
                           >
-                            <i className="fas fa-trash-alt"></i>
+                            <i className="fas fa-trash-alt text-[9px]"></i>
                           </button>
                         </div>
                       </div>
 
                       {/* Raw JSON Code Block */}
-                      <pre className="p-4 text-[11px] text-indigo-300 font-mono overflow-x-auto custom-scroll leading-relaxed">
+                      <pre className="p-4 text-[11px] text-[#17181C] font-mono overflow-x-auto custom-scroll leading-relaxed bg-[#FAFAF9]">
 {JSON.stringify(pointJsonObject, null, 2)}
                       </pre>
                     </div>
@@ -254,20 +270,20 @@ export default function AdminVectorDb() {
           {/* TAB 2: VECTOR QUERY CONSOLE */}
           {activeTab === 'search' && (
             <div className="space-y-4">
-              <form onSubmit={handleSearch} className="flex space-x-2">
+              <form onSubmit={handleSearch} className="flex gap-2">
                 <input
                   type="text"
                   placeholder='Enter search query prompt e.g. "RMA refund workflow"...'
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex-1 bg-[#060913] border border-slate-800 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-purple-500"
+                  className="flex-1 bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] p-2.5 text-xs text-[#17181C] focus:outline-none focus:border-[#7157F5] focus:bg-white transition"
                 />
                 <button
                   type="submit"
-                  className="bg-purple-600 hover:bg-purple-500 text-white px-5 py-3 rounded-xl font-bold text-xs transition flex items-center space-x-2 cursor-pointer font-sans"
+                  className="bg-[#7157F5] hover:bg-[#5F46D8] text-white px-5 py-2.5 rounded-[10px] font-semibold text-xs transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
                 >
-                  {isSearching ? <i className="fas fa-spinner fa-spin"></i> : <i className="fas fa-play"></i>}
-                  <span>Execute Vector Query</span>
+                  {isSearching ? <i className="fas fa-spinner fa-spin"></i> : <i className="fas fa-play text-[10px]"></i>}
+                  <span>Execute Query</span>
                 </button>
               </form>
 
@@ -275,11 +291,11 @@ export default function AdminVectorDb() {
               {searchResults.length > 0 && (
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
-                    <span className="text-[11px] font-bold text-slate-400 font-sans uppercase tracking-wider">
+                    <span className="text-[11px] font-bold text-[#667085] uppercase tracking-wider">
                       Vector Query JSON Response ({searchResults.length} Points Matched)
                     </span>
                   </div>
-                  <pre className="bg-[#060913] border border-purple-500/40 rounded-xl p-4 text-[11px] text-emerald-400 font-mono overflow-x-auto custom-scroll max-h-[500px]">
+                  <pre className="bg-[#17181C] text-emerald-400 border border-slate-800 rounded-[14px] p-4 text-[11px] font-mono overflow-x-auto custom-scroll max-h-[500px]">
 {JSON.stringify({
   query: searchQuery,
   collection: selectedCollection,
@@ -306,32 +322,40 @@ export default function AdminVectorDb() {
 
       {/* Upsert Vector Point Modal */}
       {isAddModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="bg-[#0c1222] border border-slate-800 rounded-2xl p-6 w-full max-w-lg shadow-2xl space-y-4 my-8 font-sans">
-            <h2 className="text-base font-bold text-white flex items-center space-x-2">
-              <i className="fas fa-plus-circle text-purple-400"></i>
-              <span>Upsert Point to Collection: {selectedCollection}</span>
-            </h2>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs">
+          <div className="bg-white border border-[#ECEEF1] rounded-[20px] p-6 w-full max-w-lg shadow-2xl space-y-4 my-8 font-sans">
+            <div className="flex justify-between items-center border-b border-[#F2F4F7] pb-3">
+              <h2 className="text-sm font-bold text-[#17181C] flex items-center gap-2">
+                <i className="fas fa-plus-circle text-[#7157F5]"></i>
+                <span>Upsert Point to Collection: {selectedCollection}</span>
+              </h2>
+              <button 
+                onClick={() => setIsAddModalOpen(false)}
+                className="text-[#98A2B3] hover:text-[#17181C] transition cursor-pointer p-1"
+              >
+                <i className="fas fa-times"></i>
+              </button>
+            </div>
 
             <form onSubmit={handleAddPoint} className="space-y-4 text-xs">
               <div>
-                <label className="block text-slate-400 font-bold mb-1 uppercase tracking-wide">Document Title</label>
+                <label className="block text-[#344054] font-semibold mb-1">Document Title</label>
                 <input 
                   type="text"
                   required
                   value={newPoint.title}
                   onChange={(e) => setNewPoint({...newPoint, title: e.target.value})}
-                  className="w-full bg-[#060913] border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-purple-500 font-mono text-xs"
+                  className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] p-2.5 text-[#17181C] focus:outline-none focus:border-[#7157F5] focus:bg-white text-xs"
                   placeholder="e.g. Authentication ADR-006"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-400 font-bold mb-1 uppercase tracking-wide">Artifact Type Payload</label>
+                <label className="block text-[#344054] font-semibold mb-1">Artifact Type Payload</label>
                 <select 
                   value={newPoint.artefactType}
                   onChange={(e) => setNewPoint({...newPoint, artefactType: e.target.value})}
-                  className="w-full bg-[#060913] border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-purple-500 cursor-pointer font-mono text-xs"
+                  className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] p-2.5 text-[#17181C] focus:outline-none focus:border-[#7157F5] cursor-pointer text-xs"
                 >
                   <option value="Specification">Specification</option>
                   <option value="Architecture ADR">Architecture ADR</option>
@@ -341,30 +365,30 @@ export default function AdminVectorDb() {
               </div>
 
               <div>
-                <label className="block text-slate-400 font-bold mb-1 uppercase tracking-wide">Content Text Payload</label>
+                <label className="block text-[#344054] font-semibold mb-1">Content Text Payload</label>
                 <textarea 
                   rows="4"
                   required
                   value={newPoint.content}
                   onChange={(e) => setNewPoint({...newPoint, content: e.target.value})}
-                  className="w-full bg-[#060913] border border-slate-800 rounded-lg p-2.5 text-white focus:outline-none focus:border-purple-500 custom-scroll font-mono text-xs"
+                  className="w-full bg-[#F8F8F7] border border-[#ECEEF1] rounded-[10px] p-2.5 text-[#17181C] focus:outline-none focus:border-[#7157F5] focus:bg-white custom-scroll text-xs resize-none"
                   placeholder="Enter document content to generate 384-D vector point embedding..."
                 />
               </div>
 
-              <div className="flex justify-end space-x-3 pt-3 border-t border-slate-800">
+              <div className="flex justify-end gap-2 pt-3 border-t border-[#ECEEF1]">
                 <button 
                   type="button"
                   onClick={() => setIsAddModalOpen(false)}
-                  className="px-4 py-2 rounded-lg text-xs font-bold text-slate-400 hover:text-white"
+                  className="px-4 py-2 rounded-[10px] text-xs font-semibold text-[#667085] hover:bg-[#F8F8F7] border border-transparent cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button 
                   type="submit"
-                  className="bg-purple-600 hover:bg-purple-500 text-white px-5 py-2 rounded-lg text-xs font-bold transition flex items-center space-x-2 cursor-pointer"
+                  className="bg-[#7157F5] hover:bg-[#5F46D8] text-white px-5 py-2 rounded-[10px] text-xs font-semibold transition flex items-center gap-1.5 cursor-pointer shadow-2xs"
                 >
-                  <i className="fas fa-database"></i>
+                  <i className="fas fa-database text-[10px]"></i>
                   <span>Upsert Point</span>
                 </button>
               </div>

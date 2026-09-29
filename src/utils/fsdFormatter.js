@@ -1,3 +1,156 @@
+export function convertHtmlToLightTheme(htmlStr) {
+  if (!htmlStr || typeof htmlStr !== 'string') return htmlStr || '';
+
+  const lightStyles = `
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+      background-color: #FFFFFF !important;
+      color: #344054 !important;
+      padding: 14px 18px !important;
+      margin: 0 !important;
+      line-height: 1.6 !important;
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+    .fsd-document, .document-container { 
+      width: 100% !important; 
+      max-width: 100% !important; 
+      margin: 0 !important; 
+      padding: 0 !important; 
+    }
+    .header-banner { 
+      background: #F8F8F7 !important; 
+      border: 1px solid #ECEEF1 !important; 
+      border-radius: 12px !important; 
+      padding: 16px 20px !important; 
+      margin-bottom: 18px !important; 
+      width: 100% !important;
+      max-width: 100% !important;
+    }
+    .header-title, h1 { 
+      font-size: 20px !important; 
+      font-weight: 800 !important; 
+      color: #17181C !important; 
+      margin: 0 0 4px 0 !important; 
+      letter-spacing: -0.01em !important; 
+      border-bottom: 2px solid #7157F5 !important;
+      padding-bottom: 6px !important;
+    }
+    .header-subtitle { 
+      font-size: 12px !important; 
+      color: #7157F5 !important; 
+      margin: 0 0 12px 0 !important; 
+      font-weight: 600 !important; 
+    }
+    .meta-grid { 
+      display: grid !important; 
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)) !important; 
+      gap: 8px !important; 
+      font-size: 11px !important; 
+      font-family: monospace !important; 
+    }
+    .meta-item { 
+      background: #FFFFFF !important; 
+      padding: 6px 10px !important; 
+      border-radius: 8px !important; 
+      border: 1px solid #ECEEF1 !important; 
+    }
+    .meta-label, .meta { 
+      color: #667085 !important; 
+      margin-bottom: 2px !important; 
+      font-size: 10px !important;
+      font-weight: 700 !important;
+      text-transform: uppercase !important;
+    }
+    .meta-val { 
+      color: #17181C !important; 
+      font-weight: bold !important; 
+    }
+    .section-title, h2 { 
+      font-size: 14px !important; 
+      font-weight: 700 !important; 
+      color: #7157F5 !important; 
+      border-bottom: 1px solid #ECEEF1 !important; 
+      padding-bottom: 6px !important; 
+      margin-top: 20px !important; 
+      margin-bottom: 10px !important; 
+      text-transform: uppercase !important; 
+      letter-spacing: 0.05em !important; 
+    }
+    h3 { color: #17181C !important; font-size: 13px !important; font-weight: 700 !important; margin-top: 14px !important; }
+    h4 { color: #344054 !important; font-size: 12px !important; font-weight: 700 !important; }
+    table { width: 100% !important; border-collapse: collapse !important; margin-top: 10px !important; font-size: 12px !important; }
+    th { 
+      background: #F8F8F7 !important; 
+      border-bottom: 1px solid #ECEEF1 !important; 
+      border-right: 1px solid #ECEEF1 !important; 
+      padding: 8px 10px !important; 
+      text-align: left !important; 
+      color: #667085 !important; 
+      text-transform: uppercase !important; 
+      font-size: 10px !important; 
+      font-weight: 700 !important; 
+    }
+    td { 
+      border-bottom: 1px solid #ECEEF1 !important; 
+      border-right: 1px solid #ECEEF1 !important; 
+      padding: 8px 10px !important; 
+      vertical-align: top !important; 
+      color: #344054 !important; 
+      background: transparent !important; 
+    }
+    tr:hover td { background-color: #FAFAF9 !important; }
+    code, pre { 
+      background: #F8F8F7 !important; 
+      color: #17181C !important; 
+      border: 1px solid #ECEEF1 !important; 
+      border-radius: 6px !important; 
+      font-family: monospace !important;
+      padding: 2px 5px !important;
+    }
+    pre { padding: 10px 12px !important; }
+    .badge { 
+      display: inline-block !important; 
+      padding: 2px 6px !important; 
+      border-radius: 4px !important; 
+      font-size: 10px !important; 
+      font-weight: bold !important; 
+      font-family: monospace !important; 
+      text-transform: uppercase !important; 
+    }
+    .badge-get, .badge-low { background: #ECFDF5 !important; color: #047857 !important; border: 1px solid #A7F3D0 !important; }
+    .badge-post, .badge-medium { background: #EEF2FF !important; color: #4338CA !important; border: 1px solid #C7D2FE !important; }
+    .badge-put { background: #FFFBEB !important; color: #B45309 !important; border: 1px solid #FDE68A !important; }
+    .badge-delete, .badge-high { background: #FFF1F2 !important; color: #BE123C !important; border: 1px solid #FECDD3 !important; }
+    .story-id { color: #7157F5 !important; font-weight: bold !important; font-family: monospace !important; }
+    strong { color: #17181C !important; }
+    p, li, span { color: inherit; }
+  `;
+
+  let converted = htmlStr
+    .replace(/background(-color)?:\s*(#070a13|#0c1222|#0b0f19|#0f172a|#0b1120|#020617)/gi, 'background-color:#FFFFFF')
+    .replace(/rgba\(15,\s*23,\s*42,\s*[\d.]+\)/gi, '#FFFFFF')
+    .replace(/rgba\(99,\s*102,\s*241,\s*[\d.]+\)/gi, 'rgba(113, 87, 245, 0.08)')
+    .replace(/rgba\(16,\s*185,\s*129,\s*[\d.]+\)/gi, 'rgba(16, 185, 129, 0.08)')
+    .replace(/linear-gradient\([^)]+\)/gi, '#F8F8F7')
+    .replace(/color:\s*(#ffffff|#f8fafc|#f1f5f9)/gi, 'color:#17181C')
+    .replace(/color:\s*(#818cf8|#6366f1|#4f46e5)/gi, 'color:#7157F5')
+    .replace(/color:\s*(#cbd5e1|#e2e8f0)/gi, 'color:#344054')
+    .replace(/color:\s*(#94a3b8|#64748b)/gi, 'color:#667085')
+    .replace(/border(-color)?:\s*(#1e293b|#334155|#1e1b4b|#312e81|rgba\(255,\s*255,\s*255,\s*[\d.]+\))/gi, 'border-color:#ECEEF1');
+
+  if (converted.includes('</head>')) {
+    converted = converted.replace('</head>', `<style>${lightStyles}</style></head>`);
+  } else if (converted.includes('<!DOCTYPE html>')) {
+    converted = converted.replace('<!DOCTYPE html>', `<!DOCTYPE html><html><head><meta charset="utf-8"/><style>${lightStyles}</style></head>`);
+  } else {
+    converted = `<!DOCTYPE html><html><head><meta charset="utf-8"/><style>${lightStyles}</style></head><body>${converted}</body></html>`;
+  }
+
+  return converted;
+}
+
 export function renderMarkdownToHtml(mdStr, docTitle = '', docMeta = '') {
   let cleanMd = String(mdStr || '')
     .replace(/\\n/g, '\n')
@@ -9,31 +162,31 @@ export function renderMarkdownToHtml(mdStr, docTitle = '', docMeta = '') {
 
   // Process mermaid diagrams
   html = html.replace(/```mermaid\n([\s\S]*?)```/g, (m, code) => {
-    return `<div style="background:#0c1222; border:1px solid #334155; padding:16px; border-radius:8px; margin:16px 0; font-family:monospace; color:#818cf8; font-size:11px; white-space:pre-wrap;">📊 [Architecture & Diagram]\n${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>`;
+    return `<div style="background:#F8F8F7; border:1px solid #ECEEF1; padding:12px; border-radius:10px; margin:12px 0; font-family:monospace; color:#7157F5; font-size:11px; white-space:pre-wrap;">📊 [Architecture & Diagram]\n${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>`;
   });
 
   // Process code blocks
   html = html.replace(/```(\w+)?\n([\s\S]*?)```/g, (m, lang, code) => {
-    return `<pre style="background-color:#0c1222; border:1px solid #1e293b; padding:14px; border-radius:8px; font-family:monospace; color:#a5b4fc; font-size:11px; overflow-x:auto; margin:12px 0;"><code>${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;
+    return `<pre style="background-color:#F8F8F7; border:1px solid #ECEEF1; padding:12px; border-radius:10px; font-family:monospace; color:#17181C; font-size:11px; overflow-x:auto; margin:10px 0;"><code>${code.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</code></pre>`;
   });
 
   // Headers
-  html = html.replace(/^# (.*?)$/gm, '<h1 style="color:#ffffff; border-bottom:2px solid #6366f1; padding-bottom:8px; font-size:22px; font-weight:900; margin-top:24px; margin-bottom:12px;">$1</h1>');
-  html = html.replace(/^## (.*?)$/gm, '<h2 style="color:#818cf8; font-size:16px; font-weight:800; border-bottom:1px solid #1e293b; padding-bottom:6px; margin-top:22px; margin-bottom:10px; text-transform:uppercase; letter-spacing:0.05em;">$1</h2>');
-  html = html.replace(/^### (.*?)$/gm, '<h3 style="color:#38bdf8; font-size:14px; font-weight:700; margin-top:18px; margin-bottom:8px;">$1</h3>');
-  html = html.replace(/^#### (.*?)$/gm, '<h4 style="color:#a78bfa; font-size:13px; font-weight:700; margin-top:14px; margin-bottom:6px;">$1</h4>');
-  html = html.replace(/^---$/gm, '<hr style="border-color:#1e293b; margin:20px 0;"/>');
+  html = html.replace(/^# (.*?)$/gm, '<h1 style="color:#17181C; border-bottom:2px solid #7157F5; padding-bottom:6px; font-size:20px; font-weight:800; margin-top:18px; margin-bottom:10px;">$1</h1>');
+  html = html.replace(/^## (.*?)$/gm, '<h2 style="color:#7157F5; font-size:14px; font-weight:700; border-bottom:1px solid #ECEEF1; padding-bottom:6px; margin-top:18px; margin-bottom:8px; text-transform:uppercase; letter-spacing:0.05em;">$1</h2>');
+  html = html.replace(/^### (.*?)$/gm, '<h3 style="color:#17181C; font-size:13px; font-weight:700; margin-top:14px; margin-bottom:6px;">$1</h3>');
+  html = html.replace(/^#### (.*?)$/gm, '<h4 style="color:#344054; font-size:12px; font-weight:700; margin-top:12px; margin-bottom:4px;">$1</h4>');
+  html = html.replace(/^---$/gm, '<hr style="border-color:#ECEEF1; margin:16px 0;"/>');
   
   // Bold & Italic
-  html = html.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#f8fafc; font-weight:700;">$1</strong>');
-  html = html.replace(/\*(.*?)\*/g, '<em style="color:#cbd5e1;">$1</em>');
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong style="color:#17181C; font-weight:700;">$1</strong>');
+  html = html.replace(/\*(.*?)\*/g, '<em style="color:#475467;">$1</em>');
   
   // Inline code
-  html = html.replace(/`(.*?)`/g, '<code style="background-color:#1e293b; padding:2px 6px; border-radius:4px; font-family:monospace; color:#f43f5e; font-size:11px;">$1</code>');
+  html = html.replace(/`(.*?)`/g, '<code style="background-color:#F8F8F7; border:1px solid #ECEEF1; padding:2px 5px; border-radius:4px; font-family:monospace; color:#7157F5; font-size:11px;">$1</code>');
 
   // Bullet lists
-  html = html.replace(/^- (.*?)$/gm, '<li style="margin-left:18px; list-style-type:disc; color:#cbd5e1; margin-bottom:5px; font-size:12px; line-height:1.6;">$1</li>');
-  html = html.replace(/^\* (.*?)$/gm, '<li style="margin-left:18px; list-style-type:disc; color:#cbd5e1; margin-bottom:5px; font-size:12px; line-height:1.6;">$1</li>');
+  html = html.replace(/^- (.*?)$/gm, '<li style="margin-left:16px; list-style-type:disc; color:#344054; margin-bottom:4px; font-size:12px; line-height:1.6;">$1</li>');
+  html = html.replace(/^\* (.*?)$/gm, '<li style="margin-left:16px; list-style-type:disc; color:#344054; margin-bottom:4px; font-size:12px; line-height:1.6;">$1</li>');
   
   // Line breaks for double newlines
   html = html.replace(/\n\n/g, '<br/><br/>');
@@ -44,34 +197,40 @@ export function renderMarkdownToHtml(mdStr, docTitle = '', docMeta = '') {
 <head>
   <meta charset="utf-8"/>
   <style>
-    body {
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: #070a13;
-      color: #cbd5e1;
-      padding: 28px;
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #FFFFFF;
+      color: #344054;
+      padding: 14px 18px;
       margin: 0;
       line-height: 1.6;
+      width: 100%;
+      max-width: 100%;
     }
     .document-container {
-      max-width: 960px;
-      margin: 0 auto;
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
     }
     .header-banner {
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(16, 185, 129, 0.15));
-      border: 1px solid rgba(99, 102, 241, 0.35);
+      background: #F8F8F7;
+      border: 1px solid #ECEEF1;
       border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 24px;
+      padding: 16px 20px;
+      margin-bottom: 18px;
+      width: 100%;
     }
     .header-title {
-      font-size: 22px;
+      font-size: 20px;
       font-weight: 800;
-      color: #ffffff;
-      margin: 0 0 6px 0;
+      color: #17181C;
+      margin: 0 0 4px 0;
     }
     .header-meta {
       font-size: 11px;
-      color: #94a3b8;
+      color: #667085;
       font-family: monospace;
     }
   </style>
@@ -93,9 +252,9 @@ export function renderMarkdownToHtml(mdStr, docTitle = '', docMeta = '') {
 export function formatFSDDocument(rawOutput) {
   if (!rawOutput) return '';
 
-  // If already full HTML document
-  if (typeof rawOutput === 'string' && (rawOutput.includes('<div class="fsd-document"') || rawOutput.includes('<!DOCTYPE html>'))) {
-    return rawOutput;
+  // If already HTML document string, run through light theme converter to guarantee no dark styles remain and full width is utilized
+  if (typeof rawOutput === 'string' && (rawOutput.includes('<div class="fsd-document"') || rawOutput.includes('<!DOCTYPE html>') || rawOutput.includes('<html'))) {
+    return convertHtmlToLightTheme(rawOutput);
   }
 
   let artifactObj = null;
@@ -150,32 +309,35 @@ export function formatFSDDocument(rawOutput) {
   <meta charset="utf-8"/>
   <title>${title}</title>
   <style>
-    body {
-      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background-color: #070a13;
-      color: #cbd5e1;
-      padding: 32px;
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: #FFFFFF;
+      color: #344054;
+      padding: 14px 18px;
       margin: 0;
       line-height: 1.6;
+      width: 100%;
+      max-width: 100%;
     }
-    .fsd-document { max-width: 960px; margin: 0 auto; }
-    .header-banner { background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(16, 185, 129, 0.15)); border: 1px solid rgba(99, 102, 241, 0.35); border-radius: 16px; padding: 24px; margin-bottom: 28px; }
-    .header-title { font-size: 24px; font-weight: 900; color: #ffffff; margin: 0 0 6px 0; letter-spacing: -0.02em; }
-    .header-subtitle { font-size: 13px; color: #818cf8; margin: 0 0 16px 0; font-weight: 600; }
-    .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; font-size: 11px; font-family: monospace; }
-    .meta-item { background: rgba(15, 23, 42, 0.6); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05); }
-    .meta-label { color: #64748b; margin-bottom: 2px; }
-    .meta-val { color: #f8fafc; font-weight: bold; }
-    .section-title { font-size: 16px; font-weight: 800; color: #818cf8; border-bottom: 1px solid #1e293b; padding-bottom: 8px; margin-top: 32px; margin-bottom: 16px; text-transform: uppercase; letter-spacing: 0.05em; }
-    table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 12px; }
-    th { background: #0f172a; border-bottom: 1px solid #334155; padding: 12px 10px; text-align: left; color: #94a3b8; text-transform: uppercase; font-size: 10px; font-weight: 700; }
-    td { border-bottom: 1px solid #1e293b; padding: 12px 10px; vertical-align: top; }
-    tr:hover { background-color: rgba(30, 41, 59, 0.4); }
-    .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; font-family: monospace; text-transform: uppercase; }
-    .badge-get { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.4); }
-    .badge-post { background: rgba(99, 102, 241, 0.2); color: #a5b4fc; border: 1px solid rgba(99, 102, 241, 0.4); }
-    .badge-put { background: rgba(245, 158, 11, 0.2); color: #fde68a; border: 1px solid rgba(245, 158, 11, 0.4); }
-    .badge-delete { background: rgba(225, 29, 72, 0.2); color: #fda4af; border: 1px solid rgba(225, 29, 72, 0.4); }
+    .fsd-document { width: 100%; max-width: 100%; margin: 0; padding: 0; }
+    .header-banner { background: #F8F8F7; border: 1px solid #ECEEF1; border-radius: 12px; padding: 16px 20px; margin-bottom: 18px; width: 100%; }
+    .header-title { font-size: 20px; font-weight: 800; color: #17181C; margin: 0 0 4px 0; letter-spacing: -0.01em; }
+    .header-subtitle { font-size: 12px; color: #7157F5; margin: 0 0 12px 0; font-weight: 600; }
+    .meta-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; font-size: 11px; font-family: monospace; }
+    .meta-item { background: #FFFFFF; padding: 6px 10px; border-radius: 8px; border: 1px solid #ECEEF1; }
+    .meta-label { color: #667085; margin-bottom: 2px; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+    .meta-val { color: #17181C; font-weight: bold; }
+    .section-title { font-size: 14px; font-weight: 700; color: #7157F5; border-bottom: 1px solid #ECEEF1; padding-bottom: 6px; margin-top: 20px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.05em; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+    th { background: #F8F8F7; border-bottom: 1px solid #ECEEF1; border-right: 1px solid #ECEEF1; padding: 8px 10px; text-align: left; color: #667085; text-transform: uppercase; font-size: 10px; font-weight: 700; }
+    td { border-bottom: 1px solid #ECEEF1; border-right: 1px solid #ECEEF1; padding: 8px 10px; vertical-align: top; color: #344054; }
+    tr:hover td { background-color: #FAFAF9; }
+    .badge { display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; font-family: monospace; text-transform: uppercase; }
+    .badge-get { background: #ECFDF5; color: #047857; border: 1px solid #A7F3D0; }
+    .badge-post { background: #EEF2FF; color: #4338CA; border: 1px solid #C7D2FE; }
+    .badge-put { background: #FFFBEB; color: #B45309; border: 1px solid #FDE68A; }
+    .badge-delete { background: #FFF1F2; color: #BE123C; border: 1px solid #FECDD3; }
   </style>
 </head>
 <body>
@@ -206,8 +368,8 @@ export function formatFSDDocument(rawOutput) {
         <tbody>
           ${funcReqs.map(f => `
             <tr>
-              <td style="font-weight:bold; color:#818cf8; font-family:monospace">${f.id || f.req_id || 'REQ-01'}</td>
-              <td style="font-weight:bold; color:#ffffff">${f.title || f.name || ''}</td>
+              <td style="font-weight:bold; color:#7157F5; font-family:monospace">${f.id || f.req_id || 'REQ-01'}</td>
+              <td style="font-weight:bold; color:#17181C">${f.title || f.name || ''}</td>
               <td>${f.description || f.detail || ''}</td>
             </tr>
           `).join('')}
@@ -232,9 +394,9 @@ export function formatFSDDocument(rawOutput) {
             return `
               <tr>
                 <td><span class="badge ${badgeClass}">${method}</span></td>
-                <td style="font-family:monospace; color:#f8fafc"><code>${apiItem.path || apiItem.endpoint}</code></td>
+                <td style="font-family:monospace; color:#17181C"><code>${apiItem.path || apiItem.endpoint}</code></td>
                 <td>${apiItem.description || ''}</td>
-                <td style="font-size:11px; color:#94a3b8">${apiItem.access || apiItem.role || 'Authenticated'}</td>
+                <td style="font-size:11px; color:#667085">${apiItem.access || apiItem.role || 'Authenticated'}</td>
               </tr>
             `;
           }).join('')}
@@ -257,3 +419,4 @@ export function formatFSDDocument(rawOutput) {
   // Otherwise, render textContent as Markdown
   return renderMarkdownToHtml(textContent, '', '');
 }
+

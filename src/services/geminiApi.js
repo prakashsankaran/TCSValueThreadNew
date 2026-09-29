@@ -12,12 +12,13 @@ export const geminiApi = {
     }
   },
 
-  generateContent: async (prompt, modelName = 'gemini-2.5-pro', systemInstruction = '') => {
+  generateContent: async (prompt, modelName = 'gemini-3.6-flash', systemInstruction = '') => {
     const apiKey = geminiApi.getApiKey();
 
     // 1. Try Direct Google AI Studio API first if key exists
     if (apiKey) {
-      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${apiKey}`;
+      const activeModel = modelName.includes('2.5-') || modelName.includes('2.0-') ? 'gemini-3.6-flash' : modelName;
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${activeModel}:generateContent?key=${apiKey}`;
 
       const contents = [];
       if (systemInstruction) {

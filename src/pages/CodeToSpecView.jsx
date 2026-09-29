@@ -121,139 +121,143 @@ export default function CodeToSpecView() {
   const docCount = (brownfieldContext.documents || []).length;
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
-      <div className="bg-gradient-to-r from-amber-950/40 via-slate-900 to-slate-950 border border-amber-500/30 rounded-2xl p-6 relative overflow-hidden shadow-xl">
-        <div className="absolute -right-10 -bottom-10 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div className="max-w-6xl mx-auto space-y-5 pb-8">
+      {/* Top Banner Card */}
+      <div className="bg-white border border-[#ECEEF1] rounded-[18px] p-5 shadow-2xs relative overflow-hidden">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
           <div className="space-y-1">
             <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center font-black shadow-lg">
+              <div className="w-10 h-10 rounded-[12px] bg-purple-50 border border-purple-200 text-[#7157F5] flex items-center justify-center font-bold shadow-2xs shrink-0">
                 <i className="fas fa-microchip text-lg"></i>
               </div>
               <div>
-                <h1 className="text-xl font-black text-white tracking-wide">Code-to-Spec Baseline Generator</h1>
-                <p className="text-xs text-amber-400/90 font-medium">Reverse-engineer legacy codebase into an official v1 Current State Source of Truth</p>
+                <h1 className="text-base font-bold text-[#17181C] tracking-tight">Code-to-Spec Baseline Generator</h1>
+                <p className="text-xs text-[#667085] font-medium">Reverse-engineer legacy codebase into an official v1 Current State Source of Truth</p>
               </div>
             </div>
           </div>
 
-          <div className="flex items-center space-x-3">
+          <div className="flex flex-wrap items-center gap-2 shrink-0">
             <button
               onClick={handleGenerateBaseline}
               disabled={isGenerating}
-              className="px-4 py-2.5 rounded-xl font-bold text-xs bg-amber-500/20 border border-amber-500/40 hover:bg-amber-500/30 text-amber-300 transition flex items-center space-x-2 cursor-pointer disabled:opacity-40"
+              className="px-3.5 py-2 rounded-[8px] font-semibold text-xs bg-[#7157F5] hover:bg-[#5E43E2] text-white transition flex items-center space-x-1.5 cursor-pointer disabled:opacity-40 shadow-2xs"
             >
-              {isGenerating ? <i className="fas fa-spinner fa-spin"></i> : <i className="fas fa-magic"></i>}
-              <span>1. Generate Baseline Spec</span>
+              {isGenerating ? <i className="fas fa-circle-notch fa-spin"></i> : <i className="fas fa-magic"></i>}
+              <span>1. Generate Baseline</span>
             </button>
 
             <button
               onClick={handleMergeSpecs}
               disabled={isMerging || !baselineSpec}
-              className="px-4 py-2.5 rounded-xl font-bold text-xs bg-indigo-600/30 border border-indigo-500/40 hover:bg-indigo-600/40 text-indigo-300 transition flex items-center space-x-2 cursor-pointer disabled:opacity-40"
+              className="px-3.5 py-2 rounded-[8px] font-semibold text-xs bg-[#F8F8F7] border border-[#ECEEF1] hover:border-[#7157F5] text-[#7157F5] transition flex items-center space-x-1.5 cursor-pointer disabled:opacity-40 shadow-2xs"
             >
-              {isMerging ? <i className="fas fa-spinner fa-spin"></i> : <i className="fas fa-code-branch"></i>}
+              {isMerging ? <i className="fas fa-circle-notch fa-spin"></i> : <i className="fas fa-code-branch"></i>}
               <span>2. Merge Specs</span>
             </button>
 
             <button
               onClick={handleExportSourceOfTruth}
               disabled={isExporting || (!baselineSpec && !unifiedSpec)}
-              className="px-4 py-2.5 rounded-xl font-bold text-xs bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 font-black shadow-lg transition flex items-center space-x-2 cursor-pointer disabled:opacity-40"
+              className="px-3.5 py-2 rounded-[8px] font-semibold text-xs bg-emerald-600 hover:bg-emerald-500 text-white shadow-2xs transition flex items-center space-x-1.5 cursor-pointer disabled:opacity-40"
             >
-              {isExporting ? <i className="fas fa-spinner fa-spin"></i> : <i className="fas fa-file-export"></i>}
+              {isExporting ? <i className="fas fa-circle-notch fa-spin"></i> : <i className="fas fa-file-export"></i>}
               <span>3. Export Spec</span>
             </button>
           </div>
         </div>
 
         {statusMessage && (
-          <div className={`mt-4 p-3 rounded-xl border text-xs flex items-center justify-between transition ${
+          <div className={`mt-4 p-3 rounded-[10px] border text-xs flex items-center justify-between transition ${
             statusMessage.type === 'success'
-              ? 'bg-green-950/40 border-green-500/40 text-green-300'
+              ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
               : statusMessage.type === 'error'
-              ? 'bg-rose-950/40 border-rose-500/40 text-rose-300'
-              : 'bg-amber-950/40 border-amber-500/40 text-amber-300'
+              ? 'bg-rose-50 border-rose-200 text-rose-800'
+              : 'bg-amber-50 border-amber-200 text-amber-800'
           }`}>
             <div className="flex items-center space-x-2">
-              <i className={`fas ${statusMessage.type === 'success' ? 'fa-check-circle' : statusMessage.type === 'error' ? 'fa-exclamation-triangle' : 'fa-info-circle'}`}></i>
-              <span>{statusMessage.text}</span>
+              <i className={`fas ${statusMessage.type === 'success' ? 'fa-check-circle text-emerald-600' : statusMessage.type === 'error' ? 'fa-exclamation-triangle text-rose-600' : 'fa-info-circle text-amber-600'}`}></i>
+              <span className="font-medium">{statusMessage.text}</span>
             </div>
-            <button onClick={() => setStatusMessage(null)} className="text-slate-400 hover:text-white cursor-pointer">
+            <button onClick={() => setStatusMessage(null)} className="text-[#667085] hover:text-[#17181C] cursor-pointer">
               <i className="fas fa-times text-xs"></i>
             </button>
           </div>
         )}
       </div>
 
+      {/* Metrics Row */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-[#0b0f19] border border-slate-800 rounded-xl p-4 flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold">
+        <div className="bg-white border border-[#ECEEF1] rounded-[14px] p-4 flex items-center space-x-3 shadow-2xs">
+          <div className="w-10 h-10 rounded-[10px] bg-purple-50 text-[#7157F5] border border-purple-100 flex items-center justify-center font-bold">
             <i className="fas fa-code text-sm"></i>
           </div>
           <div>
-            <p className="text-xs font-bold text-slate-200">Source Code Snippets</p>
-            <p className="text-[11px] text-slate-400">{snippetCount} file(s) attached for parsing</p>
+            <p className="text-xs font-bold text-[#17181C]">Source Code Snippets</p>
+            <p className="text-[11px] text-[#667085]">{snippetCount} file(s) attached for parsing</p>
           </div>
         </div>
 
-        <div className="bg-[#0b0f19] border border-slate-800 rounded-xl p-4 flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold">
+        <div className="bg-white border border-[#ECEEF1] rounded-[14px] p-4 flex items-center space-x-3 shadow-2xs">
+          <div className="w-10 h-10 rounded-[10px] bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center font-bold">
             <i className="fas fa-database text-sm"></i>
           </div>
           <div>
-            <p className="text-xs font-bold text-slate-200">Database DDL Schema</p>
-            <p className="text-[11px] text-slate-400">{hasSchema ? 'SQL Schema attached' : 'No schema attached'}</p>
+            <p className="text-xs font-bold text-[#17181C]">Database DDL Schema</p>
+            <p className="text-[11px] text-[#667085]">{hasSchema ? 'SQL Schema attached' : 'No schema attached'}</p>
           </div>
         </div>
 
-        <div className="bg-[#0b0f19] border border-slate-800 rounded-xl p-4 flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold">
+        <div className="bg-white border border-[#ECEEF1] rounded-[14px] p-4 flex items-center space-x-3 shadow-2xs">
+          <div className="w-10 h-10 rounded-[10px] bg-amber-50 text-amber-600 border border-amber-100 flex items-center justify-center font-bold">
             <i className="fas fa-file-alt text-sm"></i>
           </div>
           <div>
-            <p className="text-xs font-bold text-slate-200">Legacy Documents</p>
-            <p className="text-[11px] text-slate-400">{docCount} document(s) attached</p>
+            <p className="text-xs font-bold text-[#17181C]">Legacy Documents</p>
+            <p className="text-[11px] text-[#667085]">{docCount} document(s) attached</p>
           </div>
         </div>
       </div>
 
-      <div className="bg-[#0b0f19] border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
-        <div className="flex border-b border-slate-800 bg-slate-950/40 overflow-x-auto custom-scroll">
+      {/* Main Spec Workspace */}
+      <div className="bg-white border border-[#ECEEF1] rounded-[18px] overflow-hidden shadow-2xs">
+        <div className="flex border-b border-[#ECEEF1] bg-[#FAFAF9] px-3 gap-1 overflow-x-auto">
           <button
             onClick={() => setActiveTab('baseline')}
-            className={`px-6 py-4 text-xs font-bold flex items-center space-x-2 border-b-2 transition whitespace-nowrap cursor-pointer ${
+            className={`px-4 py-3 text-xs font-bold flex items-center space-x-2 border-b-2 transition whitespace-nowrap cursor-pointer rounded-t-[8px] ${
               activeTab === 'baseline'
-                ? 'border-amber-500 text-amber-400 bg-amber-500/5'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-[#7157F5] text-[#7157F5] bg-white shadow-2xs'
+                : 'border-transparent text-[#667085] hover:text-[#17181C] hover:bg-white/60'
             }`}
           >
-            <i className="fas fa-magic text-sm"></i>
-            <span>Baseline Spec v1.0 {baselineSpec && <span className="w-2 h-2 rounded-full bg-amber-500 inline-block ml-1"></span>}</span>
+            <i className="fas fa-magic text-xs"></i>
+            <span>Baseline Spec v1.0</span>
+            {baselineSpec && <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block ml-0.5"></span>}
           </button>
 
           <button
             onClick={() => setActiveTab('manual')}
-            className={`px-6 py-4 text-xs font-bold flex items-center space-x-2 border-b-2 transition whitespace-nowrap cursor-pointer ${
+            className={`px-4 py-3 text-xs font-bold flex items-center space-x-2 border-b-2 transition whitespace-nowrap cursor-pointer rounded-t-[8px] ${
               activeTab === 'manual'
-                ? 'border-indigo-500 text-indigo-400 bg-indigo-500/5'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-[#7157F5] text-[#7157F5] bg-white shadow-2xs'
+                : 'border-transparent text-[#667085] hover:text-[#17181C] hover:bg-white/60'
             }`}
           >
-            <i className="fas fa-edit text-sm"></i>
-            <span>Existing Manual Spec</span>
+            <i className="fas fa-edit text-xs"></i>
+            <span>Existing Manual Spec (`spec.md`)</span>
           </button>
 
           <button
             onClick={() => setActiveTab('unified')}
-            className={`px-6 py-4 text-xs font-bold flex items-center space-x-2 border-b-2 transition whitespace-nowrap cursor-pointer ${
+            className={`px-4 py-3 text-xs font-bold flex items-center space-x-2 border-b-2 transition whitespace-nowrap cursor-pointer rounded-t-[8px] ${
               activeTab === 'unified'
-                ? 'border-emerald-500 text-emerald-400 bg-emerald-500/5'
-                : 'border-transparent text-slate-400 hover:text-slate-200'
+                ? 'border-[#7157F5] text-[#7157F5] bg-white shadow-2xs'
+                : 'border-transparent text-[#667085] hover:text-[#17181C] hover:bg-white/60'
             }`}
           >
-            <i className="fas fa-check-double text-sm"></i>
-            <span>Unified Current State Spec {unifiedSpec && <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block ml-1"></span>}</span>
+            <i className="fas fa-check-double text-xs"></i>
+            <span>Unified Current State Spec</span>
+            {unifiedSpec && <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block ml-0.5"></span>}
           </button>
         </div>
 
@@ -261,29 +265,29 @@ export default function CodeToSpecView() {
           {activeTab === 'baseline' && (
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-300">Baseline Spec (Auto-Generated):</span>
-                <span className="text-[10px] text-slate-500 font-mono">AST & Schema Introspection</span>
+                <span className="text-xs font-bold text-[#17181C] uppercase tracking-wider">Baseline Spec (Auto-Generated):</span>
+                <span className="text-[10px] text-[#667085] font-mono">AST & Schema Introspection</span>
               </div>
 
               {!baselineSpec ? (
-                <div className="bg-slate-950 border border-dashed border-amber-500/30 rounded-xl p-12 text-center space-y-4">
-                  <div className="w-14 h-14 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center mx-auto text-2xl shadow-lg">
-                    <i className={`fas ${isGenerating ? 'fa-spinner fa-spin' : 'fa-magic'}`}></i>
+                <div className="bg-[#FAFAF9] border-2 border-dashed border-[#D0D5DD] hover:border-[#7157F5] rounded-[14px] p-10 text-center space-y-3 transition">
+                  <div className="w-12 h-12 rounded-full bg-purple-50 border border-purple-100 text-[#7157F5] flex items-center justify-center mx-auto text-xl shadow-2xs">
+                    <i className={`fas ${isGenerating ? 'fa-circle-notch fa-spin' : 'fa-magic'}`}></i>
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-slate-200">No Baseline Spec Generated Yet</h4>
-                    <p className="text-xs text-slate-400 max-w-md mx-auto mt-1">
+                    <h4 className="text-sm font-bold text-[#17181C]">No Baseline Spec Generated Yet</h4>
+                    <p className="text-xs text-[#667085] max-w-md mx-auto mt-1">
                       Ready to parse your <strong>{snippetCount} attached code file(s)</strong> and database schema into an official v1 Current-State Specification.
                     </p>
                   </div>
                   <button
                     onClick={handleGenerateBaseline}
                     disabled={isGenerating}
-                    className="px-6 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-black text-xs rounded-xl shadow-lg transition hover:scale-105 cursor-pointer disabled:opacity-50 inline-flex items-center space-x-2"
+                    className="px-5 py-2.5 bg-[#7157F5] hover:bg-[#5E43E2] text-white font-semibold text-xs rounded-[8px] shadow-2xs transition cursor-pointer disabled:opacity-50 inline-flex items-center space-x-2"
                   >
                     {isGenerating ? (
                       <>
-                        <i className="fas fa-spinner fa-spin"></i>
+                        <i className="fas fa-circle-notch fa-spin"></i>
                         <span>Generating Baseline Spec...</span>
                       </>
                     ) : (
@@ -299,7 +303,7 @@ export default function CodeToSpecView() {
                   rows={18}
                   value={baselineSpec}
                   onChange={(e) => setBaselineSpec(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 focus:border-amber-500/50 rounded-xl p-4 text-xs font-mono text-slate-200 focus:outline-none custom-scroll leading-relaxed"
+                  className="w-full bg-[#F8F8F7] border border-[#ECEEF1] focus:border-[#7157F5] focus:bg-white rounded-[12px] p-4 text-xs font-mono text-[#17181C] focus:outline-none custom-scroll leading-relaxed shadow-2xs"
                 />
               )}
             </div>
@@ -308,15 +312,15 @@ export default function CodeToSpecView() {
           {activeTab === 'manual' && (
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-300">Existing Manual Specification (`spec.md`):</span>
-                <span className="text-[10px] text-indigo-400 font-mono font-bold">Human Defined Requirements</span>
+                <span className="text-xs font-bold text-[#17181C] uppercase tracking-wider">Existing Manual Specification (`spec.md`):</span>
+                <span className="text-[10px] text-[#7157F5] font-mono font-semibold">Human Defined Requirements</span>
               </div>
               <textarea
                 rows={18}
                 value={manualSpec}
                 onChange={(e) => setManualSpec(e.target.value)}
                 placeholder="Paste or edit existing manual specifications here..."
-                className="w-full bg-slate-950 border border-slate-800 focus:border-indigo-500/50 rounded-xl p-4 text-xs font-mono text-slate-200 focus:outline-none custom-scroll leading-relaxed"
+                className="w-full bg-[#F8F8F7] border border-[#ECEEF1] focus:border-[#7157F5] focus:bg-white rounded-[12px] p-4 text-xs font-mono text-[#17181C] focus:outline-none custom-scroll leading-relaxed shadow-2xs"
               />
             </div>
           )}
@@ -324,18 +328,18 @@ export default function CodeToSpecView() {
           {activeTab === 'unified' && (
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-300">Unified Current State Specification (Phase 1 Source of Truth):</span>
-                <span className="text-[10px] text-emerald-400 font-mono font-bold">Ready to Export</span>
+                <span className="text-xs font-bold text-[#17181C] uppercase tracking-wider">Unified Current State Specification (Phase 1 Source of Truth):</span>
+                <span className="text-[10px] text-emerald-600 font-mono font-semibold">Ready to Export</span>
               </div>
 
               {!unifiedSpec ? (
-                <div className="bg-slate-950 border border-dashed border-emerald-500/30 rounded-xl p-12 text-center space-y-4">
-                  <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto text-2xl shadow-lg">
-                    <i className={`fas ${isMerging ? 'fa-spinner fa-spin' : 'fa-code-branch'}`}></i>
+                <div className="bg-[#FAFAF9] border-2 border-dashed border-[#D0D5DD] hover:border-[#7157F5] rounded-[14px] p-10 text-center space-y-3 transition">
+                  <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-100 text-emerald-600 flex items-center justify-center mx-auto text-xl shadow-2xs">
+                    <i className={`fas ${isMerging ? 'fa-circle-notch fa-spin' : 'fa-code-branch'}`}></i>
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-slate-200">No Unified Spec Created Yet</h4>
-                    <p className="text-xs text-slate-400 max-w-md mx-auto mt-1">
+                    <h4 className="text-sm font-bold text-[#17181C]">No Unified Spec Created Yet</h4>
+                    <p className="text-xs text-[#667085] max-w-md mx-auto mt-1">
                       {baselineSpec 
                         ? 'Merge your auto-generated Baseline Spec with your existing Manual Spec to form a single Unified Source of Truth.' 
                         : 'First click "Generate Baseline Spec" under Tab 1 before merging with manual specifications.'}
@@ -346,26 +350,26 @@ export default function CodeToSpecView() {
                     <button
                       onClick={handleMergeSpecs}
                       disabled={isMerging}
-                      className="px-6 py-3 bg-gradient-to-r from-indigo-500 to-emerald-500 hover:from-indigo-400 hover:to-emerald-400 text-slate-950 font-black text-xs rounded-xl shadow-lg transition hover:scale-105 cursor-pointer disabled:opacity-50 inline-flex items-center space-x-2"
+                      className="px-5 py-2.5 bg-[#7157F5] hover:bg-[#5E43E2] text-white font-semibold text-xs rounded-[8px] shadow-2xs transition cursor-pointer disabled:opacity-50 inline-flex items-center space-x-2"
                     >
                       {isMerging ? (
                         <>
-                          <i className="fas fa-spinner fa-spin"></i>
+                          <i className="fas fa-circle-notch fa-spin"></i>
                           <span>Merging Baseline & Manual Specs...</span>
                         </>
                       ) : (
                         <>
                           <i className="fas fa-code-branch"></i>
-                          <span>🔀 Merge Baseline Spec with Manual Spec</span>
+                          <span>Merge Baseline Spec with Manual Spec</span>
                         </>
                       )}
                     </button>
                   ) : (
                     <button
                       onClick={() => setActiveTab('baseline')}
-                      className="px-5 py-2.5 bg-amber-500/20 border border-amber-500/40 hover:bg-amber-500/30 text-amber-300 font-bold text-xs rounded-xl transition cursor-pointer inline-flex items-center space-x-2"
+                      className="px-4 py-2 bg-white border border-[#ECEEF1] hover:border-[#7157F5] text-[#7157F5] font-semibold text-xs rounded-[8px] transition cursor-pointer inline-flex items-center space-x-1.5 shadow-2xs"
                     >
-                      <i className="fas fa-arrow-left"></i>
+                      <i className="fas fa-arrow-left text-xs"></i>
                       <span>Go to Tab 1: Generate Baseline Spec</span>
                     </button>
                   )}
@@ -376,16 +380,16 @@ export default function CodeToSpecView() {
                     rows={18}
                     value={unifiedSpec}
                     onChange={(e) => setUnifiedSpec(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 focus:border-emerald-500/50 rounded-xl p-4 text-xs font-mono text-emerald-300/90 focus:outline-none custom-scroll leading-relaxed"
+                    className="w-full bg-[#F8F8F7] border border-[#ECEEF1] focus:border-emerald-500 focus:bg-white rounded-[12px] p-4 text-xs font-mono text-[#17181C] focus:outline-none custom-scroll leading-relaxed shadow-2xs"
                   />
                   <div className="flex justify-end">
                     <button
                       onClick={handleExportSourceOfTruth}
                       disabled={isExporting}
-                      className="px-6 py-3 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-slate-950 font-black text-xs rounded-xl shadow-lg transition hover:scale-105 cursor-pointer disabled:opacity-50 inline-flex items-center space-x-2"
+                      className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs rounded-[8px] shadow-2xs transition cursor-pointer disabled:opacity-50 inline-flex items-center space-x-2"
                     >
-                      {isExporting ? <i className="fas fa-spinner fa-spin"></i> : <i className="fas fa-file-export"></i>}
-                      <span>🚀 Export as Project Source of Truth (`spec.md`)</span>
+                      {isExporting ? <i className="fas fa-circle-notch fa-spin"></i> : <i className="fas fa-file-export"></i>}
+                      <span>Export as Project Source of Truth (`spec.md`)</span>
                     </button>
                   </div>
                 </div>
